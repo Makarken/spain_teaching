@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>¡Vamos! — испанский с нуля до разговорного</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Onest:wght@400;500;600;700&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --ink:#152238; --paper:#FBF7EE; --card:#FFFFFF;
+  --azul:#2450D6; --azul-dark:#1A3AA0; --sol:#F5B301;
+  --terra:#E4572E; --verde:#1F9D55; --line:#E8E0D0; --mut:#8B8578;
+  --r:18px; --shadow:0 2px 0 rgba(21,34,56,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{font-family:'Onest',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom));}
+h1,h2,h3{font-family:'Unbounded',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:var(--azul)}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* плавное появление экранов */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#app>*{animation:rise .3s ease both}
+#app>*:nth-child(2){animation-delay:.05s}
+#app>*:nth-child(3){animation-delay:.1s}
+#app>*:nth-child(4){animation-delay:.15s}
+#app>*:nth-child(5){animation-delay:.2s}
+
+header{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:2px solid var(--ink)}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;max-width:560px;margin:0 auto}
+.logo{font-family:'Unbounded';font-weight:900;font-size:1.15rem;letter-spacing:-.02em}
+.logo span{color:var(--azul)}
+.hstats{display:flex;gap:8px}
+.pill{display:flex;align-items:center;gap:4px;font-weight:700;font-size:.85rem;
+  background:var(--card);border:2px solid var(--ink);border-radius:99px;padding:4px 10px;box-shadow:var(--shadow)}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
+.pill.bump{animation:pop .4s ease}
+
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--card);
+  border-top:2px solid var(--ink);padding-bottom:env(safe-area-inset-bottom)}
+.nv{display:flex;max-width:560px;margin:0 auto}
+.nv button{flex:1;padding:10px 0 8px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:.66rem;font-weight:600;color:var(--mut);transition:color .15s}
+.nv button .i{font-size:1.25rem;line-height:1;transition:transform .15s}
+.nv button.on{color:var(--azul)}
+.nv button.on .i{transform:translateY(-2px) scale(1.1)}
+
+.hero{margin:20px 0 16px;background:var(--azul);color:#fff;border:2px solid var(--ink);
+  border-radius:var(--r);padding:22px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero::after{content:'';position:absolute;right:-46px;top:-46px;width:150px;height:150px;border-radius:50%;
+  background:var(--sol);border:2px solid var(--ink);animation:sun 7s ease-in-out infinite}
+@keyframes sun{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.hero h1{font-size:1.6rem;font-weight:900;position:relative;z-index:1}
+.hero p{margin-top:6px;opacity:.92;font-size:.9rem;position:relative;z-index:1;max-width:75%}
+.wod{margin-top:14px;position:relative;z-index:1;background:rgba(255,255,255,.14);border-radius:12px;
+  padding:10px 12px;display:flex;align-items:center;gap:10px}
+.wod b{font-size:1.05rem}
+.wod small{display:block;opacity:.85}
+.spk{width:38px;height:38px;min-width:38px;border-radius:50%;background:var(--sol);color:var(--ink);
+  border:2px solid var(--ink);font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .1s}
+.spk:active{transform:scale(.9)}
+.spk.sm{width:32px;height:32px;min-width:32px;font-size:.85rem}
+.gtl{width:32px;height:32px;min-width:32px;border-radius:50%;background:var(--paper);
+  border:2px solid var(--ink);font-size:.85rem;display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink)}
+
+.prog{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px}
+.pcard{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:12px;text-align:center;box-shadow:var(--shadow)}
+.pcard .n{font-family:'Unbounded';font-weight:700;font-size:1.25rem;color:var(--azul)}
+.pcard .l{font-size:.68rem;font-weight:600;color:var(--mut);margin-top:2px}
+
+.sech{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:20px 2px 10px}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:15px 13px;
+  text-align:left;box-shadow:var(--shadow);transition:transform .1s}
+.tile:active{transform:translateY(2px);box-shadow:none}
+.tile .em{font-size:1.6rem}
+.tile h3{font-size:.9rem;font-weight:700;margin-top:8px}
+.tile p{font-size:.73rem;color:var(--mut);margin-top:3px;line-height:1.35}
+.tile.due{border-color:var(--terra)}
+.badge{display:inline-block;background:var(--terra);color:#fff;font-size:.66rem;font-weight:700;
+  border-radius:99px;padding:2px 8px;margin-top:6px}
+
+.lvlbar{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.lvlbar .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.lvlbar h3{font-size:.95rem}
+.lvlbar .pc{font-weight:700;font-size:.8rem;color:var(--mut)}
+.lvlbar .bar{height:10px;background:var(--paper);border:2px solid var(--ink);border-radius:99px;overflow:hidden}
+.lvlbar .bar i{display:block;height:100%;border-radius:99px;transition:width .6s ease}
+.chip{display:inline-block;font-size:.62rem;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:1px 8px;vertical-align:middle}
+.cA1{background:var(--sol)} .cA2{background:#F8CBB8} .cB1{background:#C6D4FB}
+
+.lrow{width:100%;display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--ink);
+  border-radius:var(--r);padding:13px;margin-bottom:10px;text-align:left;box-shadow:var(--shadow);transition:transform .1s}
+.lrow:active{transform:translateY(2px);box-shadow:none}
+.lnum{width:44px;height:44px;min-width:44px;border-radius:12px;border:2px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;font-family:'Unbounded';font-weight:700;font-size:.85rem;background:var(--paper)}
+.lrow.done .lnum{background:var(--verde);color:#fff}
+.lrow h3{font-size:.9rem}
+.lrow p{font-size:.74rem;color:var(--mut);margin-top:2px}
+.lrow .chk{margin-left:auto;font-size:1.1rem;color:var(--mut)}
+
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.85rem;margin:16px 0 4px;color:var(--azul)}
+.theory{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+.theory h3{font-size:.98rem;margin-bottom:8px}
+.theory p{font-size:.9rem;line-height:1.55;margin-bottom:8px}
+.theory p:last-child{margin-bottom:0}
+.theory .ej{background:var(--paper);border-left:4px solid var(--sol);border-radius:8px;padding:8px 12px;margin:8px 0;font-size:.88rem}
+.vrow{display:flex;align-items:center;gap:9px;padding:9px 2px;border-bottom:1px dashed var(--line)}
+.vrow:last-child{border-bottom:none}
+.vrow .es{font-weight:700;font-size:.92rem}
+.vrow .ru{margin-left:auto;color:#6B6455;font-size:.85rem;text-align:right;max-width:45%}
+.bigbtn{display:block;width:100%;background:var(--sol);border:2px solid var(--ink);border-radius:var(--r);
+  padding:15px;font-family:'Unbounded';font-weight:700;font-size:.9rem;text-align:center;
+  box-shadow:0 4px 0 var(--ink);margin:18px 0 26px;color:var(--ink);transition:transform .1s}
+.bigbtn:active{transform:translateY(4px);box-shadow:none}
+.bigbtn.blue{background:var(--azul);color:#fff}
+.bigbtn.mt0{margin-top:0}
+
+.pbar{height:12px;background:var(--card);border:2px solid var(--ink);border-radius:99px;margin:18px 0;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--verde);width:0;transition:width .3s;border-radius:99px}
+.q{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:22px 18px;
+  text-align:center;box-shadow:var(--shadow);margin-bottom:16px}
+.q .lbl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.q .word{font-family:'Unbounded';font-weight:700;font-size:1.4rem;margin:12px 0 4px;line-height:1.35}
+.q .word.gap{font-size:1.05rem;font-family:'Onest';font-weight:600}
+.q .sub{color:var(--mut);font-size:.82rem}
+.q .bigpic{font-size:4.4rem;line-height:1.15;margin:14px 0 6px;filter:drop-shadow(0 4px 0 rgba(21,34,56,.15))}
+.opts{display:grid;gap:10px}
+.opt{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:13px;font-size:.95rem;
+  font-weight:600;text-align:center;box-shadow:var(--shadow);transition:transform .1s}
+.opt:active{transform:translateY(2px);box-shadow:none}
+.opt.ok{background:var(--verde);color:#fff}
+.opt.bad{background:var(--terra);color:#fff;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.ansline{margin-top:12px;font-weight:700;font-size:.92rem;text-align:center}
+.ansline.ok{color:var(--verde)} .ansline.bad{color:var(--terra)}
+input.tin{width:100%;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:14px;
+  font-size:1.05rem;font-family:inherit;text-align:center;box-shadow:var(--shadow);outline:none;color:var(--ink)}
+input.tin:focus{border-color:var(--azul)}
+
+.fcwrap{perspective:900px;margin:18px 0}
+.fc{position:relative;height:240px;transform-style:preserve-3d;transition:transform .45s}
+.fc.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--card);border:2px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center}
+.face.bk{transform:rotateY(180deg);background:var(--azul);color:#fff}
+.face .word{font-family:'Unbounded';font-weight:700;font-size:1.4rem;line-height:1.3}
+.face .hint{font-size:.76rem;color:var(--mut)}
+.face.bk .hint{color:rgba(255,255,255,.75)}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grade button{border:2px solid var(--ink);border-radius:14px;padding:12px 6px;font-weight:700;
+  font-size:.83rem;box-shadow:var(--shadow);background:var(--card)}
+.grade button:active{transform:translateY(2px);box-shadow:none}
+.grade .g0{background:#FBE3DC}.grade .g1{background:#FDF3D0}.grade .g2{background:#DDF2E4}
+.grade small{display:block;font-weight:500;font-size:.63rem;color:#6B6455;margin-top:2px}
+
+.scene{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:14px 16px;margin:12px 0;box-shadow:var(--shadow);font-size:.87rem;line-height:1.5}
+.dlg{margin:14px 0}
+.bub{max-width:88%;margin-bottom:10px;padding:11px 13px;border:2px solid var(--ink);border-radius:16px;
+  background:var(--card);box-shadow:var(--shadow);font-size:.93rem;line-height:1.45;position:relative;transition:border-color .2s}
+.bub.b{margin-left:auto;background:#E7EDFC;border-bottom-right-radius:4px}
+.bub.a{border-bottom-left-radius:4px}
+.bub .es{font-weight:600}
+.bub .ru{display:none;color:#6B6455;font-size:.8rem;margin-top:5px;border-top:1px dashed var(--line);padding-top:5px}
+.bub.showru .ru{display:block}
+.bub .bplay{position:absolute;top:-11px;font-size:.72rem;background:var(--sol);border:2px solid var(--ink);
+  border-radius:99px;padding:1px 8px;font-weight:700}
+.bub.a .bplay{left:10px}.bub.b .bplay{right:10px}
+.dctl{display:flex;gap:10px;margin:14px 0}
+.dctl button{flex:1;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:11px;
+  font-weight:700;font-size:.82rem;box-shadow:var(--shadow)}
+.dctl button:active{transform:translateY(2px);box-shadow:none}
+.dctl .pl{background:var(--sol)}
+
+.srch{width:100%;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:13px 16px;
+  font-size:1rem;font-family:inherit;box-shadow:var(--shadow);outline:none;margin:16px 0 12px;color:var(--ink)}
+table.conj{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:8px}
+table.conj td{padding:5px 6px;border-bottom:1px dashed var(--line)}
+table.conj td:first-child{color:var(--mut);font-size:.75rem;width:70px}
+table.conj td:not(:first-child){font-weight:600}
+.tsel{display:flex;gap:6px;overflow-x:auto;padding:2px;margin:10px 0}
+.tsel button{white-space:nowrap;border:2px solid var(--ink);border-radius:99px;padding:5px 12px;
+  font-size:.75rem;font-weight:700;background:var(--card)}
+.tsel button.on{background:var(--azul);color:#fff}
+
+.vid{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;
+  margin-bottom:14px;box-shadow:var(--shadow)}
+.vid .fr{position:relative;padding-top:56.25%;background:#0b1020}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .cap{padding:11px 14px}
+.vid .cap h3{font-size:.85rem}
+.vid .cap p{font-size:.74rem;color:var(--mut);margin-top:3px}
+
+.fin{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:30px 20px;
+  text-align:center;box-shadow:var(--shadow);margin:24px 0;position:relative;overflow:hidden}
+.fin .em{font-size:3rem}
+.fin h2{font-size:1.2rem;margin:10px 0 6px}
+.fin p{color:#6B6455;font-size:.88rem;line-height:1.5}
+.conf span{position:absolute;top:-10px;font-size:1.3rem;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(240px) rotate(140deg);opacity:0}}
+.setrow{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.setrow label{font-weight:700;font-size:.85rem;display:block;margin-bottom:8px}
+.setrow input[type=range]{width:100%}
+.setrow select,.setrow textarea{width:100%;padding:9px;border:2px solid var(--ink);border-radius:10px;font-family:inherit;font-size:.85rem;background:var(--paper);color:var(--ink)}
+.hide{display:none!important}
+.timer{font-family:'Unbounded';font-weight:900;font-size:1.6rem;text-align:center;color:var(--terra)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header><div class="hd">
+  <div class="logo">¡Va<span>mos</span>!</div>
+  <div class="hstats">
+    <div class="pill" id="pillStreak">🔥 <span id="hStreak">0</span></div>
+    <div class="pill" id="pillXP">☀️ <span id="hXP">0</span></div>
+  </div>
+</div></header>
+
+<main class="wrap" id="app"></main>
+
+<nav><div class="nv">
+  <button data-v="home" class="on"><span class="i">🏠</span>Главная</button>
+  <button data-v="course"><span class="i">📖</span>Курс</button>
+  <button data-v="dialogs"><span class="i">💬</span>Диалоги</button>
+  <button data-v="practice"><span class="i">🎯</span>Практика</button>
+  <button data-v="more"><span class="i">☰</span>Ещё</button>
+</div></nav>
+
+<script>
+/* ============================================================
+   КАРТИНКИ · слово → эмодзи-картинка
+============================================================ */
+const EM={
+"hola":"👋","buenos días":"🌅","buenas noches":"🌙","gracias":"🙏",
+"el libro":"📖","la casa":"🏠","la silla":"🪑","el coche":"🚗","la ciudad":"🏙️",
+"el mar":"🌊","la playa":"🏖️","el sol":"☀️","el agua":"💧","la calle":"🛣️",
+"la tienda":"🏬","el dinero":"💶","el trabajo":"💼","la cosa":"📦",
+"el pan":"🍞","el queso":"🧀","la carne":"🥩","el pescado":"🐟","el pollo":"🍗",
+"la fruta":"🍎","la cerveza":"🍺","el vino":"🍷","el café":"☕","el desayuno":"🍳",
+"la cena":"🍽️","la familia":"👨‍👩‍👧","la madre":"👩","el padre":"👨","el hermano":"👦",
+"la hermana":"👧","el amigo":"🧑‍🤝‍🧑","el hombre":"🕺","la mujer":"💃","el niño":"👶",
+"la semana":"🗓️","la estación":"🚉","el aeropuerto":"✈️","el supermercado":"🛒",
+"la farmacia":"💊","el hospital":"🏥","el baño":"🚻","el centro":"🏛️",
+"hace calor":"🥵","hace frío":"🥶","hace sol":"😎","llueve":"🌧️","hace viento":"🌬️",
+"está nublado":"☁️","el cielo":"🌤️","la lluvia":"💦","el invierno":"❄️",
+"la primavera":"🌸","el otoño":"🍂","la montaña":"⛰️","el verano":"🍉",
+"la cabeza":"🗣️","el estómago":"🫃","la pierna":"🦵","la mano":"✋","el ojo":"👁️",
+"la pastilla":"💊","el médico":"🧑‍⚕️","estoy enfermo":"🤒","tengo fiebre":"🌡️",
+"me duele la cabeza":"🤕","tengo hambre":"😋","estoy cansado":"🥱",
+"comer":"🍴","beber":"🥤","hablar":"🗨️","escuchar":"🎧","mirar":"👀","pagar":"💳",
+"viajar":"🧳","estudiar":"🎓","trabajar":"👷","comprar":"🛍️","ir":"🚶","ver":"📺",
+"levantarse":"⏰","ducharse":"🚿","acostarse":"🛌","desayunar":"🥐","vestirse":"👕",
+"el paquete":"📦","el envío":"🚚","el cliente":"🤝","el precio":"🏷️","el descuento":"🔖",
+"ganar dinero":"🤑","la marca":"👜","la reunión":"👥","la factura":"🧾",
+"contento":"😊","triste":"😢","enfadado":"😠","nervioso":"😬","tranquilo":"😌",
+"feliz":"😄","tengo miedo":"😨","tengo prisa":"🏃","divertido":"🤪",
+"uno":"1️⃣","dos":"2️⃣","tres":"3️⃣","cinco":"5️⃣","diez":"🔟","cien":"💯","la mesa":"🪵",
+"soy de Rusia":"🇷🇺","vivo en España":"🇪🇸","más despacio":"🐢","no entiendo":"🤷",
+"vale":"👌","¡vamos!":"🚀","¡buena suerte!":"🍀","un momento":"☝️",
+"me gusta":"❤️","no me gusta nada":"💔","me encanta":"😍","odiar":"😤",
+"estoy leyendo":"📚","estoy escribiendo":"✍️","estoy descansando":"🛋️","esperar":"⏳","pensar":"💭",
+"he visto":"👀","he vuelto":"🔙","he terminado":"🏁","alguna vez":"🌍",
+"ayer":"⏪","anoche":"🌃","de repente":"💥","luego":"➡️",
+"cuando era niño":"🧒","hacía sol":"🌞","antes":"🕰️",
+"pronto":"🔜","algún día":"🌠","voy a comprar":"🛒",
+"lo siento":"😔","dámelo":"🤲","dímelo":"📢",
+"mejor":"👍","peor":"👎","igual":"🟰","casi":"🤏",
+"me gustaría":"🌈","sería genial":"🤩","¿podrías...?":"🤲",
+"ojalá":"🤞","que te mejores":"🩹","quizás":"🎲",
+"para ti":"🎁","¿por qué?":"❓","por fin":"🎯",
+"estoy de acuerdo":"🤝","no estoy de acuerdo":"🙅","depende":"⚖️",
+"venga":"🙌","me apunto":"🙋","la pasta":"💰","guay":"🆒",
+"vi":"👓","vine":"🚪","hice":"🔨","dije":"💬",
+"la ropa":"👗","la camisa":"👔","la camiseta":"👕","los pantalones":"👖","los zapatos":"👟","la chaqueta":"🧥","la talla":"📏","las rebajas":"🏷️",
+"el piso":"🏢","la cocina":"🍲","el dormitorio":"🛏️","la ventana":"🪟","la puerta":"🚪","la terraza":"⛱️","la llave":"🔑","el vecino":"🧑‍🦱",
+"el autobús":"🚌","el tren":"🚆","el metro":"🚇","el billete":"🎫","la parada":"🚏","el horario":"🕒",
+"el cumpleaños":"🎂","la fecha":"📅","enero":"⛄","julio":"🌞","diciembre":"🎄",
+"hay mucha gente":"👥","todo":"💫","nadie":"🚫",
+"sé cocinar":"👨‍🍳","no sé nadar":"🏊","el idioma":"🗺️","famoso":"⭐","la cultura":"🎭",
+"tengo sed":"🥛","tengo sueño":"😴","tengo frío":"🧊","tengo calor":"🔥",
+"hace poco":"🕐","al final":"🏁","durante":"⌛",
+"llamar":"📞","el móvil":"📱","sin batería":"🪫","mandar un audio":"🎤",
+"la reserva":"📋","el equipaje":"🧳","el vuelo":"✈️","el pasaporte":"🛂","¡buen viaje!":"🌏",
+"el cajero":"🏧","firmar":"✒️","el contrato":"📃","la fotocopia":"📠","sacar dinero":"💵",
+"la oficina de correos":"📮","el sello":"📬","pesar":"⚖️","urgente":"⏰","la dirección":"📍",
+"se vende":"💲","se alquila":"🔓","se prohíbe":"⛔",
+"acabo de llegar":"🛬","esta mañana":"🌄","dentro de poco":"⏳",
+"el tiempo libre":"🏝️","jugar al fútbol":"⚽","nadar":"🏊","correr":"🏃","el gimnasio":"🏋️","montar en bici":"🚴","tocar la guitarra":"🎸","el partido":"🏟️","ganar":"🥇","el equipo":"👕",
+"de pronto":"⚡","por cierto":"💡","¡qué casualidad!":"😲"
+};
+
+/* ============================================================
+   КУРС A1 → B1 · 32 урока
+   gaps: [фраза с ___, ответ, [2 неверных], перевод]
+============================================================ */
+const LESSONS=[
+/* -------- A1 -------- */
+{id:1,lvl:"A1",title:"Приветствия и вежливость",desc:"Первые фразы: привет, спасибо, как дела",
+ theory:[{h:"С чего начинается испанский",p:["В испанском читается почти всё как пишется. «Hola» читается «ола» — h всегда немая. Знаки ¡! и ¿? ставятся с двух сторон фразы."],ej:"¡Hola! ¿Qué tal? — Привет! Как дела?"},
+ {h:"Ты и Вы",p:["«Tú» — ты (друзья, ровесники, почти все). «Usted» — Вы (официально). В Испании на «ты» переходят сразу — это норма."]}],
+ vocab:[["hola","привет"],["buenos días","доброе утро"],["buenas tardes","добрый день"],["buenas noches","доброй ночи"],["adiós","пока"],["hasta luego","до встречи"],["gracias","спасибо"],["muchas gracias","большое спасибо"],["de nada","не за что"],["por favor","пожалуйста (просьба)"],["perdón","извините"],["sí","да"],["no","нет"],["¿qué tal?","как дела?"],["muy bien","очень хорошо"],["¿y tú?","а ты?"]],
+ gaps:[["___, ¿qué tal?","Hola",["Adiós","Gracias"],"Привет, как дела?"],
+ ["Muchas ___ por todo.","gracias",["hola","nada"],"Большое спасибо за всё."],
+ ["— Gracias. — De ___.","nada",["favor","luego"],"— Спасибо. — Не за что."]]},
+{id:2,lvl:"A1",title:"Произношение и знакомство",desc:"Как читать ñ, ll, j, h — и представиться",
+ theory:[{h:"Главные правила чтения",p:["ñ = «нь» (España), ll = «й» (llamar — «йамар»), j = русская «х» (Japón — «хапон»), h не читается никогда, qu = «к» (queso — «кесо»), c и z перед e/i в Испании — межзубный «с»."],ej:"me llamo — «ме йамо» — меня зовут"},
+ {h:"Ударение",p:["Слово кончается на гласную, n или s — ударение на предпоследний слог. Иначе — на последний. Исключения помечены знаком: café, adiós."]}],
+ vocab:[["me llamo...","меня зовут..."],["¿cómo te llamas?","как тебя зовут?"],["mucho gusto","очень приятно"],["encantado","рад знакомству"],["soy de Rusia","я из России"],["¿de dónde eres?","откуда ты?"],["vivo en España","я живу в Испании"],["hablo un poco","я говорю немного"],["no entiendo","я не понимаю"],["¿puedes repetir?","можешь повторить?"],["más despacio","помедленнее"],["¿cómo se dice...?","как сказать...?"]],
+ gaps:[["Me ___ Makar.","llamo",["llamas","llama"],"Меня зовут Макар."],
+ ["¿De dónde ___? — Soy de Rusia.","eres",["soy","es"],"Откуда ты? — Я из России."],
+ ["No ___. ¿Puedes repetir?","entiendo",["entiendes","hablo"],"Я не понимаю. Можешь повторить?"]]},
+{id:3,lvl:"A1",title:"Числа 0–100",desc:"Цены, телефоны, счёт",
+ theory:[{h:"Числа",p:["0–15 наизусть: cero, uno, dos... quince. 16–29 слитно: dieciséis, veintiuno. С 31 через y: treinta y uno, cuarenta y dos. Сто — cien."],ej:"¿Cuánto cuesta? — Cuesta veinte euros."}],
+ vocab:[["uno","один"],["dos","два"],["tres","три"],["cuatro","четыре"],["cinco","пять"],["seis","шесть"],["siete","семь"],["ocho","восемь"],["nueve","девять"],["diez","десять"],["quince","пятнадцать"],["veinte","двадцать"],["treinta","тридцать"],["cincuenta","пятьдесят"],["cien","сто"],["¿cuánto cuesta?","сколько стоит?"]],
+ gaps:[["Dos y tres son ___.","cinco",["cuatro","seis"],"Два и три — пять."],
+ ["¿Cuánto ___? — Veinte euros.","cuesta",["hora","años"],"Сколько стоит? — Двадцать евро."],
+ ["Diez y diez son ___.","veinte",["doce","treinta"],"Десять и десять — двадцать."]]},
+{id:4,lvl:"A1",title:"Род и артикли",desc:"El и la, un и una — фундамент",
+ theory:[{h:"Мужской и женский род",p:["Слова на -o обычно мужского рода (el libro), на -a — женского (la casa). Артикли: el/la (тот самый), un/una (какой-то). Множественное: los/las, добавляем -s или -es."],ej:"el libro → los libros · la casa → las casas"}],
+ vocab:[["el libro","книга"],["la casa","дом"],["la mesa","стол"],["la silla","стул"],["el coche","машина"],["la ciudad","город"],["el mar","море"],["la playa","пляж"],["el sol","солнце"],["el agua","вода"],["la calle","улица"],["la tienda","магазин"],["el dinero","деньги"],["el trabajo","работа"],["la cosa","вещь"]],
+ gaps:[["___ casa es grande.","La",["El","Los"],"Дом (этот) большой."],
+ ["Tengo ___ coche nuevo.","un",["una","la"],"У меня новая машина."],
+ ["___ libros están en la mesa.","Los",["Las","La"],"Книги на столе."]]},
+{id:5,lvl:"A1",title:"Глаголы ser и estar",desc:"Два «быть» — и в чём разница",
+ theory:[{h:"Ser — постоянное",p:["soy, eres, es, somos, sois, son. Имя, профессия, национальность, характеристика: Soy Makar. Soy ruso. Es grande."]},
+ {h:"Estar — состояние и место",p:["estoy, estás, está, estamos, estáis, están. Где нахожусь и как себя чувствую: Estoy en casa. Estoy cansado."],ej:"Soy ruso, pero estoy en España. — Я русский, но нахожусь в Испании."}],
+ vocab:[["soy","я есть (ser)"],["eres","ты есть (ser)"],["es","он/она есть (ser)"],["estoy","я нахожусь (estar)"],["estás","ты находишься"],["está","он/она находится"],["estoy bien","у меня всё хорошо"],["estoy cansado","я устал"],["estoy en casa","я дома"],["es grande","это большое"],["es pequeño","это маленькое"],["es caro","это дорого"],["es barato","это дёшево"],["¿dónde está?","где находится?"]],
+ gaps:[["Yo ___ ruso.","soy",["estoy","es"],"Я русский."],
+ ["¿Dónde ___ el baño?","está",["es","son"],"Где туалет?"],
+ ["Hoy ___ muy cansado.","estoy",["soy","eres"],"Сегодня я очень устал."]]},
+{id:6,lvl:"A1",title:"Семья и люди",desc:"Родные, друзья, mi/tu/su, tener",
+ theory:[{h:"Мой, твой, его",p:["mi — мой/моя, tu — твой, su — его/её/Ваш. Во множественном -s: mis amigos. Tener (иметь): tengo, tienes, tiene — Tengo dos hermanos."],ej:"Mi madre vive en Rusia. — Моя мама живёт в России."}],
+ vocab:[["la familia","семья"],["la madre","мама"],["el padre","папа"],["el hermano","брат"],["la hermana","сестра"],["el hijo","сын"],["la hija","дочь"],["el amigo","друг"],["la amiga","подруга"],["el hombre","мужчина"],["la mujer","женщина"],["el niño","ребёнок"],["tengo","у меня есть"],["tienes","у тебя есть"],["mi","мой / моя"]],
+ gaps:[["___ madre vive en Rusia.","Mi",["Yo","Me"],"Моя мама живёт в России."],
+ ["¿Cuántos hermanos ___? — Dos.","tienes",["tengo","tiene"],"Сколько у тебя братьев? — Два."],
+ ["Ella ___ dos hijos.","tiene",["tengo","tienes"],"У неё двое детей."]]},
+{id:7,lvl:"A1",title:"Еда и ресторан",desc:"Заказываем как местные",
+ theory:[{h:"В баре и ресторане",p:["Заказ: «Para mí...» (мне...) или «Quiero...». Вежливее: «¿Me pone...?». Счёт: «La cuenta, por favor». Чаевые необязательны — округляют."],ej:"Para mí, una caña y una tapa de jamón, por favor."}],
+ vocab:[["la comida","еда"],["el pan","хлеб"],["el queso","сыр"],["la carne","мясо"],["el pescado","рыба"],["el pollo","курица"],["la fruta","фрукты"],["la cerveza","пиво"],["el vino","вино"],["el café","кофе"],["el desayuno","завтрак"],["la cena","ужин"],["quiero","я хочу"],["la cuenta, por favor","счёт, пожалуйста"],["está muy rico","очень вкусно"],["tengo hambre","я голоден"]],
+ gaps:[["La ___, por favor.","cuenta",["comida","cena"],"Счёт, пожалуйста."],
+ ["Para mí, un ___ con leche.","café",["vino","pan"],"Мне кофе с молоком."],
+ ["Está muy ___. ¡Gracias!","rico",["caro","tarde"],"Очень вкусно. Спасибо!"]]},
+{id:8,lvl:"A1",title:"Глаголы на -ar",desc:"Hablar, trabajar, comprar в настоящем",
+ theory:[{h:"Спряжение -ar",p:["Убираем -ar, добавляем: -o, -as, -a, -amos, -áis, -an. hablo, hablas, habla... Так работают сотни глаголов: trabajar, comprar, estudiar, viajar."],ej:"Trabajo en casa y estudio español."}],
+ vocab:[["hablar","говорить"],["hablo español","я говорю по-испански"],["trabajar","работать"],["trabajo","я работаю"],["comprar","покупать"],["compro","я покупаю"],["estudiar","учиться"],["estudio","я учусь"],["viajar","путешествовать"],["escuchar","слушать"],["mirar","смотреть"],["pagar","платить"],["necesito","мне нужно"],["me gusta","мне нравится"],["mucho","много / очень"]],
+ gaps:[["Yo ___ español un poco.","hablo",["habla","hablas"],"Я немного говорю по-испански."],
+ ["¿Dónde ___ (tú)?","trabajas",["trabajo","trabaja"],"Где ты работаешь?"],
+ ["Me ___ mucho España.","gusta",["gusto","gustas"],"Мне очень нравится Испания."]]},
+{id:9,lvl:"A1",title:"Глаголы на -er / -ir",desc:"Comer, vivir + неправильные ir, querer, poder",
+ theory:[{h:"Спряжение -er и -ir",p:["comer: como, comes, come, comemos, coméis, comen. vivir: vivo, vives, vive, vivimos, vivís, viven."]},
+ {h:"Три супер-глагола",p:["ir (идти): voy, vas, va. querer (хотеть): quiero, quieres, quiere. poder (мочь): puedo, puedes, puede. С ними уже можно строить кучу фраз."],ej:"Vivo cerca del mar y como pescado."}],
+ vocab:[["comer","есть (кушать)"],["como","я ем"],["beber","пить"],["bebo","я пью"],["vivir","жить"],["vivo","я живу"],["ir","идти / ехать"],["voy a...","я иду в..."],["querer","хотеть"],["poder","мочь"],["puedo","я могу"],["ver","видеть"],["hacer","делать"],["hago","я делаю"],["saber","знать"]],
+ gaps:[["Yo ___ a la playa.","voy",["vas","va"],"Я иду на пляж."],
+ ["¿___ ayudarme? — Claro.","Puedes",["Quiero","Sabes"],"Можешь мне помочь? — Конечно."],
+ ["Nosotros ___ en Benalmádena.","vivimos",["viven","vivo"],"Мы живём в Бенальмадене."]]},
+{id:10,lvl:"A1",title:"Время и дни недели",desc:"Который час, дни, планы",
+ theory:[{h:"Который час",p:["¿Qué hora es? — Es la una (только про час). Son las dos, son las tres... Половина — y media, четверть — y cuarto: son las cinco y media = 17:30."],ej:"¿A qué hora abre? — A las diez."}],
+ vocab:[["¿qué hora es?","который час?"],["hoy","сегодня"],["mañana","завтра / утро"],["ayer","вчера"],["ahora","сейчас"],["después","потом"],["lunes","понедельник"],["martes","вторник"],["miércoles","среда"],["jueves","четверг"],["viernes","пятница"],["sábado","суббота"],["domingo","воскресенье"],["la semana","неделя"],["el año","год"]],
+ gaps:[["¿Qué ___ es? — Son las dos.","hora",["día","año"],"Который час? — Два."],
+ ["Hoy es ___, mañana es martes.","lunes",["viernes","domingo"],"Сегодня понедельник, завтра вторник."],
+ ["Son las cinco y ___ (17:30).","media",["cuarto","diez"],"Полшестого (17:30)."]]},
+{id:11,lvl:"A1",title:"Город и дорога",desc:"Спросить дорогу и не потеряться",
+ theory:[{h:"Спрашиваем дорогу",p:["¿Dónde está...? Ответы: a la derecha (направо), a la izquierda (налево), todo recto (прямо), cerca / lejos (близко / далеко)."],ej:"Perdón, ¿dónde está la estación? — Todo recto y a la derecha."}],
+ vocab:[["¿dónde está...?","где находится...?"],["a la derecha","направо"],["a la izquierda","налево"],["todo recto","прямо"],["cerca","близко"],["lejos","далеко"],["aquí","здесь"],["allí","там"],["la estación","вокзал / станция"],["el aeropuerto","аэропорт"],["el centro","центр"],["el supermercado","супермаркет"],["la farmacia","аптека"],["el hospital","больница"],["el baño","туалет"]],
+ gaps:[["El banco está a la ___, no a la izquierda.","derecha",["recto","lejos"],"Банк справа, не слева."],
+ ["¿Dónde ___ la farmacia?","está",["es","hay"],"Где находится аптека?"],
+ ["Sigue todo ___.","recto",["cerca","aquí"],"Иди всё время прямо."]]},
+{id:12,lvl:"A1",title:"Разговорные фразы",desc:"Vale, claro, no pasa nada — звучим естественно",
+ theory:[{h:"Слова, которые испанцы говорят постоянно",p:["«Vale» — окей (самое частое слово в Испании). «Claro» — конечно. «No pasa nada» — ничего страшного. Добавляй их — и будешь звучать в разы естественнее."],ej:"— ¿Quedamos a las ocho? — Vale, perfecto."}],
+ vocab:[["vale","окей / ладно"],["claro","конечно"],["no pasa nada","ничего страшного"],["¡qué bien!","как хорошо!"],["¡qué guay!","как круто!"],["por supuesto","разумеется"],["creo que sí","думаю, да"],["no sé","не знаю"],["un momento","минутку"],["¡ojo!","осторожно!"],["más o menos","более-менее"],["de verdad","правда / на самом деле"],["¡buena suerte!","удачи!"],["nos vemos","увидимся"],["¡vamos!","поехали! / давай!"]],
+ gaps:[["— ¿Quedamos a las ocho? — ___, perfecto.","Vale",["Ojo","Nunca"],"— Встретимся в восемь? — Окей, отлично."],
+ ["No pasa ___.","nada",["nadie","poco"],"Ничего страшного."],
+ ["___ luego. ¡Nos vemos!","Hasta",["Buenas","Por"],"До встречи. Увидимся!"]]},
+/* -------- A2 -------- */
+{id:13,lvl:"A2",title:"Распорядок дня",desc:"Возвратные глаголы: levantarse, ducharse",
+ theory:[{h:"Возвратные глаголы",p:["«-ся» в испанском — отдельное словечко ПЕРЕД глаголом: me levanto (я встаю), te levantas, se levanta, nos levantamos, os levantáis, se levantan."],ej:"Me levanto a las ocho y me ducho. — Я встаю в восемь и принимаю душ."}],
+ vocab:[["levantarse","вставать"],["me levanto","я встаю"],["despertarse","просыпаться"],["me despierto","я просыпаюсь"],["ducharse","принимать душ"],["vestirse","одеваться"],["acostarse","ложиться спать"],["me acuesto tarde","я поздно ложусь"],["desayunar","завтракать"],["temprano","рано"],["tarde","поздно"],["todos los días","каждый день"],["a veces","иногда"],["siempre","всегда"],["nunca","никогда"]],
+ gaps:[["Me ___ a las ocho de la mañana.","levanto",["levantas","levanta"],"Я встаю в восемь утра."],
+ ["___ los días desayuno café.","Todos",["Todas","Cada"],"Каждый день завтракаю кофе."],
+ ["Nunca me ___ tarde.","acuesto",["acuesta","acuestas"],"Я никогда не ложусь поздно."]]},
+{id:14,lvl:"A2",title:"Gustar и компания",desc:"Мне нравится, обожаю, болит",
+ theory:[{h:"Перевёрнутая логика",p:["Me gusta el café = буквально «мне нравится кофе» — нравится ОН. Если нравятся несколько вещей: me gustaN los perros. Так же работают encantar (обожать) и doler (болеть)."],ej:"Me encanta España. Me duele la cabeza."}],
+ vocab:[["me gusta","мне нравится"],["me gustan","мне нравятся (мн.)"],["te gusta","тебе нравится"],["le gusta","ему/ей нравится"],["no me gusta nada","мне совсем не нравится"],["me encanta","я обожаю"],["me interesa","мне интересно"],["me da igual","мне всё равно"],["me duele","у меня болит"],["¿te gusta?","тебе нравится?"],["me gusta mucho","мне очень нравится"],["odiar","ненавидеть"],["preferir","предпочитать"],["prefiero","я предпочитаю"]],
+ gaps:[["Me ___ los perros.","gustan",["gusta","gustas"],"Мне нравятся собаки."],
+ ["¿Te ___ el flamenco?","gusta",["gustan","gustas"],"Тебе нравится фламенко?"],
+ ["Me ___ la cabeza.","duele",["duelen","dolor"],"У меня болит голова."]]},
+{id:15,lvl:"A2",title:"Прямо сейчас",desc:"Estar + gerundio: estoy trabajando",
+ theory:[{h:"Что происходит в моменте",p:["estar + герундий: -ar → -ando, -er/-ir → -iendo. Estoy trabajando — я (сейчас) работаю. Estás comiendo — ты ешь. Исключения: leyendo (читая), durmiendo (спя)."],ej:"¿Qué estás haciendo? — Estoy viendo una serie."}],
+ vocab:[["estoy trabajando","я работаю (сейчас)"],["estoy comiendo","я ем (сейчас)"],["estoy hablando","я разговариваю"],["estoy esperando","я жду"],["está lloviendo","идёт дождь"],["estoy leyendo","я читаю"],["estoy viendo","я смотрю"],["estoy escribiendo","я пишу"],["¿qué estás haciendo?","что ты делаешь?"],["estoy descansando","я отдыхаю"],["estoy pensando","я думаю"],["esperar","ждать"],["descansar","отдыхать"],["pensar","думать"]],
+ gaps:[["Estoy ___ una serie.","viendo",["ver","veo"],"Я смотрю сериал (сейчас)."],
+ ["¿Qué estás ___? — Nada.","haciendo",["hacer","hago"],"Что ты делаешь? — Ничего."],
+ ["Está ___ mucho hoy.","lloviendo",["llueve","llover"],"Сегодня идёт сильный дождь."]]},
+{id:16,lvl:"A2",title:"Pretérito perfecto",desc:"He hablado — что сделал сегодня/недавно",
+ theory:[{h:"Прошедшее с привязкой к сейчас",p:["haber + причастие: he, has, ha, hemos, habéis, han + hablado/comido/vivido. Используется с hoy, esta semana, ya, todavía no."],ej:"Hoy he trabajado mucho. ¿Has comido ya?"},
+ {h:"Неправильные причастия",p:["hecho (сделано), dicho (сказано), visto (увидено), escrito (написано), puesto (положено), vuelto (вернулся)."]}],
+ vocab:[["he hablado","я поговорил"],["he comido","я поел"],["he estado","я побывал"],["he hecho","я сделал"],["he visto","я видел"],["¿has estado en...?","ты бывал в...?"],["ya","уже"],["todavía no","ещё нет"],["esta semana","на этой неделе"],["nunca he...","я никогда не..."],["alguna vez","когда-нибудь"],["hace un momento","только что"],["he vuelto","я вернулся"],["he terminado","я закончил"]],
+ gaps:[["Hoy ___ trabajado mucho.","he",["ha","has"],"Сегодня я много работал."],
+ ["¿Has ___ ya? — Sí, gracias.","comido",["comer","como"],"Ты уже поел? — Да, спасибо."],
+ ["Nunca he ___ en México.","estado",["estar","estoy"],"Я никогда не был в Мексике."]]},
+{id:17,lvl:"A2",title:"Indefinido: правильные",desc:"Hablé, comí — законченное прошлое",
+ theory:[{h:"Главное прошедшее время",p:["Для законченных действий: ayer, la semana pasada, en 2020. -ar: hablé, hablaste, habló, hablamos, hablasteis, hablaron. -er/-ir: comí, comiste, comió, comimos, comisteis, comieron."],ej:"Ayer trabajé todo el día y luego cené con amigos."}],
+ vocab:[["hablé","я поговорил"],["trabajé","я поработал"],["compré","я купил"],["comí","я поел"],["viví","я жил"],["llegué","я приехал"],["salí","я вышел"],["volví","я вернулся"],["ayer","вчера"],["anoche","вчера вечером"],["la semana pasada","на прошлой неделе"],["el año pasado","в прошлом году"],["hace dos días","два дня назад"],["luego","затем"],["de repente","вдруг"]],
+ gaps:[["Ayer ___ con mis amigos (cenar).","cené",["ceno","cenaba"],"Вчера я поужинал с друзьями."],
+ ["La semana pasada ___ un bolso (comprar).","compré",["compro","compraré"],"На прошлой неделе я купил сумку."],
+ ["Anoche ___ a las once (salir).","salí",["salgo","saldré"],"Вчера вечером я вышел в одиннадцать."]]},
+{id:18,lvl:"A2",title:"Indefinido: неправильные",desc:"Fui, tuve, hice, estuve, pude",
+ theory:[{h:"Самые важные неправильные",p:["ser/ir → fui, fuiste, fue, fuimos, fuisteis, fueron (одинаково!). tener → tuve. hacer → hice, hizo. estar → estuve. poder → pude. querer → quise. decir → dije. venir → vine."],ej:"El sábado fui a Málaga, estuve en el centro y comí paella."}],
+ vocab:[["fui","я пошёл / я был"],["fue","он пошёл / был"],["tuve","у меня было"],["hice","я сделал"],["hizo","он сделал"],["estuve","я находился"],["pude","я смог"],["no pude","я не смог"],["quise","я захотел"],["dije","я сказал"],["vine","я пришёл"],["vi","я увидел"],["di","я дал"],["puse","я положил"]],
+ gaps:[["El sábado ___ a Málaga (ir).","fui",["iba","voy"],"В субботу я поехал в Малагу."],
+ ["Ayer no ___ dormir (poder).","pude",["puedo","podía"],"Вчера я не смог уснуть."],
+ ["¿Qué ___ el fin de semana? (hacer, tú)","hiciste",["haces","hacías"],"Что ты делал в выходные?"]]},
+{id:19,lvl:"A2",title:"Imperfecto",desc:"Hablaba — фон, привычки, «раньше»",
+ theory:[{h:"Прошедшее-описание",p:["-ar: hablaba, hablabas, hablaba, hablábamos... -er/-ir: comía, vivía. Неправильных всего три: era (ser), iba (ir), veía (ver)."]},
+ {h:"Indefinido vs Imperfecto",p:["Imperfecto — фон и привычки: Cuando era niño, vivía en Rusia. Indefinido — событие: Ayer compré un reloj. В рассказе фон — imperfecto, действия — indefinido."],ej:"Hacía sol y la gente paseaba. De repente, empezó a llover."}],
+ vocab:[["hablaba","я говорил (обычно)"],["vivía","я жил (тогда)"],["era","я был / он был"],["iba","я ходил (обычно)"],["tenía","у меня было"],["había","было / имелось"],["hacía sol","было солнечно"],["cuando era niño","когда я был ребёнком"],["antes","раньше"],["en aquella época","в то время"],["mientras","пока / в то время как"],["cada día","каждый день (тогда)"],["quería","я хотел"],["sabía","я знал"]],
+ gaps:[["Cuando ___ niño, vivía en Rusia.","era",["fui","soy"],"Когда я был ребёнком, я жил в России."],
+ ["Antes ___ al fútbol cada día (jugar).","jugaba",["jugué","juego"],"Раньше я играл в футбол каждый день."],
+ ["___ sol y la gente paseaba.","Hacía",["Hizo","Hace"],"Было солнечно, и люди гуляли."]]},
+{id:20,lvl:"A2",title:"Будущее",desc:"Voy a hacer и haré",
+ theory:[{h:"Два будущих",p:["Разговорное: ir a + инфинитив — Voy a comprar (я куплю). Простое будущее: hablaré, comerás, vivirá (инфинитив + é, ás, á, emos, éis, án). Неправильные: haré, tendré, podré, saldré, diré, vendré."],ej:"Mañana voy a ir a la playa. El año que viene aprenderé español."}],
+ vocab:[["voy a + inf.","я собираюсь..."],["voy a comprar","я куплю"],["vas a ver","ты увидишь"],["hablaré","я поговорю"],["iré","я пойду"],["haré","я сделаю"],["tendré","у меня будет"],["podré","я смогу"],["será","будет"],["habrá","будет (иметься)"],["mañana por la mañana","завтра утром"],["la semana que viene","на следующей неделе"],["el año que viene","в следующем году"],["pronto","скоро"],["algún día","когда-нибудь"]],
+ gaps:[["Mañana ___ a comprar pan.","voy",["fui","iba"],"Завтра я куплю хлеб."],
+ ["El año que viene ___ español perfectamente (hablar).","hablaré",["hablé","hablaba"],"В следующем году я буду отлично говорить по-испански."],
+ ["¿Qué ___ a hacer esta noche?","vas",["irás","fuiste"],"Что ты будешь делать сегодня вечером?"]]},
+{id:21,lvl:"A2",title:"Местоимения lo, la, le",desc:"Его, её, ему — коротко и по делу",
+ theory:[{h:"Прямое дополнение",p:["lo/la — его/её (вещь или человека): ¿El libro? Lo compro. ¿La casa? La veo. Множественное: los/las."]},
+ {h:"Косвенное — кому",p:["le — ему/ей, les — им: Le escribo un mensaje. Два сразу: me lo das (ты мне его даёшь), te lo digo. le + lo → se lo."],ej:"¿Me lo puedes mandar? — Можешь мне это отправить?"}],
+ vocab:[["lo","его / это"],["la","её"],["los","их (м.)"],["las","их (ж.)"],["le","ему / ей"],["me lo das","ты мне его даёшь"],["te lo digo","я тебе это говорю"],["se lo mando","я ему это отправляю"],["lo sé","я это знаю"],["no lo sé","я этого не знаю"],["lo entiendo","я это понимаю"],["lo siento","мне жаль / сожалею"],["dímelo","скажи мне это"],["dámelo","дай мне это"]],
+ gaps:[["¿El libro? ___ compro mañana.","Lo",["La","Le"],"Книга? Я её куплю завтра."],
+ ["___ escribo un mensaje a María.","Le",["Lo","La"],"Я пишу Марии сообщение."],
+ ["¿Me ___ puedes mandar?","lo",["le","los"],"Можешь мне это отправить?"]]},
+{id:22,lvl:"A2",title:"Сравнения",desc:"Больше, меньше, самый лучший",
+ theory:[{h:"Сравниваем",p:["más... que — больше чем: Madrid es más grande que Málaga. menos... que — меньше чем. tan... como — такой же как. Самый: el más caro. Особые: mejor (лучше), peor (хуже), mayor (старше), menor (младше)."],ej:"Este bolso es más caro, pero es el mejor."}],
+ vocab:[["más que","больше чем"],["menos que","меньше чем"],["tan... como","такой же... как"],["mejor","лучше / лучший"],["peor","хуже / худший"],["el más caro","самый дорогой"],["el más barato","самый дешёвый"],["mayor","старше / больший"],["menor","младше / меньший"],["igual","одинаково / такой же"],["diferente","разный / другой"],["demasiado","слишком"],["bastante","достаточно / довольно"],["casi","почти"]],
+ gaps:[["Madrid es ___ grande que Málaga.","más",["muy","tan"],"Мадрид больше Малаги."],
+ ["Este es el ___ caro de la tienda.","más",["mucho","tanto"],"Это самое дорогое в магазине."],
+ ["Mi español es ___ que antes.","mejor",["bueno","bien"],"Мой испанский лучше, чем раньше."]]},
+{id:23,lvl:"A2",title:"Погода и природа",desc:"Hace calor — говорим о погоде как испанцы",
+ theory:[{h:"Погода через hacer",p:["Hace calor (жарко), hace frío (холодно), hace sol, hace viento, hace buen/mal tiempo. Отдельно: llueve (идёт дождь), nieva (идёт снег), está nublado (облачно)."],ej:"En Málaga casi siempre hace buen tiempo."}],
+ vocab:[["hace calor","жарко"],["hace frío","холодно"],["hace sol","солнечно"],["hace viento","ветрено"],["hace buen tiempo","хорошая погода"],["llueve","идёт дождь"],["está nublado","облачно"],["el cielo","небо"],["la lluvia","дождь"],["el verano","лето"],["el invierno","зима"],["la primavera","весна"],["el otoño","осень"],["el grado","градус"],["la montaña","гора"]],
+ gaps:[["En agosto ___ mucho calor.","hace",["está","es"],"В августе очень жарко."],
+ ["Está ___, va a llover.","nublado",["soleado","frío"],"Облачно, будет дождь."],
+ ["En invierno ___ frío.","hace",["hay","es"],"Зимой холодно."]]},
+{id:24,lvl:"A2",title:"Тело и здоровье",desc:"Me duele — объясняемся у врача и в аптеке",
+ theory:[{h:"Что болит",p:["Me duele + ед.ч.: Me duele la cabeza. Me duelen + мн.ч.: Me duelen las piernas. Состояния: estoy enfermo (болею), tengo fiebre (температура), estoy mareado (кружится голова)."],ej:"Me duele la garganta y tengo fiebre."}],
+ vocab:[["la cabeza","голова"],["el estómago","живот / желудок"],["la garganta","горло"],["la espalda","спина"],["la pierna","нога"],["la mano","рука (кисть)"],["el ojo","глаз"],["me duele la cabeza","у меня болит голова"],["estoy enfermo","я болею"],["tengo fiebre","у меня температура"],["la pastilla","таблетка"],["el médico","врач"],["la receta","рецепт"],["me encuentro mal","мне плохо"],["mejorarse","поправляться"]],
+ gaps:[["Me ___ la garganta.","duele",["duelen","duelo"],"У меня болит горло."],
+ ["Tengo ___, necesito paracetamol.","fiebre",["hambre","prisa"],"У меня температура, нужен парацетамол."],
+ ["Estoy ___, voy al médico.","enfermo",["contento","barato"],"Я болею, иду к врачу."]]},
+/* -------- B1 -------- */
+{id:25,lvl:"B1",title:"Condicional",desc:"Me gustaría — вежливость и мечты",
+ theory:[{h:"Бы-форма",p:["Инфинитив + ía: hablaría, comería, viviría (я бы поговорил...). Неправильные как в будущем: haría, tendría, podría, diría."]},
+ {h:"Зачем нужен",p:["Вежливые просьбы: ¿Podrías ayudarme? Желания: Me gustaría vivir aquí. Советы: Yo en tu lugar, no lo compraría."],ej:"Me gustaría reservar una mesa para dos."}],
+ vocab:[["me gustaría","мне бы хотелось"],["¿podrías...?","ты бы мог...?"],["¿podría...?","Вы могли бы...?"],["sería","было бы"],["haría","я бы сделал"],["tendría","у меня было бы"],["diría","я бы сказал"],["yo en tu lugar","я бы на твоём месте"],["debería","мне следовало бы"],["deberías","тебе стоило бы"],["preferiría","я бы предпочёл"],["sería genial","было бы здорово"],["¿te importaría...?","тебя не затруднит...?"],["querría","я бы хотел"]],
+ gaps:[["Me ___ vivir cerca del mar.","gustaría",["gusta","gustan"],"Мне бы хотелось жить у моря."],
+ ["¿___ ayudarme, por favor?","Podrías",["Puedas","Pudiste"],"Ты бы мог мне помочь, пожалуйста?"],
+ ["Yo en tu lugar no lo ___.","compraría",["compro","compré"],"Я бы на твоём месте это не покупал."]]},
+{id:26,lvl:"B1",title:"Imperativo",desc:"Повелительное: mira, oye, dime",
+ theory:[{h:"Команды и просьбы",p:["Для tú: как 3-е лицо настоящего — ¡Habla! ¡Come! ¡Mira! Неправильные: di (скажи), haz (сделай), ve (иди), pon (положи), ten, ven (приди), sal (выйди)."]},
+ {h:"В жизни",p:["Испанцы постоянно начинают фразы с oye (слушай), mira (смотри), dime (скажи мне — так отвечают на звонки!). Отрицание — через no + subjuntivo: no hables."],ej:"Oye, mira esto. Dime, ¿qué necesitas?"}],
+ vocab:[["mira","смотри / слушай"],["oye","слушай / эй"],["dime","скажи мне / слушаю"],["dame","дай мне"],["di","скажи"],["haz","сделай"],["ven","иди сюда"],["ven aquí","подойди сюда"],["espera","подожди"],["toma","возьми / держи"],["pasa","проходи"],["sigue","продолжай / следуй"],["no te preocupes","не переживай"],["tranquilo","спокойно / не волнуйся"],["cuidado","осторожно"]],
+ gaps:[["___, mira esto.","Oye",["Oigo","Oír"],"Слушай, глянь на это."],
+ ["___ la verdad (decir, tú).","Di",["Dices","Dice"],"Скажи правду."],
+ ["No te ___, todo va bien.","preocupes",["preocupas","preocupa"],"Не переживай, всё идёт хорошо."]]},
+{id:27,lvl:"B1",title:"Subjuntivo: база",desc:"Quiero que vengas — сослагательное без страха",
+ theory:[{h:"Что это",p:["Особая форма после желаний, сомнений, эмоций про ДРУГОГО человека. Образование: -ar → -e (hable, hables...), -er/-ir → -a (coma, viva). Неправильные: sea, esté, vaya, tenga, haga, pueda, diga, venga."]},
+ {h:"Когда включается",p:["Quiero que + subj: Quiero que vengas (хочу, чтобы ты пришёл). Espero que, es importante que, no creo que, cuando (о будущем): cuando llegues, llámame."],ej:"Espero que tengas un buen día."}],
+ vocab:[["quiero que vengas","я хочу, чтобы ты пришёл"],["espero que","я надеюсь, что"],["ojalá","хоть бы / дай бог"],["es importante que","важно, чтобы"],["no creo que","не думаю, что"],["cuando llegues","когда приедешь"],["que tengas suerte","удачи тебе"],["que aproveche","приятного аппетита"],["que te mejores","выздоравливай"],["que vaya bien","пусть всё пройдёт хорошо"],["sea","будь / было бы (subj)"],["tenga","имей (subj)"],["pueda","смогу (subj)"],["quizás","возможно"]],
+ gaps:[["Quiero que ___ a la fiesta (venir, tú).","vengas",["vienes","venir"],"Я хочу, чтобы ты пришёл на праздник."],
+ ["Espero que ___ un buen día (tener, tú).","tengas",["tienes","tener"],"Надеюсь, у тебя будет хороший день."],
+ ["Cuando ___ a casa, llámame (llegar, tú).","llegues",["llegas","llegar"],"Когда доберёшься домой, позвони мне."]]},
+{id:28,lvl:"B1",title:"Por vs para",desc:"Два «для» — раз и навсегда",
+ theory:[{h:"Para — цель и направление",p:["Для кого/чего, куда, дедлайн: Es para ti. Salgo para Madrid. Para el lunes. Para aprender español (чтобы выучить)."]},
+ {h:"Por — причина и процесс",p:["Из-за, через, по, взамен: Gracias por todo. Paseo por la playa. Lo compré por 20 euros. Por la mañana (утром)."],ej:"Estudio español para vivir mejor aquí. Gracias por tu ayuda."}],
+ vocab:[["para ti","для тебя"],["para mí","для меня"],["¿para qué?","для чего? / зачем?"],["¿por qué?","почему?"],["porque","потому что"],["gracias por todo","спасибо за всё"],["por la mañana","утром"],["por la tarde","днём / вечером"],["por la noche","ночью / вечером"],["por aquí","здесь / сюда"],["por ejemplo","например"],["por fin","наконец-то"],["por supuesto","конечно"],["para siempre","навсегда"]],
+ gaps:[["Este regalo es ___ ti.","para",["por","de"],"Этот подарок для тебя."],
+ ["Gracias ___ tu ayuda.","por",["para","con"],"Спасибо за твою помощь."],
+ ["Estudio español ___ vivir mejor aquí.","para",["por","que"],"Я учу испанский, чтобы жить здесь лучше."]]},
+{id:29,lvl:"B1",title:"Мнения и связки",desc:"Creo que, sin embargo — строим сложную речь",
+ theory:[{h:"Выражаем мнение",p:["Creo que / pienso que / me parece que + факт. En mi opinión... Estoy de acuerdo (согласен) / no estoy de acuerdo."]},
+ {h:"Связки — клей речи",p:["sin embargo (однако), además (кроме того), aunque (хотя), entonces (тогда/значит), o sea (то есть), es que... (дело в том, что...) — с ними речь звучит по-взрослому."],ej:"Es caro, sin embargo, la calidad es increíble."}],
+ vocab:[["creo que","я думаю, что"],["me parece que","мне кажется, что"],["en mi opinión","по моему мнению"],["estoy de acuerdo","я согласен"],["no estoy de acuerdo","я не согласен"],["sin embargo","однако"],["además","кроме того"],["aunque","хотя"],["entonces","тогда / значит"],["o sea","то есть"],["es que...","дело в том, что..."],["por eso","поэтому"],["de todas formas","в любом случае"],["la verdad es que","по правде говоря"],["depende","зависит / смотря как"]],
+ gaps:[["Es caro; ___, la calidad es increíble.","sin embargo",["porque","para que"],"Дорого; однако качество невероятное."],
+ ["No voy, ___ no tengo tiempo.","es que",["o sea","aunque"],"Я не пойду — дело в том, что нет времени."],
+ ["___ es caro, lo compro.","Aunque",["Además","Entonces"],"Хотя это дорого, я это покупаю."]]},
+{id:30,lvl:"B1",title:"Работа и деньги",desc:"Бизнес, продажи, переговоры",
+ theory:[{h:"Деловой минимум",p:["el negocio — бизнес, vender/comprar — продавать/покупать, el cliente — клиент, el precio — цена, ganar — зарабатывать. Enviar (отправлять) и el envío (отправка) — святое для продавца."],ej:"Vendo bolsos de lujo por internet. El envío es gratis."}],
+ vocab:[["el negocio","бизнес / дело"],["vender","продавать"],["vendo","я продаю"],["el cliente","клиент"],["el precio","цена"],["el descuento","скидка"],["ganar dinero","зарабатывать деньги"],["el envío","отправка / доставка"],["enviar","отправлять"],["el paquete","посылка"],["la marca","бренд / марка"],["la calidad","качество"],["el pedido","заказ"],["la factura","счёт / инвойс"],["negociar","вести переговоры"],["la reunión","встреча / собрание"]],
+ gaps:[["El ___ es de 900 euros al mes.","precio",["pedido","cliente"],"Цена — 900 евро в месяц."],
+ ["¿Cuánto cuesta el ___ a Rusia?","envío",["precio","descuento"],"Сколько стоит доставка в Россию?"],
+ ["Tenemos un ___ del 20% hoy.","descuento",["cliente","paquete"],"Сегодня у нас скидка 20%."]]},
+{id:31,lvl:"B1",title:"Чувства и характер",desc:"Описываем людей и эмоции",
+ theory:[{h:"Эмоции через estar и tener",p:["estar contento (рад), estar enfadado (злой), estar preocupado (обеспокоен), tener miedo (бояться), tener prisa (спешить), tener razón (быть правым)."],ej:"No te preocupes, tienes razón."}],
+ vocab:[["contento","довольный / рад"],["triste","грустный"],["enfadado","злой / сердитый"],["preocupado","обеспокоенный"],["nervioso","нервный"],["tranquilo","спокойный"],["feliz","счастливый"],["tengo miedo","я боюсь"],["tengo prisa","я спешу"],["tienes razón","ты прав"],["simpático","приятный / милый"],["amable","добрый / любезный"],["listo","умный / готовый"],["trabajador","трудолюбивый"],["divertido","весёлый / забавный"]],
+ gaps:[["No te preocupes, tienes ___.","razón",["prisa","miedo"],"Не переживай, ты прав."],
+ ["Estoy muy ___ hoy, ¡todo va genial!","contento",["triste","enfadado"],"Я сегодня очень рад, всё отлично!"],
+ ["Tengo ___, ¡el taxi llega en cinco minutos!","prisa",["sueño","razón"],"Я спешу — такси через пять минут!"]]},
+{id:32,lvl:"B1",title:"Испанский Испании",desc:"Сленг: tío, mola, flipar — как говорят на юге",
+ theory:[{h:"Уличный испанский",p:["tío/tía — чувак/подруга (обращение), mola — круто (esto mola), flipar — офигеть (estoy flipando), currar — работать (разг.), la pasta — бабки, guay — клёвый, quedar — встречаться/договориться."],ej:"¡Tío, esto mola mucho! ¿Quedamos mañana?"}],
+ vocab:[["tío / tía","чувак / подруга"],["mola","круто / нравится"],["flipar","офигевать"],["estoy flipando","я в шоке (офигеваю)"],["currar","работать (разг.)"],["el curro","работа (разг.)"],["la pasta","деньги (разг.)"],["guay","клёвый / классный"],["quedar","договориться встретиться"],["¿quedamos?","встретимся?"],["venga","давай / ну же"],["vale la pena","стоит того"],["qué va","да нет / ничего подобного"],["en plan","типа / вроде как"],["me apunto","я в деле / записывай меня"]],
+ gaps:[["¡___, esto mola mucho!","Tío",["Pasta","Curro"],"Чувак, это очень круто!"],
+ ["No tengo ___, no puedo salir hoy.","pasta",["mola","guay"],"У меня нет денег, не могу никуда пойти."],
+ ["¿___ mañana para comer?","Quedamos",["Molamos","Flipamos"],"Встретимся завтра пообедать?"]]},
+/* -------- A2: расширение -------- */
+{id:33,lvl:"A2",title:"Покупки и одежда",desc:"Размер, примерка, оплата — шопинг без стресса",
+ theory:[{h:"В магазине одежды",p:["¿Puedo probármelo? — можно примерить? Me queda bien/mal — мне идёт/не идёт. ¿Qué talla tienes? — какой у тебя размер? Las rebajas — распродажи (январь и июль — святое время в Испании)."],ej:"Me gusta esta camisa. ¿La tienen en talla M?"}],
+ vocab:[["la ropa","одежда"],["la camisa","рубашка"],["la camiseta","футболка"],["los pantalones","брюки"],["los zapatos","обувь"],["la chaqueta","куртка"],["la talla","размер"],["probarse","примерять"],["¿puedo probármelo?","можно примерить?"],["me queda bien","мне идёт"],["las rebajas","распродажи"],["la caja","касса"],["en efectivo","наличными"],["con tarjeta","картой"],["el probador","примерочная"]],
+ gaps:[["¿Qué ___ tienes? — La M.","talla",["caja","ropa"],"Какой у тебя размер? — М."],
+ ["Esta camisa me ___ muy bien.","queda",["quedo","quedas"],"Эта рубашка мне очень идёт."],
+ ["¿Pago en efectivo o con ___?","tarjeta",["talla","caja"],"Плачу наличными или картой?"]]},
+{id:34,lvl:"A2",title:"Дом и квартира",desc:"Комнаты, мебель, аренда",
+ theory:[{h:"Piso, не apartamento",p:["В Испании квартира — el piso. Amueblado — с мебелью. Los gastos — коммуналка. La fianza — залог. El casero — хозяин квартиры."],ej:"Busco un piso amueblado con terraza cerca de la playa."}],
+ vocab:[["el piso","квартира"],["la habitación","комната"],["el dormitorio","спальня"],["la cocina","кухня"],["el salón","гостиная"],["la ventana","окно"],["la puerta","дверь"],["la terraza","терраса"],["amueblado","с мебелью"],["el alquiler","аренда"],["la fianza","залог"],["los gastos","коммуналка"],["el vecino","сосед"],["la llave","ключ"],["mudarse","переезжать"]],
+ gaps:[["El piso tiene dos ___ y un salón.","dormitorios",["cocinas","puertas"],"В квартире две спальни и гостиная."],
+ ["¿Los ___ están incluidos? — Sí.","gastos",["vecinos","pisos"],"Коммуналка включена? — Да."],
+ ["Me ___ a Benalmádena el mes que viene.","mudo",["muda","mudas"],"Я переезжаю в Бенальмадену в следующем месяце."]]},
+{id:35,lvl:"A2",title:"Транспорт",desc:"Автобус, поезд, билеты",
+ theory:[{h:"Едем",p:["Coger el autobús — сесть на автобус (в Испании coger — нормальное слово!). Ida y vuelta — туда-обратно. Bajarse — выходить. ¿Dónde está la parada? — где остановка?"],ej:"Un billete de ida y vuelta a Málaga, por favor."}],
+ vocab:[["el autobús","автобус"],["el tren","поезд"],["el metro","метро"],["el billete","билет"],["la parada","остановка"],["el andén","платформа"],["coger el bus","сесть на автобус"],["bajarse","выходить (из транспорта)"],["ida y vuelta","туда и обратно"],["solo ida","только туда"],["el retraso","задержка / опоздание"],["próxima parada","следующая остановка"],["el horario","расписание"],["directo","прямой (без пересадок)"]],
+ gaps:[["Un ___ de ida y vuelta, por favor.","billete",["andén","horario"],"Билет туда-обратно, пожалуйста."],
+ ["¿En qué parada me ___?","bajo",["bajas","baja"],"На какой остановке мне выходить?"],
+ ["El tren sale del ___ dos.","andén",["billete","retraso"],"Поезд отправляется со второй платформы."]]},
+{id:36,lvl:"A2",title:"Даты и месяцы",desc:"Календарь, дни рождения, планы на год",
+ theory:[{h:"Месяцы и даты",p:["Месяцы пишутся с маленькой буквы: enero, febrero... Дата: el 5 de julio de 2026. ¿Qué día es hoy? — какое сегодня число? Mi cumpleaños es en marzo."],ej:"Mi cumpleaños es el diez de mayo."}],
+ vocab:[["enero","январь"],["febrero","февраль"],["marzo","март"],["abril","апрель"],["mayo","май"],["junio","июнь"],["julio","июль"],["agosto","август"],["septiembre","сентябрь"],["octubre","октябрь"],["noviembre","ноябрь"],["diciembre","декабрь"],["la fecha","дата"],["el cumpleaños","день рождения"],["¿qué día es hoy?","какое сегодня число?"]],
+ gaps:[["Mi cumpleaños es en ___.","mayo",["fecha","hoy"],"Мой день рождения в мае."],
+ ["Después de junio viene ___.","julio",["abril","enero"],"После июня идёт июль."],
+ ["¿Qué ___ es hoy? — El cinco de julio.","día",["mes","año"],"Какое сегодня число? — Пятое июля."]]},
+{id:37,lvl:"A2",title:"Hay — есть / имеется",desc:"Hay, algo, nadie — говорим о наличии",
+ theory:[{h:"Hay = есть/имеется",p:["¿Hay un banco cerca? — есть банк поблизости? Hay mucha gente — много народу. No hay problema. Пары: algo/nada (что-то/ничего), alguien/nadie (кто-то/никто)."],ej:"¿Hay algo para comer? — No, no hay nada."}],
+ vocab:[["hay","есть / имеется"],["no hay","нет / не имеется"],["¿hay... cerca?","есть... поблизости?"],["hay mucha gente","много народу"],["algo","что-то"],["nada","ничего"],["alguien","кто-то"],["nadie","никто"],["alguno","какой-нибудь"],["ninguno","никакой"],["no hay problema","нет проблем"],["hay que + inf.","нужно / надо"],["todo","всё"],["cada","каждый"]],
+ gaps:[["¿___ un supermercado cerca de aquí?","Hay",["Está","Es"],"Есть супермаркет рядом?"],
+ ["No hay ___ en la calle, es muy tarde.","nadie",["nada","alguien"],"На улице никого — очень поздно."],
+ ["___ que trabajar mucho para ganar bien.","Hay",["Está","Va"],"Нужно много работать, чтобы хорошо зарабатывать."]]},
+{id:38,lvl:"A2",title:"Saber vs conocer",desc:"Два «знать» — факты и знакомства",
+ theory:[{h:"Разница",p:["Saber — знать факт или уметь: Sé español. Sé cocinar. Conocer — быть знакомым с человеком/местом: Conozco a María. Conozco Madrid. С людьми — предлог a: conozco A Juan."],ej:"¿Conoces Sevilla? — No, pero sé que es preciosa."}],
+ vocab:[["conocer","знать / быть знакомым"],["conozco","я знаком / знаю (место)"],["¿conoces...?","ты знаешь...? (человека/место)"],["sé","я знаю (факт)"],["sé cocinar","я умею готовить"],["no sé nadar","я не умею плавать"],["la gente","люди"],["el lugar","место"],["el extranjero","иностранец / заграница"],["conocer gente nueva","знакомиться с новыми людьми"],["saber la verdad","знать правду"],["famoso","известный"],["el idioma","язык (иностранный)"],["la cultura","культура"]],
+ gaps:[["¿___ a mi hermano? — Sí, es muy simpático.","Conoces",["Sabes","Puedes"],"Ты знаком с моим братом? — Да, он очень приятный."],
+ ["No ___ dónde está la estación.","sé",["conozco","soy"],"Я не знаю, где вокзал."],
+ ["Quiero ___ gente nueva aquí.","conocer",["saber","tener"],"Хочу познакомиться здесь с новыми людьми."]]},
+{id:39,lvl:"A2",title:"Выражения с tener",desc:"Tener sueño, tener ganas — испанская логика",
+ theory:[{h:"Иметь вместо быть",p:["Испанцы «имеют» состояния: tengo hambre (голоден), tengo sed (хочу пить), tengo sueño (хочу спать), tengo frío/calor, tengo 25 años (мне 25), tengo ganas de... (мне хочется...)."],ej:"Tengo ganas de ir a la playa. — Мне хочется на пляж."}],
+ vocab:[["tengo sed","я хочу пить"],["tengo sueño","я хочу спать"],["tengo frío","мне холодно"],["tengo calor","мне жарко"],["tengo ganas de...","мне хочется..."],["tengo 25 años","мне 25 лет"],["¿cuántos años tienes?","сколько тебе лет?"],["tener cuidado","быть осторожным"],["tener suerte","везти (иметь удачу)"],["tener éxito","иметь успех"],["tener tiempo","иметь время"],["no tengo ni idea","понятия не имею"],["tener sentido","иметь смысл"],["tener lugar","происходить / иметь место"]],
+ gaps:[["Abre la ventana, tengo mucho ___.","calor",["frío","sueño"],"Открой окно, мне очень жарко."],
+ ["Tengo ___ de comer paella hoy.","ganas",["años","suerte"],"Мне хочется сегодня поесть паэлью."],
+ ["¿Cuántos ___ tienes? — Veinticinco.","años",["ganas","tiempo"],"Сколько тебе лет? — Двадцать пять."]]},
+{id:40,lvl:"A2",title:"Llevar и hace: как давно",desc:"Говорим о длительности как носители",
+ theory:[{h:"Сколько времени ты уже...",p:["Llevo dos años en España — я уже два года в Испании. ¿Cuánto tiempo llevas aquí? Hace tres meses que estudio — я учусь уже три месяца. Desde 2024 — с 2024. Desde hace un año — уже год как."],ej:"Llevo seis meses estudiando español."}],
+ vocab:[["llevo dos años","я уже два года (где-то)"],["¿cuánto tiempo llevas...?","сколько ты уже...?"],["hace tres meses que...","уже три месяца как..."],["desde","с (какого-то момента)"],["desde hace un año","уже год как"],["hace mucho","давно"],["hace poco","недавно"],["ya no","уже не"],["todavía","всё ещё"],["al principio","вначале"],["al final","в конце / в итоге"],["durante","в течение"],["mientras tanto","тем временем"],["hasta ahora","до сих пор"]],
+ gaps:[["___ dos años en España y me encanta.","Llevo",["Hago","Tengo"],"Я уже два года в Испании, и мне очень нравится."],
+ ["Estudio español ___ hace seis meses.","desde",["durante","hasta"],"Я учу испанский уже полгода."],
+ ["¿Cuánto tiempo ___ aquí? — Un año.","llevas",["llevo","lleva"],"Сколько ты уже здесь? — Год."]]},
+/* -------- B1: расширение -------- */
+{id:41,lvl:"B1",title:"Телефон и звонки",desc:"Звоним, оставляем сообщения, договариваемся",
+ theory:[{h:"По телефону",p:["На звонок отвечают: ¿Diga? / ¿Sí? / Dime. ¿De parte de quién? — кто спрашивает? Ahora no puede ponerse — сейчас не может подойти. Le dejo un mensaje — оставлю сообщение. No cuelgue — не вешайте трубку."],ej:"Hola, llamo para pedir cita. ¿Tienen hueco esta semana?"}],
+ vocab:[["llamar","звонить"],["la llamada","звонок"],["¿diga?","алло? (отвечая)"],["¿de parte de quién?","кто спрашивает?"],["dejar un mensaje","оставить сообщение"],["colgar","вешать трубку"],["no cuelgue","не вешайте трубку"],["el móvil","мобильный"],["sin batería","без зарядки"],["no hay cobertura","нет связи"],["pedir cita","записаться на приём"],["¿tienen hueco?","есть свободное окно?"],["te llamo luego","я тебе перезвоню"],["mandar un audio","отправить голосовое"]],
+ gaps:[["Llamo para ___ cita con el médico.","pedir",["colgar","dejar"],"Звоню записаться к врачу."],
+ ["No puedo hablar, te ___ luego.","llamo",["llamas","llamar"],"Не могу говорить, перезвоню позже."],
+ ["¿De parte de ___? — De Makar.","quién",["dónde","cuándo"],"Кто спрашивает? — Макар."]]},
+{id:42,lvl:"B1",title:"Отель и путешествия",desc:"Бронь, заселение, чемоданы",
+ theory:[{h:"В отеле",p:["Tengo una reserva a nombre de... — у меня бронь на имя... ¿A qué hora es la salida? — во сколько выезд? ¿El desayuno está incluido? Hacer la maleta — собирать чемодан."],ej:"Tengo una reserva para dos noches, habitación doble."}],
+ vocab:[["la reserva","бронь"],["reservar","бронировать"],["a nombre de...","на имя..."],["la habitación doble","двухместный номер"],["el desayuno incluido","завтрак включён"],["la recepción","ресепшн"],["la salida","выезд / выход"],["la entrada","заезд / вход"],["hacer la maleta","собирать чемодан"],["el equipaje","багаж"],["el vuelo","рейс / полёт"],["la aduana","таможня"],["el pasaporte","паспорт"],["el viaje","поездка / путешествие"],["¡buen viaje!","счастливого пути!"]],
+ gaps:[["Tengo una ___ a nombre de Makar.","reserva",["salida","maleta"],"У меня бронь на имя Макар."],
+ ["¿El desayuno está ___? — Sí, de 8 a 11.","incluido",["reservado","cerrado"],"Завтрак включён? — Да, с 8 до 11."],
+ ["Tengo que hacer la ___ esta noche.","maleta",["reserva","aduana"],"Мне нужно собрать чемодан сегодня вечером."]]},
+{id:43,lvl:"B1",title:"Банк и документы",desc:"Счёт, NIE, cita previa — выживание в бюрократии",
+ theory:[{h:"Испанская бюрократия",p:["Cita previa — предварительная запись (без неё никуда!). El NIE — номер иностранца. Rellenar un formulario — заполнить бланк. Sacar dinero — снять деньги. Firmar — подписать."],ej:"Quiero abrir una cuenta. — ¿Tiene cita previa y NIE?"}],
+ vocab:[["la cuenta bancaria","банковский счёт"],["abrir una cuenta","открыть счёт"],["sacar dinero","снять деньги"],["el cajero","банкомат"],["la cita previa","предварительная запись"],["el NIE","номер иностранца (NIE)"],["el formulario","бланк / анкета"],["rellenar","заполнять"],["firmar","подписывать"],["la firma","подпись"],["el contrato","договор"],["el documento","документ"],["la fotocopia","ксерокопия"],["el trámite","бюрократическая процедура"],["la transferencia","перевод (денег)"]],
+ gaps:[["Necesito ___ previa para ir al banco.","cita",["firma","cuenta"],"Мне нужна запись, чтобы пойти в банк."],
+ ["¿Dónde puedo ___ dinero? — En el cajero.","sacar",["firmar","rellenar"],"Где я могу снять деньги? — В банкомате."],
+ ["___ el formulario y firme aquí, por favor.","Rellene",["Saque","Abra"],"Заполните бланк и распишитесь здесь."]]},
+{id:44,lvl:"B1",title:"Почта и посылки",desc:"Отправляем и получаем — must-have для продавца",
+ theory:[{h:"En Correos",p:["Quiero mandar este paquete — хочу отправить эту посылку. ¿Cuánto tarda? — сколько идёт? Certificado — заказное. Frágil — хрупкое. Recoger un paquete — забрать посылку. El seguimiento — трекинг."],ej:"Quiero mandar este paquete certificado. Es frágil."}],
+ vocab:[["la oficina de correos","почтовое отделение"],["mandar un paquete","отправить посылку"],["¿cuánto tarda?","сколько идёт (по времени)?"],["certificado","заказное (отправление)"],["frágil","хрупкое"],["urgente","срочное"],["recoger","забирать"],["la entrega","доставка / вручение"],["el seguimiento","трекинг / отслеживание"],["la dirección","адрес"],["el código postal","почтовый индекс"],["el remitente","отправитель"],["el destinatario","получатель"],["el sello","марка / печать"],["pesar","взвешивать"]],
+ gaps:[["Quiero ___ este paquete a Rusia.","mandar",["recoger","pesar"],"Хочу отправить эту посылку в Россию."],
+ ["¿Cuánto ___ la entrega? — Unos cinco días.","tarda",["pesa","firma"],"Сколько идёт доставка? — Около пяти дней."],
+ ["Cuidado, el paquete es ___.","frágil",["urgente","barato"],"Осторожно, посылка хрупкая."]]},
+{id:45,lvl:"B1",title:"Se: говорят, продаётся, можно",desc:"Se habla, se vende, se puede — безличные фразы",
+ theory:[{h:"Волшебное se",p:["Se habla español — здесь говорят по-испански. Se vende — продаётся. Se alquila — сдаётся. ¿Se puede? — можно? (входя куда-то). ¿Cómo se dice...? — как сказать...? ¿Cómo se escribe? — как пишется?"],ej:"¿Se puede pagar con tarjeta? — Sí, claro."}],
+ vocab:[["se habla español","говорят по-испански"],["se vende","продаётся"],["se alquila","сдаётся (в аренду)"],["¿se puede?","можно?"],["no se puede","нельзя"],["¿cómo se dice...?","как сказать...?"],["¿cómo se escribe?","как пишется?"],["se dice que...","говорят, что..."],["se prohíbe","запрещается"],["¿cuánto se tarda?","сколько это занимает?"],["se nota","заметно / чувствуется"],["se ve que...","видно, что..."],["así se hace","вот так это делается"],["se me olvidó","я забыл (вылетело)"]],
+ gaps:[["¿___ puede pagar con tarjeta aquí?","Se",["Me","Te"],"Здесь можно оплатить картой?"],
+ ["¿Cómo se ___ «скидка» en español?","dice",["habla","vende"],"Как сказать «скидка» по-испански?"],
+ ["Este piso se ___ por 900 euros al mes.","alquila",["compra","olvida"],"Эта квартира сдаётся за 900 евро в месяц."]]},
+{id:46,lvl:"B1",title:"Acabar de и недавнее",desc:"Только что, недавно, в последнее время",
+ theory:[{h:"Только что",p:["Acabo de llegar — я только что приехал (acabar de + инфинитив). Últimamente — в последнее время. Hace poco — недавно. Estar a punto de — вот-вот: estoy a punto de salir — я вот-вот выйду."],ej:"Acabo de vender un bolso. — Я только что продал сумку."}],
+ vocab:[["acabo de + inf.","я только что..."],["acabo de llegar","я только что приехал"],["acaba de salir","он только что вышел"],["últimamente","в последнее время"],["esta mañana","сегодня утром"],["este mes","в этом месяце"],["estar a punto de","вот-вот (сделать)"],["recién","только что / свеже-"],["de momento","пока что"],["por ahora","на данный момент"],["a partir de ahora","отныне / с этого момента"],["cuanto antes","как можно скорее"],["en cuanto","как только"],["dentro de poco","совсем скоро"]],
+ gaps:[["___ de vender un reloj por 500 euros.","Acabo",["Estoy","Voy"],"Я только что продал часы за 500 евро."],
+ ["___ trabajo mucho con Japón.","Últimamente",["Antiguamente","Nunca"],"В последнее время я много работаю с Японией."],
+ ["Estoy a ___ de salir, te llamo luego.","punto",["momento","tiempo"],"Я вот-вот выйду, перезвоню позже."]]},
+{id:47,lvl:"B1",title:"Хобби и спорт",desc:"Jugar, tocar, entrenar — о свободном времени",
+ theory:[{h:"Играем правильно",p:["Jugar AL + спорт: juego al fútbol. Tocar + инструмент: toco la guitarra. Ganar/perder — выигрывать/проигрывать. Hacer deporte — заниматься спортом. Montar en bici — кататься на велосипеде."],ej:"En mi tiempo libre hago deporte y veo series."}],
+ vocab:[["el tiempo libre","свободное время"],["jugar al fútbol","играть в футбол"],["hacer deporte","заниматься спортом"],["nadar","плавать"],["correr","бегать"],["el gimnasio","спортзал"],["entrenar","тренироваться"],["montar en bici","кататься на велосипеде"],["tocar la guitarra","играть на гитаре"],["el partido","матч"],["ganar","выигрывать"],["perder","проигрывать / терять"],["el equipo","команда"],["la afición","увлечение / болельщики"],["apuntarse a","записаться на"]],
+ gaps:[["Juego ___ fútbol los domingos.","al",["a la","en"],"Я играю в футбол по воскресеньям."],
+ ["Voy al ___ tres veces por semana.","gimnasio",["partido","equipo"],"Я хожу в зал три раза в неделю."],
+ ["Mi equipo ___ el partido ayer, ¡qué pena!","perdió",["ganó","jugó"],"Моя команда вчера проиграла матч, как жаль!"]]},
+{id:48,lvl:"B1",title:"Рассказываем истории",desc:"Resulta que, total que — держим внимание слушателя",
+ theory:[{h:"Слова-крючки рассказчика",p:["Resulta que... — и вот оказывается... Total que... — короче... De pronto — вдруг. Al final — в итоге. Por cierto — кстати. ¿Sabes qué? — знаешь что? No te lo vas a creer — ты не поверишь."],ej:"¿Sabes qué? Resulta que el bolso era auténtico. ¡No te lo vas a creer!"}],
+ vocab:[["resulta que...","оказывается, что..."],["total que...","короче говоря..."],["de pronto","вдруг / внезапно"],["al final","в итоге / в конце"],["por cierto","кстати"],["¿sabes qué?","знаешь что?"],["no te lo vas a creer","ты не поверишь"],["en resumen","подводя итог"],["cambiando de tema","меняя тему"],["hablando de...","кстати о..."],["lo importante es que...","главное, что..."],["menos mal","слава богу / хорошо что"],["¡qué casualidad!","какое совпадение!"],["al parecer","судя по всему"]],
+ gaps:[["¿Sabes qué? ___ que el reloj era original.","Resulta",["Total","Final"],"Знаешь что? Оказывается, часы были оригинальные."],
+ ["___ mal que llegué a tiempo.","Menos",["Más","Muy"],"Хорошо, что я успел вовремя."],
+ ["___ cierto, ¿viste mi mensaje?","Por",["Para","De"],"Кстати, ты видел моё сообщение?"]]}
+];
+const ALL=LESSONS.flatMap(l=>l.vocab.map(([es,ru])=>({es,ru,lesson:l.id,lvl:l.lvl})));
+const LVLS=[["A1","С нуля · выживание"],["A2","Базовый · прошлое и будущее"],["B1","Средний · свободное общение"]];
+const PICALL=ALL.filter(w=>EM[w.es]);
+
+/* ============================================================
+   ДИАЛОГИ
+============================================================ */
+const DIALOGS=[
+{id:1,lvl:"A1",emoji:"☕",title:"En la cafetería",scene:"Утро в испанской кофейне. Ты заказываешь завтрак у бариста.",
+ lines:[[0,"¡Hola! ¿Qué le pongo?","Здравствуйте! Что вам подать?"],[1,"Hola, un café con leche, por favor.","Здравствуйте, кофе с молоком, пожалуйста."],[0,"¿Algo más?","Что-нибудь ещё?"],[1,"Sí, una tostada con tomate.","Да, тост с томатом."],[0,"¿Para tomar aquí o para llevar?","Здесь или с собой?"],[1,"Para aquí. ¿Cuánto es?","Здесь. Сколько с меня?"],[0,"Son tres euros con cincuenta.","Три евро пятьдесят."],[1,"Aquí tiene. Gracias.","Вот, держите. Спасибо."]],
+ qs:[{q:"Что заказал клиент?",o:["Чай и круассан","Кофе с молоком и тост с томатом","Только кофе"],a:1},
+     {q:"Сколько стоил заказ?",o:["2,50 €","3,50 €","5,30 €"],a:1},
+     {q:"Клиент взял заказ с собой?",o:["Да","Нет, остался в кафе"],a:1}]},
+{id:2,lvl:"A1",emoji:"🛒",title:"En el supermercado",scene:"Ты ищешь оливковое масло и свежий хлеб в супермаркете.",
+ lines:[[1,"Perdona, ¿dónde está el aceite de oliva?","Извините, где оливковое масло?"],[0,"Está en el pasillo tres, al fondo a la derecha.","В третьем ряду, в конце направо."],[1,"Gracias. ¿Y tienen pan fresco?","Спасибо. А свежий хлеб есть?"],[0,"Sí, la panadería está al lado de las cajas.","Да, пекарня рядом с кассами."],[1,"Perfecto. ¿A qué hora cierran hoy?","Отлично. Во сколько сегодня закрываетесь?"],[0,"Hoy cerramos a las nueve y media.","Сегодня закрываемся в полдесятого."],[1,"Muy amable, gracias.","Очень любезно, спасибо."],[0,"De nada, ¡que tenga un buen día!","Не за что, хорошего дня!"]],
+ qs:[{q:"Где оливковое масло?",o:["Ряд 3, в конце направо","Ряд 5, налево","Рядом с кассами"],a:0},
+     {q:"Во сколько закрывается магазин?",o:["В 21:00","В 21:30","В 22:30"],a:1},
+     {q:"Где пекарня?",o:["На втором этаже","Рядом с кассами","На улице"],a:1}]},
+{id:3,lvl:"A1",emoji:"🚕",title:"En el taxi",scene:"Ты едешь в аэропорт на такси, у тебя рейс в семь.",
+ lines:[[0,"Buenas tardes. ¿A dónde vamos?","Добрый день. Куда едем?"],[1,"Al aeropuerto, por favor. Tengo un vuelo a las siete.","В аэропорт, пожалуйста. У меня рейс в семь."],[0,"Vale, sin problema. ¿Con maletas?","Окей, без проблем. С чемоданами?"],[1,"Sí, dos maletas. ¿Cuánto tiempo se tarda?","Да, два чемодана. Сколько времени займёт?"],[0,"Unos veinte minutos si no hay tráfico.","Минут двадцать, если нет пробок."],[1,"Genial. ¿Puedo pagar con tarjeta?","Отлично. Можно оплатить картой?"],[0,"Claro que sí.","Конечно."]],
+ qs:[{q:"Куда едет пассажир?",o:["На вокзал","В аэропорт","В отель"],a:1},
+     {q:"Сколько ехать без пробок?",o:["Около 20 минут","Около 40 минут","Час"],a:0},
+     {q:"Как пассажир хочет заплатить?",o:["Наличными","Картой"],a:1}]},
+{id:4,lvl:"A2",emoji:"💊",title:"En la farmacia",scene:"У тебя со вчерашнего дня болит голова. Идёшь в аптеку.",
+ lines:[[0,"Buenos días, ¿qué necesita?","Доброе утро, что вам нужно?"],[1,"Me duele mucho la cabeza desde ayer.","У меня со вчера сильно болит голова."],[0,"¿Tiene fiebre?","Температура есть?"],[1,"No, fiebre no, pero estoy muy cansado.","Нет, температуры нет, но я очень уставший."],[0,"Le doy paracetamol. Tome una pastilla cada ocho horas.","Дам вам парацетамол. Принимайте по таблетке каждые восемь часов."],[1,"¿Con la comida?","С едой?"],[0,"Mejor después de comer. Y beba mucha agua.","Лучше после еды. И пейте много воды."],[1,"Perfecto, ¿cuánto es?","Отлично, сколько с меня?"],[0,"Dos euros con veinte.","Два евро двадцать."]],
+ qs:[{q:"Что болит у клиента?",o:["Живот","Голова","Горло"],a:1},
+     {q:"Как принимать таблетки?",o:["По одной каждые 8 часов","По две утром","Только на ночь"],a:0},
+     {q:"Когда лучше принимать?",o:["До еды","После еды","Неважно"],a:1}]},
+{id:5,lvl:"A2",emoji:"🏠",title:"Buscando piso",scene:"Ты звонишь по объявлению об аренде квартиры у моря.",
+ lines:[[1,"Hola, llamo por el piso del anuncio. ¿Sigue disponible?","Здравствуйте, звоню по объявлению о квартире. Ещё свободна?"],[0,"Sí, todavía está disponible.","Да, ещё свободна."],[1,"¿Cuánto es el alquiler al mes?","Сколько аренда в месяц?"],[0,"Son novecientos euros, con gastos incluidos.","Девятьсот евро, коммуналка включена."],[1,"¿Y está cerca de la playa?","А близко к пляжу?"],[0,"Sí, a diez minutos andando.","Да, десять минут пешком."],[1,"¿Puedo verlo esta semana?","Можно посмотреть на этой неделе?"],[0,"Claro, ¿le viene bien el jueves por la tarde?","Конечно, вам удобно в четверг после обеда?"],[1,"Perfecto, el jueves a las cinco.","Отлично, в четверг в пять."]],
+ qs:[{q:"Сколько стоит аренда?",o:["700 € + коммуналка","900 € всё включено","1100 €"],a:1},
+     {q:"Как далеко пляж?",o:["10 минут пешком","10 минут на машине","Далеко"],a:0},
+     {q:"Когда просмотр?",o:["В среду утром","В четверг в 17:00","В субботу"],a:1}]},
+{id:6,lvl:"A2",emoji:"📅",title:"Haciendo planes",scene:"Друг предлагает встретиться в субботу в новом тапас-баре.",
+ lines:[[0,"¿Qué haces este sábado?","Что делаешь в эту субботу?"],[1,"Nada especial, ¿por qué?","Ничего особенного, а что?"],[0,"¿Quedamos para comer? Conozco un sitio nuevo de tapas.","Встретимся пообедать? Знаю новое место с тапас."],[1,"¡Vale! ¿A qué hora?","Давай! Во сколько?"],[0,"¿A las dos te viene bien?","В два тебе удобно?"],[1,"Mejor a las dos y media, salgo tarde de trabajar.","Лучше в полтретьего, я поздно заканчиваю работу."],[0,"Perfecto, te mando la ubicación por WhatsApp.","Отлично, скину локацию в WhatsApp."],[1,"Genial, ¡nos vemos el sábado!","Класс, увидимся в субботу!"]],
+ qs:[{q:"Что предлагает друг?",o:["Пойти в кино","Пообедать в тапас-баре","Поехать на пляж"],a:1},
+     {q:"Во сколько договорились?",o:["В 14:00","В 14:30","В 15:00"],a:1},
+     {q:"Как он отправит адрес?",o:["По e-mail","Через WhatsApp","Скажет по телефону"],a:1}]},
+{id:7,lvl:"B1",emoji:"🇪🇸",title:"El fin de semana",scene:"Понедельник. Коллеги обсуждают выходные — тут работают прошедшие времена!",
+ lines:[[0,"¿Qué tal el fin de semana?","Как прошли выходные?"],[1,"¡Genial! Fui a Sevilla con unos amigos.","Отлично! Я ездил в Севилью с друзьями."],[0,"¡Qué bien! ¿Qué hicisteis?","Здорово! Что вы делали?"],[1,"Visitamos la catedral y paseamos por el centro. Hacía un calor increíble.","Посетили собор и гуляли по центру. Была невероятная жара."],[0,"¿Comisteis algo típico?","Ели что-нибудь местное?"],[1,"Sí, probamos el salmorejo. Estaba buenísimo.","Да, попробовали сальморехо. Было очень вкусно."],[0,"Yo me quedé en casa, estaba muy cansado.","А я остался дома, был очень уставший."],[1,"La próxima vez te vienes con nosotros.","В следующий раз поедешь с нами."]],
+ qs:[{q:"Куда ездил собеседник?",o:["В Мадрид","В Севилью","В Гранаду"],a:1},
+     {q:"Какая была погода?",o:["Шёл дождь","Очень жарко","Прохладно"],a:1},
+     {q:"Что попробовали из еды?",o:["Паэлью","Сальморехо","Хамон"],a:1}]},
+{id:8,lvl:"B1",emoji:"💼",title:"Entrevista de trabajo",scene:"Собеседование. Отвечаем об опыте и когда можем начать.",
+ lines:[[0,"Buenos días, siéntese, por favor. ¿Por qué quiere trabajar con nosotros?","Доброе утро, присаживайтесь. Почему вы хотите работать у нас?"],[1,"Me interesa mucho el puesto porque tengo experiencia en ventas.","Мне очень интересна позиция — у меня есть опыт в продажах."],[0,"¿Cuánto tiempo trabajó en su último empleo?","Сколько вы проработали на последнем месте?"],[1,"Trabajé tres años en una tienda de ropa.","Я работал три года в магазине одежды."],[0,"¿Habla otros idiomas?","Говорите на других языках?"],[1,"Sí, hablo ruso, inglés y español, claro.","Да — русский, английский и испанский, конечно."],[0,"Muy bien. ¿Cuándo podría empezar?","Отлично. Когда могли бы начать?"],[1,"Podría empezar la semana que viene.","Мог бы начать на следующей неделе."],[0,"Perfecto, le llamaremos pronto.","Отлично, мы вам скоро позвоним."]],
+ qs:[{q:"Какой опыт у кандидата?",o:["В продажах","В маркетинге","В логистике"],a:0},
+     {q:"Сколько он работал на прошлом месте?",o:["1 год","3 года","5 лет"],a:1},
+     {q:"Когда он может начать?",o:["Завтра","На следующей неделе","Через месяц"],a:1}]},
+{id:9,lvl:"A1",emoji:"🏨",title:"En el hotel",scene:"Заселяешься в отель по брони на две ночи.",
+ lines:[[1,"Buenas tardes, tengo una reserva a nombre de Makar.","Добрый день, у меня бронь на имя Макар."],[0,"Un momento... Sí, aquí está. Habitación doble, dos noches.","Минутку... Да, вот она. Двухместный номер, две ночи."],[1,"Perfecto. ¿El desayuno está incluido?","Отлично. Завтрак включён?"],[0,"Sí, de ocho a once, en la primera planta.","Да, с восьми до одиннадцати, на втором этаже."],[1,"¿Y hay wifi en la habitación?","А в номере есть вайфай?"],[0,"Claro, la contraseña está en la llave.","Конечно, пароль на карточке-ключе."],[1,"Genial. ¿A qué hora es la salida?","Отлично. Во сколько выезд?"],[0,"A las doce. Aquí tiene su llave, habitación 305.","В двенадцать. Вот ваш ключ, номер 305."]],
+ qs:[{q:"На сколько ночей бронь?",o:["Одна","Две","Три"],a:1},
+     {q:"Когда завтрак?",o:["С 7 до 10","С 8 до 11","С 9 до 12"],a:1},
+     {q:"Какой номер комнаты?",o:["205","305","405"],a:1}]},
+{id:10,lvl:"A1",emoji:"👕",title:"Comprando ropa",scene:"Присмотрел рубашку в магазине — нужен твой размер и примерка.",
+ lines:[[1,"Hola, ¿tienen esta camisa en talla M?","Здравствуйте, есть эта рубашка в размере М?"],[0,"Voy a mirar... Sí, aquí tiene.","Сейчас посмотрю... Да, вот, держите."],[1,"¿Puedo probármela?","Можно примерить?"],[0,"Claro, el probador está al fondo.","Конечно, примерочная в глубине зала."],[1,"Me queda muy bien. ¿Cuánto cuesta?","Отлично сидит. Сколько стоит?"],[0,"Son veinticinco euros. Hoy hay rebajas.","Двадцать пять евро. Сегодня скидки."],[1,"Perfecto, me la llevo. ¿Puedo pagar con tarjeta?","Отлично, беру. Можно картой?"],[0,"Por supuesto. Pase por caja.","Разумеется. Проходите на кассу."]],
+ qs:[{q:"Какой размер нужен покупателю?",o:["S","M","L"],a:1},
+     {q:"Сколько стоит рубашка?",o:["15 €","25 €","35 €"],a:1},
+     {q:"Где примерочная?",o:["У входа","В глубине зала","На втором этаже"],a:1}]},
+{id:11,lvl:"A2",emoji:"🚆",title:"En la estación",scene:"Покупаешь билет на поезд до Мадрида.",
+ lines:[[1,"Buenos días, un billete para Madrid, por favor.","Доброе утро, билет до Мадрида, пожалуйста."],[0,"¿Solo ida o ida y vuelta?","Только туда или туда-обратно?"],[1,"Ida y vuelta. ¿A qué hora sale el próximo tren?","Туда-обратно. Во сколько следующий поезд?"],[0,"A las diez y media, del andén cuatro.","В десять тридцать, с четвёртой платформы."],[1,"¿Es directo o hay que hacer transbordo?","Он прямой или с пересадкой?"],[0,"Es directo, tarda dos horas y media.","Прямой, в пути два с половиной часа."],[1,"Perfecto. ¿Cuánto es?","Отлично. Сколько с меня?"],[0,"Setenta euros con el descuento de ida y vuelta.","Семьдесят евро со скидкой за туда-обратно."]],
+ qs:[{q:"С какой платформы поезд?",o:["Со второй","С четвёртой","С шестой"],a:1},
+     {q:"Сколько времени в пути?",o:["1,5 часа","2,5 часа","3,5 часа"],a:1},
+     {q:"Поезд прямой?",o:["Да","Нет, с пересадкой"],a:0}]},
+{id:12,lvl:"A2",emoji:"📦",title:"En correos",scene:"Отправляешь посылку с товаром — заказной и хрупкой.",
+ lines:[[1,"Hola, quiero mandar este paquete.","Здравствуйте, хочу отправить эту посылку."],[0,"Vale, lo peso... Un kilo doscientos. ¿A dónde va?","Хорошо, взвешу... Килограмм двести. Куда отправляем?"],[1,"A Madrid. Es frágil, es un reloj.","В Мадрид. Хрупкое — это часы."],[0,"Entonces mejor certificado y con seguro. ¿Le parece?","Тогда лучше заказным и со страховкой. Подходит?"],[1,"Sí, perfecto. ¿Cuánto tarda la entrega?","Да, отлично. Сколько идёт доставка?"],[0,"Dos o tres días laborables. Son ocho euros con cincuenta.","Два-три рабочих дня. Восемь евро пятьдесят."],[1,"¿Me da el número de seguimiento?","Дадите трек-номер?"],[0,"Claro, está aquí en el recibo.","Конечно, вот он на чеке."]],
+ qs:[{q:"Что внутри посылки?",o:["Книга","Часы","Одежда"],a:1},
+     {q:"Сколько идёт доставка?",o:["1 день","2–3 рабочих дня","Неделя"],a:1},
+     {q:"Где трек-номер?",o:["На коробке","На чеке","Пришлют по SMS"],a:1}]},
+{id:13,lvl:"A2",emoji:"📞",title:"Una llamada",scene:"Звонишь в клинику записаться на приём.",
+ lines:[[0,"Clínica San Miguel, ¿dígame?","Клиника Сан-Мигель, слушаю?"],[1,"Hola, llamo para pedir cita con el médico general.","Здравствуйте, звоню записаться к терапевту."],[0,"¿De parte de quién?","Как вас представить?"],[1,"De Makar. Es la primera vez que llamo.","Макар. Я звоню впервые."],[0,"Vale. ¿Le viene bien el miércoles a las cinco?","Хорошо. Вам удобно в среду в пять?"],[1,"¿No tienen hueco por la mañana?","А утром окна нет?"],[0,"Sí, el jueves a las diez.","Есть, в четверг в десять."],[1,"Perfecto, el jueves entonces. Gracias.","Отлично, тогда в четверг. Спасибо."]],
+ qs:[{q:"Зачем звонит Макар?",o:["Отменить приём","Записаться к врачу","Спросить адрес"],a:1},
+     {q:"Какое время он выбрал?",o:["Среда, 17:00","Четверг, 10:00","Пятница, 9:00"],a:1},
+     {q:"Он уже был в этой клинике?",o:["Да","Нет, впервые"],a:1}]},
+{id:14,lvl:"B1",emoji:"🏦",title:"En el banco",scene:"Открываешь счёт — понадобятся документы и подпись.",
+ lines:[[1,"Buenos días, quiero abrir una cuenta bancaria.","Доброе утро, хочу открыть банковский счёт."],[0,"¿Tiene cita previa?","У вас есть предварительная запись?"],[1,"Sí, a las once, a nombre de Makar.","Да, на одиннадцать, на имя Макар."],[0,"Perfecto. Necesito su pasaporte y su NIE.","Отлично. Мне нужен ваш паспорт и NIE."],[1,"Aquí tiene. También traigo el contrato de alquiler.","Вот, пожалуйста. Ещё принёс договор аренды."],[0,"Muy bien. Rellene este formulario y firme abajo.","Прекрасно. Заполните этот бланк и распишитесь внизу."],[1,"¿La tarjeta llega a casa?","Карта придёт домой?"],[0,"Sí, por correo en una semana aproximadamente.","Да, по почте примерно через неделю."]],
+ qs:[{q:"Какие документы попросили?",o:["Только паспорт","Паспорт и NIE","Только NIE"],a:1},
+     {q:"Как придёт карта?",o:["Забрать в банке","По почте домой","Курьером за день"],a:1},
+     {q:"Когда придёт карта?",o:["Через день","Примерно через неделю","Через месяц"],a:1}]},
+{id:15,lvl:"B1",emoji:"🛍️",title:"Regateando",scene:"На винтажном рынке торгуешься за кожаную сумку.",
+ lines:[[1,"¿Cuánto pide por este bolso de cuero?","Сколько вы просите за эту кожаную сумку?"],[0,"Ochenta euros. Es de los años setenta, está impecable.","Восемьдесят евро. Семидесятые годы, в идеальном состоянии."],[1,"Está bien, pero tiene una marca aquí. ¿Me lo deja en sesenta?","Хорошая, но вот тут царапина. Отдадите за шестьдесят?"],[0,"Uy, no puedo. Setenta y cinco como mucho.","Ой, не могу. Максимум семьдесят пять."],[1,"Setenta, y me llevo también este cinturón.","Семьдесят — и я беру ещё этот ремень."],[0,"Venga, vale. Trato hecho.","Ну ладно, идёт. По рукам."],[1,"Perfecto. ¿Acepta efectivo, verdad?","Отлично. Наличные принимаете, да?"],[0,"Sí, mejor en efectivo. Gracias, ¡que lo disfrute!","Да, лучше наличными. Спасибо, пользуйтесь с удовольствием!"]],
+ qs:[{q:"Какая начальная цена сумки?",o:["60 €","75 €","80 €"],a:2},
+     {q:"На чём сошлись?",o:["70 € с ремнём в придачу","75 € только сумка","60 €"],a:0},
+     {q:"Как оплата?",o:["Картой","Наличными","Переводом"],a:1}]},
+{id:16,lvl:"B1",emoji:"🏖️",title:"Con un vecino",scene:"Разговорился с соседом на террасе — small talk по-испански.",
+ lines:[[0,"¡Hola! Tú eres el nuevo vecino, ¿no?","Привет! Ты новый сосед, да?"],[1,"Sí, me mudé hace un mes. Me llamo Makar, soy de Rusia.","Да, переехал месяц назад. Меня зовут Макар, я из России."],[0,"¡Encantado! ¿Y qué tal por aquí? ¿Te gusta la zona?","Очень приятно! Ну и как тебе тут? Район нравится?"],[1,"Me encanta. Vivo cerca de la playa y el clima es increíble.","Обожаю. Живу у пляжа, и климат невероятный."],[0,"¿Y a qué te dedicas, si se puede saber?","А чем занимаешься, если не секрет?"],[1,"Tengo un negocio online, vendo artículos de lujo vintage.","У меня онлайн-бизнес — продаю винтажные люксовые вещи."],[0,"¡Qué interesante! Oye, los sábados jugamos al fútbol en la playa. ¿Te apuntas?","Как интересно! Слушай, по субботам мы играем в футбол на пляже. Присоединишься?"],[1,"¡Claro que me apunto! Nos vemos el sábado.","Конечно, я в деле! Увидимся в субботу."]],
+ qs:[{q:"Когда Макар переехал?",o:["Неделю назад","Месяц назад","Год назад"],a:1},
+     {q:"Чем он занимается?",o:["Работает в отеле","Онлайн-бизнес с винтажным люксом","Учит языки"],a:1},
+     {q:"Куда его позвали в субботу?",o:["На ужин","На футбол на пляже","На рыбалку"],a:1}]}
+];
+
+/* ============================================================
+   ГРАММАТИКА · спряжения
+============================================================ */
+const TENSES=["Presente","Indefinido","Imperfecto","Futuro","Condicional"];
+const PRON=["yo","tú","él/ella","nosotros","vosotros","ellos"];
+const VERBS=[
+["hablar","говорить (образец -ar)","hablo hablas habla hablamos habláis hablan","hablé hablaste habló hablamos hablasteis hablaron","hablaba hablabas hablaba hablábamos hablabais hablaban","hablaré hablarás hablará hablaremos hablaréis hablarán","hablaría hablarías hablaría hablaríamos hablaríais hablarían"],
+["comer","есть (образец -er)","como comes come comemos coméis comen","comí comiste comió comimos comisteis comieron","comía comías comía comíamos comíais comían","comeré comerás comerá comeremos comeréis comerán","comería comerías comería comeríamos comeríais comerían"],
+["vivir","жить (образец -ir)","vivo vives vive vivimos vivís viven","viví viviste vivió vivimos vivisteis vivieron","vivía vivías vivía vivíamos vivíais vivían","viviré vivirás vivirá viviremos viviréis vivirán","viviría vivirías viviría viviríamos viviríais vivirían"],
+["ser","быть (постоянное)","soy eres es somos sois son","fui fuiste fue fuimos fuisteis fueron","era eras era éramos erais eran","seré serás será seremos seréis serán","sería serías sería seríamos seríais serían"],
+["estar","находиться / быть","estoy estás está estamos estáis están","estuve estuviste estuvo estuvimos estuvisteis estuvieron","estaba estabas estaba estábamos estabais estaban","estaré estarás estará estaremos estaréis estarán","estaría estarías estaría estaríamos estaríais estarían"],
+["tener","иметь","tengo tienes tiene tenemos tenéis tienen","tuve tuviste tuvo tuvimos tuvisteis tuvieron","tenía tenías tenía teníamos teníais tenían","tendré tendrás tendrá tendremos tendréis tendrán","tendría tendrías tendría tendríamos tendríais tendrían"],
+["ir","идти / ехать","voy vas va vamos vais van","fui fuiste fue fuimos fuisteis fueron","iba ibas iba íbamos ibais iban","iré irás irá iremos iréis irán","iría irías iría iríamos iríais irían"],
+["hacer","делать","hago haces hace hacemos hacéis hacen","hice hiciste hizo hicimos hicisteis hicieron","hacía hacías hacía hacíamos hacíais hacían","haré harás hará haremos haréis harán","haría harías haría haríamos haríais harían"],
+["poder","мочь","puedo puedes puede podemos podéis pueden","pude pudiste pudo pudimos pudisteis pudieron","podía podías podía podíamos podíais podían","podré podrás podrá podremos podréis podrán","podría podrías podría podríamos podríais podrían"],
+["querer","хотеть / любить","quiero quieres quiere queremos queréis quieren","quise quisiste quiso quisimos quisisteis quisieron","quería querías quería queríamos queríais querían","querré querrás querrá querremos querréis querrán","querría querrías querría querríamos querríais querrían"],
+["decir","говорить / сказать","digo dices dice decimos decís dicen","dije dijiste dijo dijimos dijisteis dijeron","decía decías decía decíamos decíais decían","diré dirás dirá diremos diréis dirán","diría dirías diría diríamos diríais dirían"],
+["venir","приходить","vengo vienes viene venimos venís vienen","vine viniste vino vinimos vinisteis vinieron","venía venías venía veníamos veníais venían","vendré vendrás vendrá vendremos vendréis vendrán","vendría vendrías vendría vendríamos vendríais vendrían"],
+["saber","знать","sé sabes sabe sabemos sabéis saben","supe supiste supo supimos supisteis supieron","sabía sabías sabía sabíamos sabíais sabían","sabré sabrás sabrá sabremos sabréis sabrán","sabría sabrías sabría sabríamos sabríais sabrían"]];
+/* Subjuntivo presente для базовых глаголов */
+const SUBJ={hablar:"hable hables hable hablemos habléis hablen",comer:"coma comas coma comamos comáis coman",vivir:"viva vivas viva vivamos viváis vivan",ser:"sea seas sea seamos seáis sean",estar:"esté estés esté estemos estéis estén",tener:"tenga tengas tenga tengamos tengáis tengan",ir:"vaya vayas vaya vayamos vayáis vayan",hacer:"haga hagas haga hagamos hagáis hagan",poder:"pueda puedas pueda podamos podáis puedan",querer:"quiera quieras quiera queramos queráis quieran",decir:"diga digas diga digamos digáis digan",venir:"venga vengas venga vengamos vengáis vengan",saber:"sepa sepas sepa sepamos sepáis sepan"};
+VERBS.forEach(v=>v.push(SUBJ[v[0]]));
+TENSES.push("Subjuntivo");
+/* Ещё 13 глаголов */
+[["dar","давать","doy das da damos dais dan","di diste dio dimos disteis dieron","daba dabas daba dábamos dabais daban","daré darás dará daremos daréis darán","daría darías daría daríamos daríais darían","dé des dé demos deis den"],
+["poner","класть / ставить","pongo pones pone ponemos ponéis ponen","puse pusiste puso pusimos pusisteis pusieron","ponía ponías ponía poníamos poníais ponían","pondré pondrás pondrá pondremos pondréis pondrán","pondría pondrías pondría pondríamos pondríais pondrían","ponga pongas ponga pongamos pongáis pongan"],
+["salir","выходить","salgo sales sale salimos salís salen","salí saliste salió salimos salisteis salieron","salía salías salía salíamos salíais salían","saldré saldrás saldrá saldremos saldréis saldrán","saldría saldrías saldría saldríamos saldríais saldrían","salga salgas salga salgamos salgáis salgan"],
+["ver","видеть","veo ves ve vemos veis ven","vi viste vio vimos visteis vieron","veía veías veía veíamos veíais veían","veré verás verá veremos veréis verán","vería verías vería veríamos veríais verían","vea veas vea veamos veáis vean"],
+["dormir","спать","duermo duermes duerme dormimos dormís duermen","dormí dormiste durmió dormimos dormisteis durmieron","dormía dormías dormía dormíamos dormíais dormían","dormiré dormirás dormirá dormiremos dormiréis dormirán","dormiría dormirías dormiría dormiríamos dormiríais dormirían","duerma duermas duerma durmamos durmáis duerman"],
+["pedir","просить / заказывать","pido pides pide pedimos pedís piden","pedí pediste pidió pedimos pedisteis pidieron","pedía pedías pedía pedíamos pedíais pedían","pediré pedirás pedirá pediremos pediréis pedirán","pediría pedirías pediría pediríamos pediríais pedirían","pida pidas pida pidamos pidáis pidan"],
+["jugar","играть","juego juegas juega jugamos jugáis juegan","jugué jugaste jugó jugamos jugasteis jugaron","jugaba jugabas jugaba jugábamos jugabais jugaban","jugaré jugarás jugará jugaremos jugaréis jugarán","jugaría jugarías jugaría jugaríamos jugaríais jugarían","juegue juegues juegue juguemos juguéis jueguen"],
+["empezar","начинать","empiezo empiezas empieza empezamos empezáis empiezan","empecé empezaste empezó empezamos empezasteis empezaron","empezaba empezabas empezaba empezábamos empezabais empezaban","empezaré empezarás empezará empezaremos empezaréis empezarán","empezaría empezarías empezaría empezaríamos empezaríais empezarían","empiece empieces empiece empecemos empecéis empiecen"],
+["sentir","чувствовать","siento sientes siente sentimos sentís sienten","sentí sentiste sintió sentimos sentisteis sintieron","sentía sentías sentía sentíamos sentíais sentían","sentiré sentirás sentirá sentiremos sentiréis sentirán","sentiría sentirías sentiría sentiríamos sentiríais sentirían","sienta sientas sienta sintamos sintáis sientan"],
+["seguir","следовать / продолжать","sigo sigues sigue seguimos seguís siguen","seguí seguiste siguió seguimos seguisteis siguieron","seguía seguías seguía seguíamos seguíais seguían","seguiré seguirás seguirá seguiremos seguiréis seguirán","seguiría seguirías seguiría seguiríamos seguiríais seguirían","siga sigas siga sigamos sigáis sigan"],
+["conocer","знать / быть знакомым","conozco conoces conoce conocemos conocéis conocen","conocí conociste conoció conocimos conocisteis conocieron","conocía conocías conocía conocíamos conocíais conocían","conoceré conocerás conocerá conoceremos conoceréis conocerán","conocería conocerías conocería conoceríamos conoceríais conocerían","conozca conozcas conozca conozcamos conozcáis conozcan"],
+["traer","приносить","traigo traes trae traemos traéis traen","traje trajiste trajo trajimos trajisteis trajeron","traía traías traía traíamos traíais traían","traeré traerás traerá traeremos traeréis traerán","traería traerías traería traeríamos traeríais traerían","traiga traigas traiga traigamos traigáis traigan"],
+["oír","слышать","oigo oyes oye oímos oís oyen","oí oíste oyó oímos oísteis oyeron","oía oías oía oíamos oíais oían","oiré oirás oirá oiremos oiréis oirán","oiría oirías oiría oiríamos oiríais oirían","oiga oigas oiga oigamos oigáis oigan"]
+].forEach(v=>VERBS.push(v));
+
+/* ============================================================
+   ВИДЕО
+============================================================ */
+const VIDEOS=[
+{lvl:"A1",items:[
+ {t:"Dreaming Spanish · Superbeginner",d:"Плейлист для полных новичков: медленная речь + рисунки. Смотри с первого дня.",pl:"PLlpPf-YgbU7GbOHc3siOGQ5KmVSngZucl"},
+ {t:"Easy Spanish · для начинающих",d:"Живые интервью на улицах Испании и Мексики с субтитрами.",v:"rw-DW_YlfoI"},
+ {t:"Super Easy Spanish · плейлист",d:"Короткие уроки: базовая грамматика и лексика в реальных ситуациях.",pl:"PLQGxDRfENoxJMWCoj8kszBjr61c-Bq-tW"}]},
+{lvl:"A2",items:[
+ {t:"Dreaming Spanish · история",d:"Понятная история целиком на испанском. Проверь, сколько поймёшь.",v:"hr8nHuFCQ2s"},
+ {t:"Dreaming Spanish · challenge",d:"«Сможешь понять это видео?» — отличный тест уровня.",v:"3z5zt4duxFU"}]},
+{lvl:"B1",items:[
+ {t:"Why Not Spanish · разговоры",d:"Диалоги двух носителей на повседневные темы — тренировка слуха.",pl:"PLHWAe4rFdBzxrcSum5iFkKU9eugNZx8WG"},
+ {t:"Español con Juan · живой урок",d:"Юмор из Гранады, полностью на испанском. Понимаешь 50%+ — уровень растёт.",v:"TrRhaF2-5Es"}]}];
+
+/* ============================================================
+   ПАМЯТЬ (localStorage)
+============================================================ */
+const KEY='vamos_v2';
+let mem={};
+function loadS(){try{const raw=localStorage.getItem(KEY)||localStorage.getItem('vamos_v1');
+  return JSON.parse(raw)||{}}catch(e){return mem}}
+function saveS(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){mem=S}}
+let S=Object.assign({xp:0,streak:0,lastDay:'',lessonsDone:[],dialogsDone:[],textsDone:[],srs:{},best:0,rate:0.9,voice:''},loadS());
+if(typeof S.best!=='number')S.best=0;
+if(typeof S.rate!=='number')S.rate=0.9;
+if(!Array.isArray(S.dialogsDone))S.dialogsDone=[];
+if(!Array.isArray(S.textsDone))S.textsDone=[];
+if(!Array.isArray(S.lessonsDone))S.lessonsDone=[];
+if(!S.srs||typeof S.srs!=='object')S.srs={};
+
+function today(){return new Date().toISOString().slice(0,10)}
+function touchStreak(){const t=today();if(S.lastDay===t)return;
+  const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  S.streak=(S.lastDay===y)?S.streak+1:1;S.lastDay=t;}
+function addXP(n){S.xp+=n;touchStreak();saveS();paintHead();
+  const p=document.getElementById('pillXP');
+  if(p){p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');}}
+function paintHead(){
+  const a=document.getElementById('hStreak'),b=document.getElementById('hXP');
+  if(a)a.textContent=S.streak;if(b)b.textContent=S.xp;}
+
+/* интервальные повторения */
+function srsGrade(es,g){const now=Date.now();let c=S.srs[es]||{i:0,due:now};
+  if(g===0){c.i=0;c.due=now+10*60*1000;}
+  else if(g===1){c.i=Math.max(1,Math.round(c.i*1.4))||1;c.due=now+c.i*864e5;}
+  else{c.i=c.i===0?3:Math.round(c.i*2.3);c.due=now+c.i*864e5;}
+  S.srs[es]=c;saveS();}
+function dueCards(){const now=Date.now();return ALL.filter(w=>S.srs[w.es]&&S.srs[w.es].due<=now)}
+function learnedCount(){return Object.keys(S.srs).length}
+function pool(){const l=ALL.filter(w=>S.srs[w.es]);return l.length>=8?l:ALL.filter(w=>w.lesson<=2)}
+
+/* ============================================================
+   ОЗВУЧКА + GOOGLE ПЕРЕВОДЧИК
+============================================================ */
+let VOICES=[];
+function pickVoices(){try{VOICES=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.indexOf('es')===0)}catch(e){}}
+if(typeof speechSynthesis!=='undefined'){pickVoices();speechSynthesis.onvoiceschanged=pickVoices;}
+function getVoice(){if(S.voice){const v=VOICES.find(x=>x.name===S.voice);if(v)return v}
+  return VOICES.find(v=>v.lang==='es-ES')||VOICES[0]||null}
+function say(t,pitch,onend){if(typeof speechSynthesis==='undefined'){if(onend)onend();return}
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);
+  u.lang='es-ES';const v=getVoice();if(v)u.voice=v;
+  u.rate=S.rate;if(pitch)u.pitch=pitch;if(onend)u.onend=onend;
+  speechSynthesis.speak(u);}catch(e){if(onend)onend()}}
+function saySlow(t){const r=S.rate;S.rate=0.6;say(t);S.rate=r;}
+function gt(t){window.open('https://translate.google.com/?sl=es&tl=ru&text='+encodeURIComponent(t)+'&op=translate','_blank')}
+
+/* ============================================================
+   УТИЛИТЫ
+============================================================ */
+const app=document.getElementById('app');
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .replace(/[¿?¡!.,;:'"«»()]/g,'').replace(/\s+/g,' ').trim()}
+function eqES(ans,es){const a=norm(ans),b=norm(es);if(a===b)return true;
+  return a===b.replace(/^(el|la|los|las|un|una)\s+/,'')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function setNav(v){document.querySelectorAll('.nv button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
+function toTop(){try{window.scrollTo(0,0)}catch(e){}}
+function idx(es){return ALL.findIndex(w=>w.es===es)}
+function sayI(i){say(ALL[i].es)}
+function chip(lvl){return '<span class="chip c'+lvl+'">'+lvl+'</span>'}
+function confetti(){const ems=['🎉','☀️','🇪🇸','⭐','🎊'];let h='<div class="conf">';
+  for(let i=0;i<10;i++){h+=`<span style="left:${5+Math.random()*90}%;animation-delay:${Math.random()*.5}s">${ems[i%ems.length]}</span>`}
+  return h+'</div>';}
+
+/* ============================================================
+   ГЛАВНАЯ
+============================================================ */
+function nextLesson(){return LESSONS.find(l=>!S.lessonsDone.includes(l.id))||LESSONS[0]}
+function vHome(){
+  setNav('home');
+  const day=Math.floor(Date.now()/864e5);const w=ALL[day%ALL.length];const wi=idx(w.es);
+  const due=dueCards().length;const nl=nextLesson();
+  app.innerHTML=`
+  <section class="hero">
+    <h1>¡Hola!</h1>
+    <p>Испанский с нуля до свободного общения. Твой уровень строится здесь.</p>
+    <div class="wod">
+      <button class="spk" onclick="sayI(${wi})">🔊</button>
+      <div><b>${esc(w.es)}</b><small>${esc(w.ru)} · слово дня</small></div>
+    </div>
+  </section>
+  <div class="prog">
+    <div class="pcard"><div class="n">${S.streak}</div><div class="l">дней подряд</div></div>
+    <div class="pcard"><div class="n">${learnedCount()}</div><div class="l">слов в работе</div></div>
+    <div class="pcard"><div class="n">${S.lessonsDone.length}/${LESSONS.length}</div><div class="l">уроков</div></div>
+  </div>
+  <button class="bigbtn blue" style="margin-top:14px" onclick="vLesson(${nl.id})">Продолжить · Урок ${nl.id}. ${esc(nl.title)}</button>
+  <div class="sech" style="margin-top:0">Сегодняшний план · 15 минут</div>
+  <div class="tiles">
+    <button class="tile ${due?'due':''}" onclick="vCards()"><span class="em">🃏</span><h3>Карточки</h3><p>Умное повторение</p>${due?`<span class="badge">${due} к повторению</span>`:''}</button>
+    <button class="tile" onclick="vDialogs()"><span class="em">💬</span><h3>Диалоги</h3><p>Ситуации + понимание</p></button>
+    <button class="tile" onclick="startPics()"><span class="em">🖼️</span><h3>Картинки</h3><p>Подпиши, что видишь</p></button>
+    <button class="tile" onclick="startQuiz()"><span class="em">🎯</span><h3>Квиз</h3><p>Выбери перевод</p></button>
+    <button class="tile" onclick="startWrite()"><span class="em">✍️</span><h3>Письмо</h3><p>Напиши по-испански</p></button>
+    <button class="tile" onclick="startSprint()"><span class="em">⚡</span><h3>Спринт</h3><p>60 секунд · рекорд: ${S.best}</p></button>
+  </div>`;
+  toTop();
+}
+
+/* ============================================================
+   КУРС
+============================================================ */
+function vCourse(){
+  setNav('course');
+  let h='<div class="sech" style="margin-top:22px">Курс · A1 → B1 · '+LESSONS.length+' уроков</div>';
+  LVLS.forEach(([lvl,name])=>{
+    const ls=LESSONS.filter(l=>l.lvl===lvl);
+    const done=ls.filter(l=>S.lessonsDone.includes(l.id)).length;
+    const pc=Math.round(done/ls.length*100);
+    const col=lvl==='A1'?'var(--sol)':lvl==='A2'?'var(--terra)':'var(--azul)';
+    h+=`<div class="lvlbar"><div class="top"><h3>${chip(lvl)} ${esc(name)}</h3><span class="pc">${done}/${ls.length}</span></div>
+    <div class="bar"><i style="width:${pc}%;background:${col}"></i></div></div>`;
+    h+=ls.map(l=>{const d=S.lessonsDone.includes(l.id);
+      return `<button class="lrow ${d?'done':''}" onclick="vLesson(${l.id})">
+      <span class="lnum">${d?'✓':l.id}</span>
+      <span><h3>${esc(l.title)}</h3><p>${esc(l.desc)}</p></span><span class="chk">›</span></button>`}).join('');
+  });
+  app.innerHTML=h;toTop();
+}
+function vLesson(id){
+  setNav('course');
+  const l=LESSONS.find(x=>x.id===id);const li=LESSONS.indexOf(l);
+  app.innerHTML=`
+  <button class="back" onclick="vCourse()">‹ Курс</button>
+  <h2 style="font-size:1.2rem;margin-top:8px">${chip(l.lvl)} Урок ${l.id}. ${esc(l.title)}</h2>
+  ${l.theory.map(t=>`<div class="theory"><h3>${esc(t.h)}</h3>${t.p.map(p=>`<p>${esc(p)}</p>`).join('')}${t.ej?`<div class="ej">💬 ${esc(t.ej)}</div>`:''}</div>`).join('')}
+  <div class="theory"><h3>Слова урока · нажимай 🔊</h3>
+    ${l.vocab.map(([es,ru],vi)=>`<div class="vrow">${EM[es]?`<span style="font-size:1.15rem">${EM[es]}</span>`:''}<button class="spk sm" onclick="say(LESSONS[${li}].vocab[${vi}][0])">🔊</button><span class="es">${esc(es)}</span><span class="ru">${esc(ru)}</span></div>`).join('')}
+  </div>
+  <button class="bigbtn" onclick="startLessonMix(${l.id})">Пройти практику урока →</button>`;
+  toTop();
+}
+
+/* ============================================================
+   ПРАКТИКА УРОКА · микс: картинки + подстановки + перевод + письмо
+============================================================ */
+let M=null;
+function picOptions(correct){
+  const others=shuffle(PICALL.filter(w=>w.es!==correct.es&&EM[w.es]!==EM[correct.es]));
+  const uniq=[];const seen={};
+  for(const o of others){if(!seen[o.es]){uniq.push(o);seen[o.es]=1}if(uniq.length===3)break}
+  return shuffle([correct,...uniq]);
+}
+function startLessonMix(id){
+  const l=LESSONS.find(x=>x.id===id);
+  const words=l.vocab.map(([es,ru])=>({es,ru}));
+  let tasks=[];
+  shuffle(words.filter(w=>EM[w.es])).slice(0,4).forEach(w=>tasks.push({t:'pic',w}));
+  (l.gaps||[]).forEach(g=>tasks.push({t:'gap',g}));
+  shuffle(words).slice(0,4).forEach(w=>{
+    const others=shuffle(words.filter(x=>x.es!==w.es)).slice(0,3);
+    tasks.push({t:'tr',w,dir:Math.random()<.5?'es2ru':'ru2es',opts:shuffle([w,...others])});});
+  shuffle(words).slice(0,2).forEach(w=>tasks.push({t:'wr',w}));
+  M={tasks:shuffle(tasks),i:0,ok:0,lesson:id};
+  renderM();
+}
+function startPics(){
+  const learned=PICALL.filter(w=>S.srs[w.es]);
+  const src=learned.length>=8?learned:PICALL;
+  M={tasks:shuffle(src).slice(0,10).map(w=>({t:'pic',w})),i:0,ok:0,lesson:0};
+  renderM();
+}
+function renderM(){
+  setNav('practice');
+  if(M.i>=M.tasks.length)return finM();
+  const task=M.tasks[M.i];
+  const pc=Math.round(M.i/M.tasks.length*100);
+  const prog=`<div class="pbar"><i style="width:${pc}%"></i></div>`;
+  const sub=`<div class="sub">${M.i+1} из ${M.tasks.length}</div>`;
+  if(task.t==='pic'){
+    const opts=picOptions(task.w);M.cur={opts,ans:task.w.es};window._qes=task.w.es;
+    app.innerHTML=prog+`<div class="q"><div class="lbl">Подпиши картинку</div>
+    <div class="bigpic">${EM[task.w.es]}</div>${sub}</div>
+    <div class="opts">${opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o.es)}</button>`).join('')}</div>`;
+  }else if(task.t==='gap'){
+    const sent=task.g[0],ans=task.g[1],wrong=task.g[2];
+    const opts=shuffle([ans].concat(wrong));M.cur={opts,ans};
+    app.innerHTML=prog+`<div class="q"><div class="lbl">Подставь слово в ситуацию</div>
+    <div class="word gap">${esc(sent)}</div>${sub}
+    <div class="ansline" id="mans"></div></div>
+    <div class="opts">${opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o)}</button>`).join('')}</div>`;
+  }else if(task.t==='tr'){
+    const key=task.dir==='ru2es'?'es':'ru';
+    M.cur={opts:task.opts,ans:task.w.es};window._qes=task.w.es;
+    let head=task.dir==='es2ru'
+      ?`<div class="lbl">Что это значит?</div><div class="word">${esc(task.w.es)}</div><button class="spk sm" style="margin:8px auto 0" onclick="say(window._qes)">🔊</button>`
+      :`<div class="lbl">Как по-испански?</div><div class="word">${esc(task.w.ru)}</div>`;
+    app.innerHTML=prog+`<div class="q">${head}${sub}</div>
+    <div class="opts">${task.opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o[key])}</button>`).join('')}</div>`;
+  }else{
+    window._qes=task.w.es;
+    app.innerHTML=prog+`<div class="q"><div class="lbl">Напиши по-испански</div>
+    <div class="word" style="font-size:1.15rem">${esc(task.w.ru)}</div>
+    <div class="sub">акценты можно не ставить</div></div>
+    <input class="tin" id="min" autocomplete="off" autocapitalize="off" placeholder="Пиши здесь..."
+     onkeydown="if(event.key==='Enter')checkMW()">
+    <div class="ansline" id="mans"></div>
+    <button class="bigbtn blue" style="margin-top:16px" onclick="checkMW()">Проверить</button>`;
+    const inp=document.getElementById('min');if(inp)inp.focus();
+  }
+  toTop();
+}
+function pickM(j){
+  const task=M.tasks[M.i];const cur=M.cur;
+  let good,correctIdx;
+  if(task.t==='gap'){good=cur.opts[j]===cur.ans;correctIdx=cur.opts.indexOf(cur.ans);}
+  else{good=cur.opts[j].es===cur.ans;correctIdx=cur.opts.findIndex(o=>o.es===cur.ans);}
+  document.querySelectorAll('.opt').forEach((b,k)=>{b.onclick=null;
+    if(k===correctIdx)b.classList.add('ok');else if(k===j)b.classList.add('bad');});
+  if(good){M.ok++;addXP(5);}
+  if(task.t==='gap'){
+    const full=task.g[0].replace('___',task.g[1]);const ru=task.g[3];
+    const a=document.getElementById('mans');
+    if(a){a.innerHTML=esc(full)+(ru?'<br><span style="font-weight:500;font-size:.8rem;color:var(--mut)">'+esc(ru)+'</span>':'');
+      a.className='ansline '+(good?'ok':'bad');}
+    say(full);
+    setTimeout(()=>{M.i++;renderM()},good?1500:2400);
+  }else{
+    if(!good)srsGrade(cur.ans,0);
+    say(cur.ans);
+    setTimeout(()=>{M.i++;renderM()},900);
+  }
+}
+function checkMW(){
+  const task=M.tasks[M.i];const el=document.getElementById('min');
+  const v=el?el.value:'';if(!v.trim())return;
+  const good=eqES(v,task.w.es);const a=document.getElementById('mans');
+  if(a){a.textContent=good?('✓ ¡Correcto! '+task.w.es):('✗ Правильно: '+task.w.es);
+    a.className='ansline '+(good?'ok':'bad');}
+  say(task.w.es);
+  if(good){M.ok++;addXP(8);}else{srsGrade(task.w.es,0);}
+  const b=document.querySelector('.bigbtn');if(b)b.onclick=null;
+  setTimeout(()=>{M.i++;renderM()},good?900:1900);
+}
+function finM(){
+  const total=M.tasks.length;const pass=M.ok>=Math.ceil(total*0.7);
+  if(M.lesson){
+    const l=LESSONS.find(x=>x.id===M.lesson);
+    l.vocab.forEach(([es])=>{if(!S.srs[es])S.srs[es]={i:0,due:Date.now()}});
+    if(pass&&!S.lessonsDone.includes(M.lesson)){S.lessonsDone.push(M.lesson);addXP(30);}
+    saveS();
+  }
+  app.innerHTML=`<div class="fin">${pass?confetti():''}
+    <div class="em">${M.ok===total?'🏆':pass?'☀️':'💪'}</div>
+    <h2>${M.ok} из ${total}</h2>
+    <p>${M.ok===total?'¡Perfecto! Безупречно.':pass?'¡Muy bien! Слова добавлены в карточки для повторения.':'No pasa nada — глянь слова ещё раз и попробуй снова.'}</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="${M.lesson?('vLesson('+M.lesson+')'):'vPractice()'}">Продолжить</button>
+  </div>`;paintHead();
+}
+
+/* ============================================================
+   КВИЗ / АУДИРОВАНИЕ
+============================================================ */
+let Q=null;
+function buildQuiz(words,n,mode){
+  const qs=shuffle(words).slice(0,Math.min(n,words.length)).map(w=>{
+    const dir=mode==='listen'?'listen':(Math.random()<.5?'es2ru':'ru2es');
+    const others=shuffle(words.filter(x=>x.es!==w.es)).slice(0,3);
+    return {w,dir,opts:shuffle([w].concat(others))};});
+  return {qs,i:0,ok:0,mode};}
+function startQuiz(){Q=buildQuiz(pool(),10,'mix');renderQ();}
+function startListen(){Q=buildQuiz(pool(),10,'listen');renderQ();
+  setTimeout(()=>{if(Q&&Q.qs[0])say(Q.qs[0].w.es)},400);}
+function renderQ(){
+  setNav('practice');
+  if(Q.i>=Q.qs.length)return finQ();
+  const q=Q.qs[Q.i];const pc=Math.round(Q.i/Q.qs.length*100);
+  window._qes=q.w.es;
+  let head;
+  if(q.dir==='listen')head=`<div class="lbl">Послушай и выбери перевод</div>
+    <button class="spk" style="margin:14px auto 4px;width:56px;height:56px;font-size:1.4rem" onclick="say(window._qes)">🔊</button>
+    <button style="font-size:.75rem;font-weight:700;color:var(--azul)" onclick="saySlow(window._qes)">🐢 медленно</button>`;
+  else if(q.dir==='es2ru')head=`<div class="lbl">Что это значит?</div><div class="word">${esc(q.w.es)}</div>
+    <button class="spk sm" style="margin:8px auto 0" onclick="say(window._qes)">🔊</button>`;
+  else head=`<div class="lbl">Как по-испански?</div><div class="word">${esc(q.w.ru)}</div>`;
+  const key=q.dir==='ru2es'?'es':'ru';
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${pc}%"></i></div>
+  <div class="q">${head}<div class="sub">${Q.i+1} из ${Q.qs.length}</div></div>
+  <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${j})">${esc(o[key])}</button>`).join('')}</div>`;
+  toTop();
+}
+function pick(j){
+  const q=Q.qs[Q.i];
+  const good=q.opts[j].es===q.w.es;
+  document.querySelectorAll('.opt').forEach((b,k)=>{b.onclick=null;
+    if(q.opts[k].es===q.w.es)b.classList.add('ok');else if(k===j)b.classList.add('bad');});
+  if(good){Q.ok++;addXP(5);}else{srsGrade(q.w.es,0);}
+  if(q.dir!=='ru2es')say(q.w.es);
+  setTimeout(()=>{Q.i++;renderQ();
+    if(Q.mode==='listen'&&Q.i<Q.qs.length)setTimeout(()=>say(Q.qs[Q.i].w.es),350);},900);
+}
+function finQ(){
+  const perfect=Q.ok===Q.qs.length;const pass=Q.ok>=Q.qs.length*0.7;
+  app.innerHTML=`<div class="fin">${pass?confetti():''}
+    <div class="em">${perfect?'🏆':pass?'☀️':'💪'}</div>
+    <h2>${Q.ok} из ${Q.qs.length}</h2>
+    <p>${perfect?'¡Perfecto! Безупречно.':pass?'¡Muy bien!':'No pasa nada — попробуй ещё раз.'}</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vPractice()">Продолжить</button>
+  </div>`;paintHead();
+}
+
+/* ============================================================
+   ПИСЬМО
+============================================================ */
+let W=null;
+function startWrite(){W={list:shuffle(pool()).slice(0,8),i:0,ok:0};renderW();}
+function renderW(){
+  setNav('practice');
+  if(W.i>=W.list.length){
+    app.innerHTML=`<div class="fin"><div class="em">✍️</div><h2>${W.ok} из ${W.list.length}</h2>
+    <p>Письмо закрепляет слова в 3 раза сильнее чтения.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vPractice()">К практике</button></div>`;return;}
+  const w=W.list[W.i];window._qes=w.es;
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(W.i/W.list.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Напиши по-испански</div><div class="word">${esc(w.ru)}</div>
+  <div class="sub">${W.i+1} из ${W.list.length} · акценты (á ñ) можно не ставить</div></div>
+  <input class="tin" id="win" autocomplete="off" autocapitalize="off" placeholder="Пиши здесь..."
+   onkeydown="if(event.key==='Enter')checkW()">
+  <div class="ansline" id="wans"></div>
+  <button class="bigbtn blue" style="margin-top:16px" onclick="checkW()">Проверить</button>`;
+  const i=document.getElementById('win');if(i)i.focus();toTop();
+}
+function checkW(){
+  const w=W.list[W.i];const el=document.getElementById('win');
+  const v=el?el.value:'';if(!v.trim())return;
+  const good=eqES(v,w.es);const a=document.getElementById('wans');
+  if(a){a.textContent=good?('✓ ¡Correcto! '+w.es):('✗ Правильно: '+w.es);
+  a.className='ansline '+(good?'ok':'bad');}
+  say(w.es);
+  if(good){W.ok++;addXP(8);}else{srsGrade(w.es,0);}
+  const b=document.querySelector('.bigbtn');if(b)b.onclick=null;
+  setTimeout(()=>{W.i++;renderW()},good?900:1800);
+}
+
+/* ============================================================
+   КАРТОЧКИ (SRS)
+============================================================ */
+let C=null;
+function vCards(){
+  setNav('practice');
+  let list=dueCards();
+  if(!learnedCount()){app.innerHTML=`<div class="fin"><div class="em">🃏</div><h2>Карточек пока нет</h2>
+    <p>Пройди практику любого урока — его слова попадут сюда, и сайт сам напомнит, когда их повторить.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vCourse()">К урокам</button></div>`;return;}
+  if(!list.length){app.innerHTML=`<div class="fin"><div class="em">😎</div><h2>Всё повторено</h2>
+    <p>Слов в работе: ${learnedCount()}. Возвращайся позже — или потренируй прямо сейчас.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="forceCards()">Повторить всё равно</button></div>`;return;}
+  C={list:shuffle(list),i:0};renderC();}
+function forceCards(){C={list:shuffle(ALL.filter(w=>S.srs[w.es])).slice(0,15),i:0};renderC();}
+function renderC(){
+  setNav('practice');
+  if(C.i>=C.list.length){app.innerHTML=`<div class="fin"><div class="em">🔥</div><h2>Готово</h2>
+    <p>Повторение по расписанию — то, почему слова остаются навсегда.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vHome()">На главную</button></div>`;addXP(10);return;}
+  const w=C.list[C.i];window._qes=w.es;
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(C.i/C.list.length*100)}%"></i></div>
+  <div class="fcwrap"><div class="fc" onclick="this.classList.toggle('flip')">
+    <div class="face">${EM[w.es]?('<div style="font-size:2.2rem">'+EM[w.es]+'</div>'):''}<div class="word">${esc(w.es)}</div>
+      <button class="spk sm" onclick="event.stopPropagation();say(window._qes)">🔊</button>
+      <div class="hint">нажми, чтобы перевернуть</div></div>
+    <div class="face bk"><div class="word">${esc(w.ru)}</div><div class="hint">${esc(w.es)}</div></div>
+  </div></div>
+  <div class="grade">
+    <button class="g0" onclick="gradeC(0)">Не знаю<small>через 10 мин</small></button>
+    <button class="g1" onclick="gradeC(1)">Сложно<small>скоро</small></button>
+    <button class="g2" onclick="gradeC(2)">Легко<small>не скоро</small></button>
+  </div>
+  <p style="text-align:center;color:var(--mut);font-size:.8rem;margin-top:14px">${C.i+1} из ${C.list.length}</p>`;
+  say(w.es);toTop();
+}
+function gradeC(g){srsGrade(C.list[C.i].es,g);if(g>0)addXP(3);C.i++;renderC();}
+
+/* ============================================================
+   СПРИНТ · 60 секунд
+============================================================ */
+let SP=null;
+function startSprint(){
+  SP={score:0,t:60,words:shuffle(pool())};
+  clearInterval(window._spint);
+  window._spint=setInterval(()=>{if(!SP)return;SP.t--;const e=document.getElementById('sptime');
+    if(e)e.textContent=SP.t;if(SP.t<=0)finSprint();},1000);
+  nextSprint();}
+function nextSprint(){
+  setNav('practice');
+  const w=SP.words[Math.floor(Math.random()*SP.words.length)];
+  const wrong=shuffle(SP.words.filter(x=>x.es!==w.es))[0]||w;
+  const opts=shuffle([w,wrong]);
+  app.innerHTML=`
+  <div class="timer" style="margin-top:20px">⏱ <span id="sptime">${SP.t}</span></div>
+  <div class="q" style="margin-top:14px"><div class="lbl">Спринт · счёт: ${SP.score}</div>
+  <div class="word">${esc(w.ru)}</div></div>
+  <div class="opts">${opts.map(o=>`<button class="opt" onclick="pickSprint(${o.es===w.es?1:0})">${esc(o.es)}</button>`).join('')}</div>`;
+}
+function pickSprint(ok){if(!SP)return;if(ok){SP.score++;}else{SP.score=Math.max(0,SP.score-1);}nextSprint();}
+function finSprint(){
+  clearInterval(window._spint);
+  if(!SP)return;
+  const rec=SP.score>S.best;if(rec){S.best=SP.score;}
+  addXP(SP.score*2);saveS();
+  app.innerHTML=`<div class="fin">${rec?confetti():''}<div class="em">${rec?'🏆':'⚡'}</div>
+  <h2>Счёт: ${SP.score}</h2><p>${rec?'Новый рекорд!':'Рекорд: '+S.best}</p>
+  <button class="bigbtn blue" style="margin-top:20px" onclick="startSprint()">Ещё раз</button>
+  <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;SP=null;
+}
+
+/* ============================================================
+   ДИАЛОГИ
+============================================================ */
+function vDialogs(){
+  setNav('dialogs');
+  app.innerHTML=`<div class="sech" style="margin-top:22px">Диалоги · пойми ситуацию</div>`+
+  DIALOGS.map(d=>{const done=S.dialogsDone.includes(d.id);
+    return `<button class="lrow ${done?'done':''}" onclick="vDialog(${d.id})">
+    <span class="lnum">${done?'✓':d.emoji}</span>
+    <span><h3>${esc(d.title)} ${chip(d.lvl)}</h3><p>${esc(d.scene)}</p></span><span class="chk">›</span></button>`}).join('');
+  toTop();
+}
+let curD=null;
+function vDialog(id){
+  setNav('dialogs');
+  curD=DIALOGS.find(d=>d.id===id);
+  app.innerHTML=`
+  <button class="back" onclick="vDialogs()">‹ Диалоги</button>
+  <h2 style="font-size:1.15rem;margin-top:8px">${curD.emoji} ${esc(curD.title)} ${chip(curD.lvl)}</h2>
+  <div class="scene">📍 ${esc(curD.scene)}<br><span style="color:var(--mut);font-size:.78rem">Слушай реплики (нажимай на облачка), потом ответь на вопросы. Перевод — по кнопке.</span></div>
+  <div class="dctl">
+    <button class="pl" onclick="playAll()">▶ Слушать всё</button>
+    <button onclick="toggleRU()">👁 Перевод</button>
+    <button onclick="gtDialog()">🌐 Google</button>
+  </div>
+  <div class="dlg">${curD.lines.map((l,i)=>`
+    <div class="bub ${l[0]?'b':'a'}" id="bub${i}" onclick="playLine(${i})">
+      <span class="bplay">🔊 ${l[0]?'Ты':'Он'}</span>
+      <div class="es">${esc(l[1])}</div><div class="ru">${esc(l[2])}</div>
+    </div>`).join('')}</div>
+  <button class="bigbtn" onclick="startDQuiz()">Проверить понимание →</button>`;
+  toTop();
+}
+function playLine(i){const l=curD.lines[i];say(l[1],l[0]?1.05:0.85);}
+function gtDialog(){gt(curD.lines.map(l=>l[1]).join(' '))}
+function playAll(){let i=0;const next=()=>{if(!curD||i>=curD.lines.length)return;
+  const l=curD.lines[i];const b=document.getElementById('bub'+i);
+  if(b)b.style.borderColor='var(--sol)';
+  say(l[1],l[0]?1.05:0.85,()=>{if(b)b.style.borderColor='';i++;setTimeout(next,350)});};next();}
+function toggleRU(){document.querySelectorAll('.bub').forEach(b=>b.classList.toggle('showru'))}
+let DQ=null;
+function startDQuiz(){DQ={i:0,ok:0};renderDQ();}
+function renderDQ(){
+  if(DQ.i>=curD.qs.length){
+    const pass=DQ.ok>=2;
+    if(pass&&!S.dialogsDone.includes(curD.id)){S.dialogsDone.push(curD.id);addXP(25);saveS();}
+    app.innerHTML=`<div class="fin">${pass?confetti():''}<div class="em">${pass?'🎉':'👂'}</div>
+    <h2>${DQ.ok} из ${curD.qs.length}</h2>
+    <p>${pass?'Диалог понят! Так и растёт понимание на слух.':'Послушай диалог ещё раз с переводом — и вернись к вопросам.'}</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vDialog(${curD.id})">${pass?'К диалогу':'Слушать ещё раз'}</button>
+    <button class="bigbtn mt0" onclick="vDialogs()">Все диалоги</button></div>`;return;}
+  const q=curD.qs[DQ.i];
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(DQ.i/curD.qs.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Вопрос ${DQ.i+1} из ${curD.qs.length}</div>
+  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div></div>
+  <div class="opts">${q.o.map((o,j)=>`<button class="opt" onclick="pickDQ(${j})">${esc(o)}</button>`).join('')}</div>`;
+  toTop();
+}
+function pickDQ(j){const q=curD.qs[DQ.i];const good=j===q.a;
+  document.querySelectorAll('.opt').forEach((b,k)=>{b.onclick=null;
+    if(k===q.a)b.classList.add('ok');else if(k===j)b.classList.add('bad');});
+  if(good){DQ.ok++;addXP(5);}
+  setTimeout(()=>{DQ.i++;renderDQ()},900);}
+
+/* ============================================================
+   ПРАКТИКА · меню
+============================================================ */
+function vPractice(){
+  setNav('practice');
+  const due=dueCards().length;
+  app.innerHTML=`<div class="sech" style="margin-top:22px">Практика</div>
+  <div class="tiles">
+    <button class="tile ${due?'due':''}" onclick="vCards()"><span class="em">🃏</span><h3>Карточки</h3><p>Интервальные повторения</p>${due?`<span class="badge">${due} ждут</span>`:''}</button>
+    <button class="tile" onclick="startPics()"><span class="em">🖼️</span><h3>Картинки</h3><p>Подпиши, что на картинке</p></button>
+    <button class="tile" onclick="startQuiz()"><span class="em">🎯</span><h3>Квиз</h3><p>Выбери перевод</p></button>
+    <button class="tile" onclick="startWrite()"><span class="em">✍️</span><h3>Письмо</h3><p>Напиши сам</p></button>
+    <button class="tile" onclick="startListen()"><span class="em">🎧</span><h3>Аудирование</h3><p>Пойми на слух</p></button>
+    <button class="tile" onclick="startSprint()"><span class="em">⚡</span><h3>Спринт</h3><p>60 сек · рекорд ${S.best}</p></button>
+    <button class="tile" onclick="startNums()"><span class="em">🔢</span><h3>Числа</h3><p>Пойми число на слух</p></button>
+    <button class="tile" onclick="vTexts()"><span class="em">📖</span><h3>Чтение</h3><p>Тексты по уровням</p></button>
+  </div>
+  <div class="theory" style="margin-top:20px"><h3>Как выйти на средний уровень</h3>
+  <p>1. Урок в день + практика урока — 15 минут.</p>
+  <p>2. Каждый день открывай карточки: сайт сам знает, что пора повторить.</p>
+  <p>3. Диалоги слушай 2 раза: сначала без перевода, потом с ним.</p>
+  <p>4. С уровня A2 включай видео из раздела «Ещё» — 20 минут в день, и понимание на слух взлетит.</p></div>`;
+  toTop();
+}
+
+/* ============================================================
+   ЕЩЁ: словарь, грамматика, видео, настройки
+============================================================ */
+function vMore(){
+  setNav('more');
+  app.innerHTML=`<div class="sech" style="margin-top:22px">Инструменты</div>
+  <div class="tiles">
+    <button class="tile" onclick="vDict()"><span class="em">📚</span><h3>Словарь</h3><p>${ALL.length} слов с поиском и озвучкой</p></button>
+    <button class="tile" onclick="vGrammar()"><span class="em">🧩</span><h3>Грамматика</h3><p>Спряжения в 5 временах</p></button>
+    <button class="tile" onclick="vTexts()"><span class="em">📖</span><h3>Чтение</h3><p>Тексты с озвучкой и вопросами</p></button>
+    <button class="tile" onclick="vVideos()"><span class="em">📺</span><h3>Видео</h3><p>Погружение по уровням</p></button>
+    <button class="tile" onclick="vAch()"><span class="em">🏆</span><h3>Достижения</h3><p>Твои медали и цели</p></button>
+    <button class="tile" onclick="vSettings()"><span class="em">⚙️</span><h3>Настройки</h3><p>Голос, скорость, бэкап</p></button>
+  </div>
+  <div class="theory" style="margin-top:20px"><h3>Метод сайта</h3>
+  <p><b>Курс</b> даёт грамматику и слова маленькими порциями. <b>Карточки</b> не дают забыть — алгоритм показывает слово ровно тогда, когда ты его почти забыл. <b>Диалоги</b> учат понимать живую речь. <b>Видео</b> — погружение, как учат дети.</p>
+  <p>Формула: 15 минут на сайте + 20 минут видео каждый день = уверенный разговорный за несколько месяцев.</p></div>`;
+  toTop();
+}
+function vDict(){
+  setNav('more');
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <input class="srch" id="dq" placeholder="Поиск: по-испански или по-русски..." oninput="filtD()">
+  <div id="dlist"></div>`;
+  filtD();toTop();
+}
+function filtD(){
+  const el=document.getElementById('dq');
+  const q=norm(el?el.value:'');
+  const list=ALL.filter(w=>!q||norm(w.es).includes(q)||norm(w.ru).includes(q)).slice(0,80);
+  const box=document.getElementById('dlist');if(!box)return;
+  box.innerHTML=
+  `<div class="theory" style="margin-top:0">`+(list.length?list.map(w=>{const i=idx(w.es);
+    return `<div class="vrow">${EM[w.es]?('<span style="font-size:1.05rem">'+EM[w.es]+'</span>'):''}<button class="spk sm" onclick="sayI(${i})">🔊</button>
+    <span class="es">${esc(w.es)} <span style="font-weight:400;color:var(--mut);font-size:.7rem">${w.lvl}</span></span>
+    <span class="ru">${esc(w.ru)}</span>
+    <a class="gtl" href="#" onclick="event.preventDefault();gt(ALL[${i}].es)">🌐</a></div>`}).join('')
+  :'<p style="color:var(--mut)">Ничего не найдено. Кнопка 🌐 открывает Google Переводчик.</p>')+`</div>`;
+}
+let GTt=0;
+function vGrammar(){
+  setNav('more');
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Спряжения · ${VERBS.length} главных глаголов</div>
+  <div class="tsel">${TENSES.map((t,i)=>`<button class="${i===GTt?'on':''}" onclick="GTt=${i};vGrammar()">${t}</button>`).join('')}</div>
+  <p style="font-size:.78rem;color:var(--mut);margin:0 2px 12px">${["Настоящее время","Законченное прошлое (вчера, в 2020)","Прошлое-фон и привычки (раньше, обычно)","Будущее время","Условное «бы»","Сослагательное (после quiero que, espero que, ojalá)"][GTt]}</p>
+  ${VERBS.map((v,vi)=>`<div class="theory" style="margin:0 0 12px">
+    <h3 style="display:flex;align-items:center;gap:8px"><button class="spk sm" onclick="say(VERBS[${vi}][0])">🔊</button>${v[0]} <span style="font-family:Onest;font-weight:500;font-size:.78rem;color:var(--mut)">${esc(v[1])}</span></h3>
+    <table class="conj">${v[2+GTt].split(' ').map((f,fi)=>`<tr><td>${PRON[fi]}</td><td>${f}</td></tr>`).join('')}</table>
+  </div>`).join('')}`;
+  toTop();
+}
+function vVideos(){
+  setNav('more');
+  let h=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Видео-погружение · смотри каждый день</div>
+  <div class="scene" style="margin-top:4px">🎬 Метод: смотри видео уровня, где понимаешь 70–80%. Не переводи каждое слово — угадывай по контексту. Так мозг усваивает язык сам.</div>`;
+  VIDEOS.forEach(g=>{
+    h+=`<div class="sech">${chip(g.lvl)} ${g.lvl==='A1'?'Начало':g.lvl==='A2'?'Разгон':'Средний уровень'}</div>`;
+    g.items.forEach(it=>{
+      const src=it.pl?('https://www.youtube.com/embed/videoseries?list='+it.pl):('https://www.youtube.com/embed/'+it.v);
+      const link=it.pl?('https://www.youtube.com/playlist?list='+it.pl):('https://www.youtube.com/watch?v='+it.v);
+      h+=`<div class="vid"><div class="fr"><iframe loading="lazy" src="${src}" title="${esc(it.t)}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="cap"><h3>${esc(it.t)}</h3><p>${esc(it.d)}</p>
+      <p style="margin-top:6px"><a href="${link}" target="_blank" rel="noopener" style="font-weight:700;font-size:.76rem;text-decoration:none">▶ Открыть на YouTube ↗</a></p></div></div>`;});
+  });
+  app.innerHTML=h;toTop();
+}
+function vSettings(){
+  setNav('more');
+  const vopts=VOICES.map(v=>`<option value="${esc(v.name)}" ${S.voice===v.name?'selected':''}>${esc(v.name)} (${v.lang})</option>`).join('');
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Озвучка</div>
+  <div class="setrow"><label>Скорость речи: <span id="rv">${S.rate}</span></label>
+    <input type="range" min="0.5" max="1.2" step="0.05" value="${S.rate}"
+    oninput="S.rate=+this.value;document.getElementById('rv').textContent=S.rate;saveS()"
+    onchange="say('Hola, ¿qué tal?')"></div>
+  <div class="setrow"><label>Голос (испанские голоса устройства)</label>
+    <select onchange="S.voice=this.value;saveS();say('Hola, me llamo tu profesor de español')">
+    <option value="">Автоматически (es-ES)</option>${vopts}</select>
+    <p style="font-size:.72rem;color:var(--mut);margin-top:6px">Совет для iPhone: Настройки → Универсальный доступ → Устный контент → Голоса → Испанский — скачай голос получше (например, Mónica). Он появится в списке выше.</p></div>
+  <div class="sech">Данные</div>
+  <div class="setrow"><label>Бэкап прогресса</label>
+    <textarea id="bk" rows="3" placeholder="Нажми «Экспорт» и скопируй строку. Для переноса на другое устройство вставь её сюда и нажми «Импорт»."></textarea>
+    <div class="dctl" style="margin:10px 0 0"><button class="pl" onclick="document.getElementById('bk').value=JSON.stringify(S)">Экспорт</button>
+    <button onclick="try{S=Object.assign(S,JSON.parse(document.getElementById('bk').value));saveS();paintHead();alert('Импортировано!')}catch(e){alert('Неверный формат')}">Импорт</button></div></div>
+  <div class="setrow"><label>Сброс</label>
+    <button style="color:var(--terra);font-weight:700;font-size:.85rem" onclick="if(confirm('Точно стереть весь прогресс?')){try{localStorage.removeItem('vamos_v2');localStorage.removeItem('vamos_v1')}catch(e){};location.reload()}">Стереть весь прогресс</button></div>
+  <p style="text-align:center;color:var(--mut);font-size:.72rem;margin:6px 0 20px">¡Vamos! v4.0 · прогресс хранится в этом браузере</p>`;
+  toTop();
+}
+
+/* ============================================================
+   ЧТЕНИЕ · тексты по уровням
+============================================================ */
+const TEXTS=[
+{id:1,lvl:"A1",emoji:"🌅",title:"Mi día",intro:"Простой текст в настоящем времени. Читай и слушай каждое предложение.",
+ sents:[["Me llamo Pablo y vivo en Málaga.","Меня зовут Пабло, и я живу в Малаге."],
+ ["Me levanto a las ocho y desayuno café con tostadas.","Я встаю в восемь и завтракаю кофе с тостами."],
+ ["Trabajo en una tienda en el centro.","Я работаю в магазине в центре."],
+ ["A las dos como con mis compañeros.","В два я обедаю с коллегами."],
+ ["Por la tarde voy a la playa o al gimnasio.","Вечером я иду на пляж или в спортзал."],
+ ["Ceno en casa a las nueve y veo una serie.","Ужинаю дома в девять и смотрю сериал."],
+ ["Me acuesto a las once y media.","Ложусь спать в полдвенадцатого."]],
+ qs:[{q:"Где работает Пабло?",o:["В офисе","В магазине в центре","В школе"],a:1},
+ {q:"Что он делает вечером?",o:["Пляж или спортзал","Работает","Готовит"],a:0},
+ {q:"Во сколько он ложится?",o:["В 23:00","В 23:30","В 00:00"],a:1}]},
+{id:2,lvl:"A1",emoji:"🏖️",title:"Mi ciudad",intro:"Описание города у моря — простые предложения с ser, estar и hay.",
+ sents:[["Vivo en una ciudad pequeña en la costa.","Я живу в маленьком городе на побережье."],
+ ["Está cerca de Málaga, en el sur de España.","Он находится недалеко от Малаги, на юге Испании."],
+ ["Hay playas bonitas y un puerto con barcos.","Здесь красивые пляжи и порт с лодками."],
+ ["El clima es fantástico: casi siempre hace sol.","Климат фантастический: почти всегда солнечно."],
+ ["En el centro hay muchos bares de tapas.","В центре много тапас-баров."],
+ ["La gente es muy amable y tranquila.","Люди очень доброжелательные и спокойные."],
+ ["Me encanta vivir aquí.","Мне очень нравится здесь жить."]],
+ qs:[{q:"Где находится город?",o:["На севере Испании","На юге, у Малаги","В центре страны"],a:1},
+ {q:"Какой там климат?",o:["Часто дожди","Почти всегда солнце","Холодно"],a:1},
+ {q:"Что есть в центре?",o:["Много тапас-баров","Большой стадион","Метро"],a:0}]},
+{id:3,lvl:"A2",emoji:"🎒",title:"Un sábado en Granada",intro:"Рассказ о поездке — тут работают indefinido и imperfecto.",
+ sents:[["El sábado pasado fui a Granada con dos amigos.","В прошлую субботу я поехал в Гранаду с двумя друзьями."],
+ ["Salimos temprano porque el viaje dura dos horas.","Мы выехали рано, потому что дорога занимает два часа."],
+ ["Hacía un poco de frío, pero el cielo estaba azul.","Было немного прохладно, но небо было голубое."],
+ ["Primero visitamos la Alhambra: es impresionante.","Сначала мы посетили Альгамбру — она впечатляет."],
+ ["Después comimos en un bar del centro.","Потом мы поели в баре в центре."],
+ ["Pedí jamón, queso y una cerveza.","Я заказал хамон, сыр и пиво."],
+ ["Por la noche volvimos a casa muy cansados pero felices.","Вечером мы вернулись домой очень уставшие, но счастливые."]],
+ qs:[{q:"Куда ездил автор?",o:["В Севилью","В Гранаду","В Кордову"],a:1},
+ {q:"Что посетили сначала?",o:["Собор","Альгамбру","Рынок"],a:1},
+ {q:"Что он заказал в баре?",o:["Паэлью и вино","Хамон, сыр и пиво","Рыбу"],a:1}]},
+{id:4,lvl:"A2",emoji:"💼",title:"Vendo cosas por internet",intro:"Текст про онлайн-бизнес — лексика из твоей жизни.",
+ sents:[["Tengo un pequeño negocio online.","У меня небольшой онлайн-бизнес."],
+ ["Compro artículos de lujo vintage en subastas de Japón.","Я покупаю винтажные люксовые вещи на аукционах Японии."],
+ ["Después los vendo en plataformas europeas.","Потом я продаю их на европейских площадках."],
+ ["Cada semana mando varios paquetes a mis clientes.","Каждую неделю я отправляю несколько посылок клиентам."],
+ ["Lo más importante es la calidad y las fotos buenas.","Самое важное — качество и хорошие фотографии."],
+ ["A veces los clientes negocian el precio.","Иногда клиенты торгуются."],
+ ["Me gusta mi trabajo porque soy libre y gano bien.","Мне нравится моя работа, потому что я свободен и хорошо зарабатываю."]],
+ qs:[{q:"Где автор покупает товар?",o:["На аукционах Японии","В местных магазинах","На фабрике"],a:0},
+ {q:"Что самое важное в бизнесе?",o:["Низкая цена","Качество и хорошие фото","Реклама"],a:1},
+ {q:"Почему ему нравится работа?",o:["Короткий день","Свобода и хороший доход","Коллеги"],a:1}]},
+{id:5,lvl:"B1",emoji:"😴",title:"La siesta: ¿mito o realidad?",intro:"Культурный текст посложнее — со связками и мнениями.",
+ sents:[["Mucha gente cree que todos los españoles duermen la siesta.","Многие думают, что все испанцы спят сиесту."],
+ ["Sin embargo, la realidad es diferente.","Однако реальность другая."],
+ ["La mayoría trabaja por la tarde y no tiene tiempo para dormir.","Большинство работает днём, и времени спать нет."],
+ ["Es verdad que muchas tiendas cierran de dos a cinco.","Правда, что многие магазины закрываются с двух до пяти."],
+ ["Es la hora de más calor, sobre todo en el sur.","Это самое жаркое время, особенно на юге."],
+ ["Los fines de semana, eso sí, una siesta corta es sagrada.","А вот по выходным короткая сиеста — святое."],
+ ["Según los médicos, veinte minutos de siesta son perfectos para la salud.","По мнению врачей, двадцать минут сиесты идеальны для здоровья."]],
+ qs:[{q:"Все ли испанцы спят сиесту?",o:["Да, каждый день","Нет, у большинства нет времени","Только на севере"],a:1},
+ {q:"Когда закрываются многие магазины?",o:["С 12 до 15","С 14 до 17","С 16 до 19"],a:1},
+ {q:"Сколько минут сиесты советуют врачи?",o:["10","20","60"],a:1}]},
+{id:6,lvl:"B1",emoji:"🚀",title:"Aprender un idioma",intro:"Мотивационный текст с subjuntivo и condicional — твой уровень растёт!",
+ sents:[["Aprender un idioma es como construir una casa: se hace ladrillo a ladrillo.","Учить язык — как строить дом: кирпичик за кирпичиком."],
+ ["Es importante que practiques todos los días, aunque sean quince minutos.","Важно, чтобы ты занимался каждый день, пусть даже пятнадцать минут."],
+ ["No esperes hablar perfecto desde el principio: los errores son parte del camino.","Не жди, что заговоришь идеально сразу: ошибки — часть пути."],
+ ["Lo mejor sería combinar estudio, vídeos y conversaciones reales.","Лучше всего было бы совмещать учёбу, видео и реальные разговоры."],
+ ["Cuando entiendas tu primera película sin subtítulos, no te lo vas a creer.","Когда поймёшь свой первый фильм без субтитров — не поверишь сам себе."],
+ ["Ojalá dentro de un año estés hablando con tus vecinos sin miedo.","Дай бог, через год ты будешь говорить с соседями без страха."],
+ ["Total que: constancia, paciencia y un poco de humor. ¡Vamos!","Короче: постоянство, терпение и немного юмора. Вперёд!"]],
+ qs:[{q:"С чем сравнивают изучение языка?",o:["С марафоном","Со строительством дома","С готовкой"],a:1},
+ {q:"Сколько минут в день минимум советуют?",o:["15","30","60"],a:0},
+ {q:"Что нужно для успеха?",o:["Талант","Постоянство, терпение и юмор","Дорогие курсы"],a:1}]}
+];
+let curT=null,TQ=null;
+function vTexts(){
+  setNav('more');
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Чтение · тексты с озвучкой</div>`+
+  TEXTS.map(t=>{const done=S.textsDone.includes(t.id);
+    return `<button class="lrow ${done?'done':''}" onclick="vText(${t.id})">
+    <span class="lnum">${done?'✓':t.emoji}</span>
+    <span><h3>${esc(t.title)} ${chip(t.lvl)}</h3><p>${esc(t.intro)}</p></span><span class="chk">›</span></button>`}).join('');
+  toTop();
+}
+function vText(id){
+  setNav('more');
+  curT=TEXTS.find(t=>t.id===id);
+  app.innerHTML=`
+  <button class="back" onclick="vTexts()">‹ Чтение</button>
+  <h2 style="font-size:1.15rem;margin-top:8px">${curT.emoji} ${esc(curT.title)} ${chip(curT.lvl)}</h2>
+  <div class="scene">📖 ${esc(curT.intro)}<br><span style="color:var(--mut);font-size:.78rem">Нажимай на предложение — оно озвучится. Сначала читай без перевода!</span></div>
+  <div class="dctl">
+    <button class="pl" onclick="playText()">▶ Слушать всё</button>
+    <button onclick="toggleRU()">👁 Перевод</button>
+    <button onclick="gt(curT.sents.map(s=>s[0]).join(' '))">🌐 Google</button>
+  </div>
+  <div class="dlg">${curT.sents.map((s,i)=>`
+    <div class="bub a" style="max-width:100%" id="sent${i}" onclick="say(curT.sents[${i}][0])">
+      <div class="es">${esc(s[0])}</div><div class="ru">${esc(s[1])}</div>
+    </div>`).join('')}</div>
+  <button class="bigbtn" onclick="startTQuiz()">Проверить понимание →</button>`;
+  toTop();
+}
+function playText(){let i=0;const next=()=>{if(!curT||i>=curT.sents.length)return;
+  const b=document.getElementById('sent'+i);if(b)b.style.borderColor='var(--sol)';
+  say(curT.sents[i][0],1,()=>{if(b)b.style.borderColor='';i++;setTimeout(next,400)});};next();}
+function startTQuiz(){TQ={i:0,ok:0};renderTQ();}
+function renderTQ(){
+  if(TQ.i>=curT.qs.length){
+    const pass=TQ.ok>=2;
+    if(pass&&!S.textsDone.includes(curT.id)){S.textsDone.push(curT.id);addXP(20);saveS();}
+    app.innerHTML=`<div class="fin">${pass?confetti():''}<div class="em">${pass?'📚':'👀'}</div>
+    <h2>${TQ.ok} из ${curT.qs.length}</h2>
+    <p>${pass?'Текст понят! Чтение — самый быстрый путь к большому словарю.':'Перечитай текст с переводом и вернись к вопросам.'}</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="vText(${curT.id})">${pass?'К тексту':'Перечитать'}</button>
+    <button class="bigbtn mt0" onclick="vTexts()">Все тексты</button></div>`;return;}
+  const q=curT.qs[TQ.i];
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(TQ.i/curT.qs.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Вопрос ${TQ.i+1} из ${curT.qs.length}</div>
+  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div></div>
+  <div class="opts">${q.o.map((o,j)=>`<button class="opt" onclick="pickTQ(${j})">${esc(o)}</button>`).join('')}</div>`;
+  toTop();
+}
+function pickTQ(j){const q=curT.qs[TQ.i];const good=j===q.a;
+  document.querySelectorAll('.opt').forEach((b,k)=>{b.onclick=null;
+    if(k===q.a)b.classList.add('ok');else if(k===j)b.classList.add('bad');});
+  if(good){TQ.ok++;addXP(5);}
+  setTimeout(()=>{TQ.i++;renderTQ()},900);}
+
+/* ============================================================
+   ТРЕНАЖЁР ЧИСЕЛ · слушай и пиши цифрами
+============================================================ */
+function numToEs(n){
+  const u=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte'];
+  const v=['veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+  const d=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  const c=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+  if(n===100)return 'cien';
+  let out='';const h=Math.floor(n/100),r=n%100;
+  if(h)out=c[h];
+  if(r){const part=r<=20?u[r]:(r<30?v[r-21]:d[Math.floor(r/10)]+(r%10?' y '+u[r%10]:''));
+    out=out?out+' '+part:part;}
+  return out||u[0];
+}
+let NUM=null;
+function startNums(){NUM={i:0,ok:0,total:8};nextNum();}
+function nextNum(){
+  setNav('practice');
+  if(NUM.i>=NUM.total){
+    app.innerHTML=`<div class="fin">${NUM.ok>=6?confetti():''}<div class="em">${NUM.ok>=6?'💯':'🔢'}</div>
+    <h2>${NUM.ok} из ${NUM.total}</h2>
+    <p>Числа на слух — цены, время, телефоны. Тренируй, пока не станет рефлексом.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startNums()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;addXP(NUM.ok*2);return;}
+  const pools=[[0,20],[21,99],[100,999]];
+  const p=pools[Math.min(2,Math.floor(NUM.i/3))];
+  NUM.n=p[0]+Math.floor(Math.random()*(p[1]-p[0]+1));
+  NUM.word=numToEs(NUM.n);
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(NUM.i/NUM.total*100)}%"></i></div>
+  <div class="q"><div class="lbl">Послушай число и напиши цифрами</div>
+  <button class="spk" style="margin:14px auto 4px;width:56px;height:56px;font-size:1.4rem" onclick="say(NUM.word)">🔊</button>
+  <button style="font-size:.75rem;font-weight:700;color:var(--azul)" onclick="saySlow(NUM.word)">🐢 медленно</button>
+  <div class="sub">${NUM.i+1} из ${NUM.total}</div></div>
+  <input class="tin" id="numin" inputmode="numeric" autocomplete="off" placeholder="Например: 42"
+   onkeydown="if(event.key==='Enter')checkNum()">
+  <div class="ansline" id="numans"></div>
+  <button class="bigbtn blue" style="margin-top:16px" onclick="checkNum()">Проверить</button>`;
+  setTimeout(()=>say(NUM.word),300);
+  toTop();
+}
+function checkNum(){
+  const el=document.getElementById('numin');const v=(el?el.value:'').trim();
+  if(!v)return;
+  const good=parseInt(v,10)===NUM.n;
+  const a=document.getElementById('numans');
+  if(a){a.textContent=(good?'✓ ':'✗ ')+NUM.n+' — '+NUM.word;
+    a.className='ansline '+(good?'ok':'bad');}
+  if(good){NUM.ok++;addXP(4);}
+  const b=document.querySelector('.bigbtn');if(b)b.onclick=null;
+  setTimeout(()=>{NUM.i++;nextNum()},good?1000:2200);
+}
+
+/* ============================================================
+   ДОСТИЖЕНИЯ
+============================================================ */
+function vAch(){
+  setNav('more');
+  const a=[
+  ['🌱','Primer paso','Пройди первый урок',S.lessonsDone.length>=1],
+  ['📗','Пятёрка','5 уроков пройдено',S.lessonsDone.length>=5],
+  ['📘','Половина пути','24 урока пройдено',S.lessonsDone.length>=24],
+  ['🎓','Весь курс','Все '+LESSONS.length+' уроков!',S.lessonsDone.length>=LESSONS.length],
+  ['👂','Слушатель','Пройди первый диалог',S.dialogsDone.length>=1],
+  ['💬','Собеседник','Все '+DIALOGS.length+' диалогов',S.dialogsDone.length>=DIALOGS.length],
+  ['📖','Читатель','Пройди первый текст',S.textsDone.length>=1],
+  ['📚','Библиотека','Все '+TEXTS.length+' текстов',S.textsDone.length>=TEXTS.length],
+  ['🔥','Неделя огня','Стрик 7 дней',S.streak>=7],
+  ['🌋','Месяц огня','Стрик 30 дней',S.streak>=30],
+  ['☀️','Sol','500 XP',S.xp>=500],
+  ['🌞','Supersol','2000 XP',S.xp>=2000],
+  ['🧠','Словарный запас','100 слов в карточках',learnedCount()>=100],
+  ['🏛️','El maestro','300 слов в карточках',learnedCount()>=300],
+  ['⚡','Спринтер','Рекорд спринта 15+',S.best>=15],
+  ['🇪🇸','Casi español','Рекорд спринта 25+',S.best>=25]];
+  const done=a.filter(x=>x[3]).length;
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Достижения · ${done} из ${a.length}</div>
+  <div class="tiles">`+a.map(x=>`
+    <div class="tile" style="${x[3]?'':'opacity:.45'}"><span class="em">${x[3]?x[0]:'🔒'}</span>
+    <h3>${x[1]}</h3><p>${x[2]}</p></div>`).join('')+`</div>`;
+  toTop();
+}
+
+/* ============================================================
+   НАВИГАЦИЯ + СТАРТ
+============================================================ */
+document.querySelectorAll('.nv button').forEach(b=>b.onclick=()=>{
+  ({home:vHome,course:vCourse,dialogs:vDialogs,practice:vPractice,more:vMore})[b.dataset.v]();
+});
+try{paintHead();vHome();}
+catch(e){app.innerHTML='<div class="fin"><h2>Ошибка загрузки</h2><p>'+String(e&&e.message||e)+'</p></div>';}
+</script>
+</body>
+</html>
