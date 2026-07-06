@@ -211,6 +211,37 @@ table.conj td:not(:first-child){font-weight:600}
 .setrow select,.setrow textarea{width:100%;padding:9px;border:2px solid var(--ink);border-radius:10px;font-family:inherit;font-size:.85rem;background:var(--paper);color:var(--ink)}
 .hide{display:none!important}
 .timer{font-family:'Unbounded';font-weight:900;font-size:1.6rem;text-align:center;color:var(--terra)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom));
+  background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-size:.82rem;font-weight:600;
+  z-index:99;white-space:nowrap;animation:tIn .25s ease,tOut .3s ease 2.2s forwards;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+@keyframes tIn{from{opacity:0;transform:translate(-50%,10px)}}
+@keyframes tOut{to{opacity:0}}
+.hintb{display:inline-flex;align-items:center;gap:5px;margin:2px 4px;padding:6px 12px;
+  border:2px dashed var(--ink);border-radius:99px;font-size:.73rem;font-weight:700;background:var(--paper)}
+.hintb:active{transform:scale(.95)}
+.lrow.lock{opacity:.5}
+.mtch{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mopt{display:block;width:100%;margin-bottom:10px;background:var(--card);border:2px solid var(--ink);
+  border-radius:13px;padding:12px 6px;font-size:.83rem;font-weight:600;box-shadow:var(--shadow);min-height:52px}
+.mopt.sel{border-color:var(--azul);background:#E7EDFC}
+.mopt.ok{background:var(--verde);color:#fff;pointer-events:none}
+.mopt.bad{background:var(--terra);color:#fff;animation:shake .3s}
+.memg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mcard{height:80px;border:2px solid var(--ink);border-radius:14px;background:var(--azul);color:#fff;
+  font-size:1.5rem;box-shadow:var(--shadow);transition:transform .15s}
+.mcard:active{transform:scale(.95)}
+.mcard.up{background:var(--card);color:var(--ink);font-size:.76rem;font-weight:700;padding:4px}
+.mcard.up.em2{font-size:2rem}
+.mcard.ok{background:#DDF2E4;pointer-events:none}
+.slots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:4px 0 14px}
+.slot{width:34px;height:42px;border:2px solid var(--ink);border-radius:10px;background:var(--card);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;box-shadow:var(--shadow)}
+.okflash .slot{background:var(--verde);color:#fff}
+.badflash .slot{background:var(--terra);color:#fff;animation:shake .3s}
+.lets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.lbtn{width:44px;height:48px;border:2px solid var(--ink);border-radius:12px;background:var(--sol);
+  font-weight:800;font-size:1.05rem;box-shadow:0 3px 0 var(--ink)}
+.lbtn:active{transform:translateY(3px);box-shadow:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -221,6 +252,7 @@ table.conj td:not(:first-child){font-weight:600}
   <div class="hstats">
     <div class="pill" id="pillStreak">🔥 <span id="hStreak">0</span></div>
     <div class="pill" id="pillXP">☀️ <span id="hXP">0</span></div>
+    <div class="pill">🎖 <span id="hLvl">1</span></div>
   </div>
 </div></header>
 
@@ -294,7 +326,27 @@ const EM={
 "se vende":"💲","se alquila":"🔓","se prohíbe":"⛔",
 "acabo de llegar":"🛬","esta mañana":"🌄","dentro de poco":"⏳",
 "el tiempo libre":"🏝️","jugar al fútbol":"⚽","nadar":"🏊","correr":"🏃","el gimnasio":"🏋️","montar en bici":"🚴","tocar la guitarra":"🎸","el partido":"🏟️","ganar":"🥇","el equipo":"👕",
-"de pronto":"⚡","por cierto":"💡","¡qué casualidad!":"😲"
+"de pronto":"⚡","por cierto":"💡","¡qué casualidad!":"😲",
+"adiós":"🫱","buenas tardes":"🌇","perdón":"🙇","sí":"✅","no":"❌","hasta luego":"🫡",
+"la comida":"🥘","muy bien":"💪","quiero":"🙏","tengo hambre":"🍽️",
+"cuatro":"4️⃣","seis":"6️⃣","siete":"7️⃣","ocho":"8️⃣","nueve":"9️⃣","veinte":"🔢","treinta":"🧮",
+"la garganta":"🎤","la espalda":"🦴","el grado":"🌡️",
+"febrero":"💘","marzo":"🌱","abril":"🌦️","mayo":"🌺","octubre":"🎃","noviembre":"🍁",
+"el hijo":"🧒","la hija":"👧","la amiga":"👭","el viaje":"🗺️",
+"la recepción":"🛎️","la entrada":"🎟️","la transferencia":"💸","certificado":"📜",
+"el remitente":"📤","el destinatario":"📥","la firma":"🖊️","el trámite":"📑",
+"la red":"🕸️","en línea":"🟢","subir":"⬆️","descargar":"⬇️","el enlace":"⛓️","la contraseña":"🔐","el correo":"✉️","el mensaje":"💬","la foto":"📸","compartir":"📲","la aplicación":"📱",
+"el efectivo":"💵","la propina":"🪙","ahorrar":"🐷","gastar":"🛒","gratis":"🆓","el recibo":"🧾","la oferta":"📣",
+"alto":"🦒","bajo":"🐜","delgado":"🥢","fuerte":"💪","rubio":"👱","la barba":"🧔","las gafas":"👓","el pelo":"💇","guapo":"😍",
+"majo":"🥰","tacaño":"🤏","generoso":"🎁","vago":"🦥","tímido":"😳","hablador":"🗣️","gracioso":"🤣","serio":"🧐",
+"cocinar":"👨‍🍳","cortar":"🔪","freír":"🍳","hervir":"♨️","mezclar":"🥄","la sartén":"🍳","la olla":"🍲","el horno":"🎛️","la cuchara":"🥄","el cuchillo":"🔪","el ingrediente":"🧂",
+"el barrio":"🏘️","el ruido":"📢","la basura":"🗑️","reciclar":"♻️","el vidrio":"🍾","el plástico":"🧴","el parque":"🌳","la fuente":"⛲","el ayuntamiento":"🏛️",
+"la película":"🎬","la peli":"🍿","el estreno":"🌟","el actor":"🎭","la pantalla":"🖥️","la canción":"🎵","el concierto":"🎤","bailar":"🕺","cantar":"🎙️","el grupo":"🎸",
+"por si acaso":"🌂","¿y si...?":"🤔","depende de ti":"🫵",
+"está abierto":"🔓","está cerrado":"🔒","está roto":"🩹","está ocupado":"🚧","está libre":"🕊️","está encendido":"💡","está apagado":"🌑","está prohibido":"⛔","está reservado":"📛",
+"convencer":"🧲","discutir":"🗯️","el argumento":"⚖️","ceder":"🤲",
+"el plan":"🗒️","soñar con":"💭","el objetivo":"🎯","la meta":"🏁","lograr":"🏅","a largo plazo":"📈","montar un negocio":"🧑‍💼","mi propia marca":"👑","arriesgarse":"🎢",
+"poco a poco":"🐌","mejorar":"📶","el nivel":"🪜","dominar":"🥋","con fluidez":"🌊","el esfuerzo":"🏋️","rendirse":"🏳️","¡lo has conseguido!":"🎉"
 };
 
 /* ============================================================
@@ -606,7 +658,81 @@ const LESSONS=[
  vocab:[["resulta que...","оказывается, что..."],["total que...","короче говоря..."],["de pronto","вдруг / внезапно"],["al final","в итоге / в конце"],["por cierto","кстати"],["¿sabes qué?","знаешь что?"],["no te lo vas a creer","ты не поверишь"],["en resumen","подводя итог"],["cambiando de tema","меняя тему"],["hablando de...","кстати о..."],["lo importante es que...","главное, что..."],["menos mal","слава богу / хорошо что"],["¡qué casualidad!","какое совпадение!"],["al parecer","судя по всему"]],
  gaps:[["¿Sabes qué? ___ que el reloj era original.","Resulta",["Total","Final"],"Знаешь что? Оказывается, часы были оригинальные."],
  ["___ mal que llegué a tiempo.","Menos",["Más","Muy"],"Хорошо, что я успел вовремя."],
- ["___ cierto, ¿viste mi mensaje?","Por",["Para","De"],"Кстати, ты видел моё сообщение?"]]}
+ ["___ cierto, ¿viste mi mensaje?","Por",["Para","De"],"Кстати, ты видел моё сообщение?"]]},
+{id:49,lvl:"B1",title:"Интернет и соцсети",desc:"Онлайн-жизнь: скачать, загрузить, ссылка",
+ theory:[{h:"Цифровой испанский",p:["Subir una foto — загрузить фото. Descargar — скачать. El enlace — ссылка. En línea — онлайн. La cuenta — аккаунт. Seguir a alguien — подписаться на кого-то."],ej:"Te mando el enlace por WhatsApp. Está en línea ahora."}],
+ vocab:[["la red","сеть / интернет"],["en línea","онлайн"],["subir","загружать / подниматься"],["descargar","скачивать"],["el enlace","ссылка"],["la contraseña","пароль"],["el correo","почта / e-mail"],["el mensaje","сообщение"],["la foto","фото"],["compartir","делиться"],["seguir a alguien","подписаться на кого-то"],["el seguidor","подписчик"],["buscar en Google","гуглить"],["la aplicación","приложение"]],
+ gaps:[["Te mando el ___ del anuncio.","enlace",["correo","seguidor"],"Скину тебе ссылку на объявление."],
+ ["¿Puedes ___ la foto al chat?","subir",["bajar","seguir"],"Можешь загрузить фото в чат?"],
+ ["No recuerdo mi ___.","contraseña",["red","aplicación"],"Не помню свой пароль."]]},
+{id:50,lvl:"B1",title:"Деньги в деталях",desc:"Наличка, сдача, чаевые, копить и тратить",
+ theory:[{h:"Про деньги как местный",p:["El cambio — сдача. La propina — чаевые. Cobrar — брать плату / получать зарплату. Gastar — тратить. Ahorrar — копить. ¿Me cobra, por favor? — посчитайте меня (в баре)."],ej:"¿Me cobra, por favor? — Son diez euros. — Quédese el cambio."}],
+ vocab:[["el efectivo","наличные"],["el cambio","сдача / обмен"],["la propina","чаевые"],["cobrar","брать плату"],["¿me cobra?","посчитайте меня"],["gastar","тратить"],["ahorrar","копить / экономить"],["el gasto","расход"],["gratis","бесплатно"],["la oferta","акция / предложение"],["quédese el cambio","сдачи не надо"],["el recibo","чек"],["deber","быть должным"],["¿cuánto le debo?","сколько я вам должен?"]],
+ gaps:[["Quédese el ___, gracias.","cambio",["recibo","gasto"],"Сдачи не надо, спасибо."],
+ ["Quiero ___ dinero para un coche.","ahorrar",["gastar","cobrar"],"Хочу накопить на машину."],
+ ["¿Cuánto le ___? — Nada, es gratis.","debo",["cobro","gasto"],"Сколько я должен? — Нисколько, это бесплатно."]]},
+{id:51,lvl:"B1",title:"Внешность",desc:"Описываем людей: высокий, светлый, с бородой",
+ theory:[{h:"Как выглядит человек",p:["Ser + постоянное: es alto (высокий), bajo, moreno (тёмненький), rubio (светлый). Tener: tiene barba (с бородой), tiene los ojos azules. Llevar: lleva gafas (носит очки)."],ej:"Mi socio es alto, moreno y lleva gafas."}],
+ vocab:[["alto","высокий"],["bajo","низкий"],["delgado","худой"],["fuerte","сильный / крепкий"],["moreno","тёмноволосый / смуглый"],["rubio","светловолосый"],["el pelo","волосы"],["el pelo corto","короткие волосы"],["la barba","борода"],["las gafas","очки"],["lleva gafas","носит очки"],["los ojos azules","голубые глаза"],["guapo","красивый"],["se parece a","похож на"]],
+ gaps:[["Mi hermano es ___ y moreno.","alto",["alta","altos"],"Мой брат высокий и тёмноволосый."],
+ ["Ella ___ gafas y tiene el pelo corto.","lleva",["llevo","llevas"],"Она носит очки, и у неё короткие волосы."],
+ ["Te ___ mucho a tu padre.","pareces",["parece","parezco"],"Ты очень похож на своего отца."]]},
+{id:52,lvl:"B1",title:"Характер тонко",desc:"Majo, tacaño, vago — как испанцы описывают людей",
+ theory:[{h:"Испанские словечки о людях",p:["Majo — милый/приятный (супер-частое в Испании!). Tacaño — жадный. Vago — ленивый. Terco — упрямый. Educado — воспитанный. Un cielo — золото, а не человек."],ej:"Tu vecino es muy majo, pero un poco vago."}],
+ vocab:[["majo","милый / славный (исп.)"],["tacaño","жадный"],["generoso","щедрый"],["vago","ленивый"],["terco","упрямый"],["educado","воспитанный"],["maleducado","невоспитанный"],["sincero","искренний"],["tímido","стеснительный"],["hablador","болтливый"],["gracioso","смешной / остроумный"],["serio","серьёзный"],["de confianza","надёжный"],["es un cielo","он золото (о человеке)"]],
+ gaps:[["Tu amiga es muy ___, me cae genial.","maja",["majo","majos"],"Твоя подруга очень славная, она мне очень нравится."],
+ ["No seas ___, deja propina.","tacaño",["generoso","educado"],"Не жадничай, оставь чаевые."],
+ ["Es muy ___, nunca quiere trabajar.","vago",["serio","sincero"],"Он очень ленивый, никогда не хочет работать."]]},
+{id:53,lvl:"B1",title:"Кухня и готовка",desc:"Режем, жарим, смешиваем — рецепты по-испански",
+ theory:[{h:"Глаголы кухни",p:["Cortar — резать. Freír — жарить. Hervir — варить/кипятить. Mezclar — смешивать. Añadir — добавлять. A fuego lento — на медленном огне."],ej:"Corta la cebolla, fríela a fuego lento y añade el tomate."}],
+ vocab:[["cocinar","готовить"],["cortar","резать"],["freír","жарить"],["hervir","варить / кипятить"],["mezclar","смешивать"],["añadir","добавлять"],["probar la comida","пробовать еду"],["la sartén","сковорода"],["la olla","кастрюля"],["el horno","духовка"],["a fuego lento","на медленном огне"],["la cuchara","ложка"],["el cuchillo","нож"],["el ingrediente","ингредиент"]],
+ gaps:[["___ la cebolla en trozos pequeños.","Corta",["Bebe","Sube"],"Порежь лук на маленькие кусочки."],
+ ["Cocina el arroz a fuego ___.","lento",["rápido","frío"],"Готовь рис на медленном огне."],
+ ["___ todos los ingredientes en la olla.","Mezcla",["Corta","Paga"],"Смешай все ингредиенты в кастрюле."]]},
+{id:54,lvl:"B1",title:"Город и экология",desc:"Район, шум, мусор, переработка",
+ theory:[{h:"Жизнь района",p:["El barrio — район. El ruido — шум. La basura — мусор. Reciclar — перерабатывать (в Испании контейнеры по цветам!). El medio ambiente — окружающая среда."],ej:"En mi barrio se recicla todo: vidrio, papel y plástico."}],
+ vocab:[["el barrio","район"],["el ruido","шум"],["ruidoso","шумный"],["tranquilo de noche","тихий ночью"],["la basura","мусор"],["tirar la basura","выносить мусор"],["reciclar","перерабатывать"],["el vidrio","стекло"],["el plástico","пластик"],["el medio ambiente","окружающая среда"],["contaminar","загрязнять"],["el parque","парк"],["la fuente","фонтан / источник"],["el ayuntamiento","мэрия"]],
+ gaps:[["Hay que ___ el vidrio y el papel.","reciclar",["contaminar","tirar"],"Нужно перерабатывать стекло и бумагу."],
+ ["Mi barrio es muy ___ de noche.","tranquilo",["ruido","basura"],"Мой район очень тихий ночью."],
+ ["¿Puedes tirar la ___, por favor?","basura",["fuente","calle"],"Можешь вынести мусор, пожалуйста?"]]},
+{id:55,lvl:"B1",title:"Кино и музыка",desc:"Фильмы, песни, концерты — о чём говорят все",
+ theory:[{h:"Развлечения",p:["La película — фильм (разг. la peli). La canción — песня. El estreno — премьера. Tocar en directo — играть вживую. ¿De qué va? — о чём (фильм)?"],ej:"¿Viste la peli nueva? — Sí, ¿de qué va la siguiente?"}],
+ vocab:[["la película","фильм"],["la peli","фильм (разг.)"],["¿de qué va?","о чём (фильм/книга)?"],["el estreno","премьера"],["el actor","актёр"],["la pantalla","экран"],["la canción","песня"],["el concierto","концерт"],["en directo","вживую / в прямом эфире"],["el grupo","группа (муз.)"],["la letra","текст песни"],["bailar","танцевать"],["cantar","петь"],["el ritmo","ритм"]],
+ gaps:[["¿De qué ___ la película?","va",["es","hace"],"О чём фильм?"],
+ ["Me encanta esta ___, ¡súbela!","canción",["pantalla","letra"],"Обожаю эту песню — сделай погромче!"],
+ ["El grupo toca en ___ este sábado.","directo",["pantalla","ritmo"],"Группа играет вживую в эту субботу."]]},
+{id:56,lvl:"B1",title:"Если: условия",desc:"Si tengo... / Si fuera... — реальное и мечты",
+ theory:[{h:"Реальное условие",p:["Si + настоящее: Si tengo tiempo, voy contigo — если будет время, пойду с тобой."]},
+ {h:"Мечты и «бы»",p:["Si + imperfecto de subjuntivo + condicional: Si fuera rico, compraría una casa — если бы я был богат, купил бы дом. Si pudiera — если бы мог. Запомни как формулы."],ej:"Si pudiera, viviría aquí para siempre."}],
+ vocab:[["si tengo tiempo","если у меня будет время"],["si puedes","если можешь"],["si quieres","если хочешь"],["si fuera rico","если бы я был богат"],["si pudiera","если бы я мог"],["compraría una casa","я бы купил дом"],["¿y si...?","а что если...?"],["por si acaso","на всякий случай"],["en ese caso","в таком случае"],["depende de ti","зависит от тебя"],["si no","если нет / иначе"],["siempre que","при условии, что"],["como si","как будто"],["a menos que","если только не"]],
+ gaps:[["___ tengo tiempo, voy contigo.","Si",["Que","Como"],"Если будет время — пойду с тобой."],
+ ["Si ___ rico, compraría un barco.","fuera",["soy","era"],"Если бы я был богат, купил бы лодку."],
+ ["Llévate el paraguas por si ___.","acaso",["caso","cosa"],"Возьми зонт на всякий случай."]]},
+{id:57,lvl:"B1",title:"Открыто / закрыто / готово",desc:"Está + причастие: состояние вещей",
+ theory:[{h:"Состояние результатa",p:["Estar + причастие = состояние: está abierto (открыто), cerrado (закрыто), roto (сломано), ocupado (занято), hecho (сделано). ¿Ya está? — Готово? Ya está — всё, готово."],ej:"El baño está ocupado. La tienda está cerrada."}],
+ vocab:[["está abierto","открыто"],["está cerrado","закрыто"],["está roto","сломано"],["está ocupado","занято"],["está libre","свободно"],["está hecho","сделано / готово"],["está prohibido","запрещено"],["está encendido","включено"],["está apagado","выключено"],["ya está","готово / всё"],["todavía no está","ещё не готово"],["está reservado","забронировано"],["recién pintado","окрашено (свежее)"],["fuera de servicio","не работает (табличка)"]],
+ gaps:[["El baño está ___, espera un momento.","ocupado",["libre","apagado"],"Туалет занят, подожди минутку."],
+ ["La tienda está ___ los domingos.","cerrada",["abierta","rota"],"Магазин закрыт по воскресеньям."],
+ ["¿Está ___ esta mesa? — Sí, sentaos.","libre",["ocupada","hecha"],"Этот стол свободен? — Да, садитесь."]]},
+{id:58,lvl:"B1",title:"Спор и убеждение",desc:"За, против, точка зрения — спорим красиво",
+ theory:[{h:"Цивилизованный спор",p:["Estoy a favor / en contra — я за / против. Desde mi punto de vista — с моей точки зрения. Tienes parte de razón — ты отчасти прав. No estoy tan seguro — я не так уверен."],ej:"Tienes parte de razón, pero desde mi punto de vista es demasiado caro."}],
+ vocab:[["estoy a favor","я за"],["estoy en contra","я против"],["el punto de vista","точка зрения"],["desde mi punto de vista","с моей точки зрения"],["tienes parte de razón","ты отчасти прав"],["no estoy tan seguro","я не так уверен"],["convencer","убеждать"],["me has convencido","ты меня убедил"],["discutir","спорить / обсуждать"],["el argumento","аргумент"],["estar de acuerdo en","сойтись в том, что"],["llegar a un acuerdo","прийти к соглашению"],["ceder","уступать"],["tener en cuenta","учитывать"]],
+ gaps:[["Vale, me has ___. Lo compramos.","convencido",["discutido","cedido"],"Ладно, ты меня убедил. Покупаем."],
+ ["Estoy ___ contra de esa idea.","en",["a","de"],"Я против этой идеи."],
+ ["Hay que tener en ___ el precio del envío.","cuenta",["contra","caso"],"Нужно учитывать стоимость доставки."]]},
+{id:59,lvl:"B1",title:"Планы и мечты",desc:"Цели, бизнес, долгий срок — говорим о будущем всерьёз",
+ theory:[{h:"Про цели",p:["Tener pensado + inf — планировать: Tengo pensado abrir una tienda. Soñar con — мечтать о. A largo plazo — в долгосрочной перспективе. Lograr — достигать. Montar un negocio — открыть бизнес."],ej:"Sueño con montar mi propia marca. A largo plazo, lo lograré."}],
+ vocab:[["el plan","план"],["tengo pensado","я планирую"],["soñar con","мечтать о"],["sueño con...","я мечтаю о..."],["el objetivo","цель"],["la meta","цель / финиш"],["lograr","достигать"],["lo lograré","я этого добьюсь"],["a largo plazo","в долгосрочной перспективе"],["a corto plazo","в краткосрочной перспективе"],["montar un negocio","открыть бизнес"],["mi propia marca","мой собственный бренд"],["arriesgarse","рисковать"],["merece la pena","оно того стоит"]],
+ gaps:[["Tengo ___ abrir una tienda online.","pensado",["soñado","logrado"],"Я планирую открыть онлайн-магазин."],
+ ["___ con vivir junto al mar.","Sueño",["Logro","Monto"],"Мечтаю жить у моря."],
+ ["El riesgo ___ la pena.","merece",["mete","monta"],"Риск того стоит."]]},
+{id:60,lvl:"B1",title:"Финал: путь дальше",desc:"Как расти после B1 — и лексика прогресса",
+ theory:[{h:"Ты дошёл!",p:["Poco a poco — шаг за шагом. Cuanto más..., más... — чем больше..., тем больше: Cuanto más escuchas, más entiendes. Dominar un idioma — владеть языком в совершенстве."]},
+ {h:"Формула дальше",p:["1) Видео каждый день без субтитров. 2) Говори с людьми — испанцы обожают, когда учат их язык. 3) Ошибайся смело: el que tiene boca se equivoca — у кого есть рот, тот ошибается."],ej:"Poco a poco y sin miedo. ¡Ya hablas español!"}],
+ vocab:[["poco a poco","шаг за шагом"],["mejorar","улучшать(ся)"],["el nivel","уровень"],["subir de nivel","повысить уровень"],["dominar","владеть в совершенстве"],["con fluidez","бегло / свободно"],["el esfuerzo","усилие"],["esforzarse","стараться"],["rendirse","сдаваться"],["no te rindas","не сдавайся"],["cuanto más..., más...","чем больше..., тем больше..."],["equivocarse","ошибаться"],["no pasa nada por equivocarse","ошибаться не страшно"],["¡lo has conseguido!","у тебя получилось!"]],
+ gaps:[["___ a poco se llega lejos.","Poco",["Mucho","Todo"],"Шаг за шагом уходишь далеко."],
+ ["No te ___, ya casi hablas con fluidez.","rindas",["riendas","ruedas"],"Не сдавайся — ты уже почти говоришь бегло."],
+ ["Cuanto más escuchas, ___ entiendes.","más",["menos","tanto"],"Чем больше слушаешь, тем больше понимаешь."]]}
 ];
 const ALL=LESSONS.flatMap(l=>l.vocab.map(([es,ru])=>({es,ru,lesson:l.id,lvl:l.lvl})));
 const LVLS=[["A1","С нуля · выживание"],["A2","Базовый · прошлое и будущее"],["B1","Средний · свободное общение"]];
@@ -760,11 +886,13 @@ let mem={};
 function loadS(){try{const raw=localStorage.getItem(KEY)||localStorage.getItem('vamos_v1');
   return JSON.parse(raw)||{}}catch(e){return mem}}
 function saveS(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){mem=S}}
-let S=Object.assign({xp:0,streak:0,lastDay:'',lessonsDone:[],dialogsDone:[],textsDone:[],srs:{},best:0,rate:0.9,voice:''},loadS());
+let S=Object.assign({xp:0,streak:0,lastDay:'',lessonsDone:[],dialogsDone:[],textsDone:[],srs:{},best:0,rate:0.9,voice:'',g_match:0,g_mem:0,g_ana:0,g_tf:0,g_sb:0,g_ah:0,abc:0,day:{d:'',n:0}},loadS());
 if(typeof S.best!=='number')S.best=0;
 if(typeof S.rate!=='number')S.rate=0.9;
 if(!Array.isArray(S.dialogsDone))S.dialogsDone=[];
 if(!Array.isArray(S.textsDone))S.textsDone=[];
+if(!S.day||typeof S.day.n!=='number')S.day={d:'',n:0};
+['g_match','g_mem','g_ana','g_tf','g_sb','g_ah','abc'].forEach(k=>{if(typeof S[k]!=='number')S[k]=0});
 if(!Array.isArray(S.lessonsDone))S.lessonsDone=[];
 if(!S.srs||typeof S.srs!=='object')S.srs={};
 
@@ -772,12 +900,14 @@ function today(){return new Date().toISOString().slice(0,10)}
 function touchStreak(){const t=today();if(S.lastDay===t)return;
   const y=new Date(Date.now()-864e5).toISOString().slice(0,10);
   S.streak=(S.lastDay===y)?S.streak+1:1;S.lastDay=t;}
-function addXP(n){S.xp+=n;touchStreak();saveS();paintHead();
+function nivel(){return Math.floor(Math.sqrt(S.xp/40))+1}
+function goalN(){return S.day.d===today()?S.day.n:0}
+function addXP(n){S.xp+=n;const t=today();if(S.day.d!==t)S.day={d:t,n:0};S.day.n+=n;touchStreak();saveS();paintHead();
   const p=document.getElementById('pillXP');
   if(p){p.classList.remove('bump');void p.offsetWidth;p.classList.add('bump');}}
 function paintHead(){
-  const a=document.getElementById('hStreak'),b=document.getElementById('hXP');
-  if(a)a.textContent=S.streak;if(b)b.textContent=S.xp;}
+  const a=document.getElementById('hStreak'),b=document.getElementById('hXP'),c=document.getElementById('hLvl');
+  if(a)a.textContent=S.streak;if(b)b.textContent=S.xp;if(c)c.textContent=nivel();}
 
 /* интервальные повторения */
 function srsGrade(es,g){const now=Date.now();let c=S.srs[es]||{i:0,due:now};
@@ -846,15 +976,17 @@ function vHome(){
     <div class="pcard"><div class="n">${learnedCount()}</div><div class="l">слов в работе</div></div>
     <div class="pcard"><div class="n">${S.lessonsDone.length}/${LESSONS.length}</div><div class="l">уроков</div></div>
   </div>
+  <div class="lvlbar" style="margin-top:12px;margin-bottom:0"><div class="top"><h3 style="font-size:.85rem">🎯 Цель дня</h3><span class="pc">${goalN()}/50 XP ${goalN()>=50?'· ¡Meta cumplida! ✅':''}</span></div>
+  <div class="bar"><i style="width:${Math.min(100,goalN()*2)}%;background:${goalN()>=50?'var(--verde)':'var(--sol)'}"></i></div></div>
   <button class="bigbtn blue" style="margin-top:14px" onclick="vLesson(${nl.id})">Продолжить · Урок ${nl.id}. ${esc(nl.title)}</button>
   <div class="sech" style="margin-top:0">Сегодняшний план · 15 минут</div>
   <div class="tiles">
     <button class="tile ${due?'due':''}" onclick="vCards()"><span class="em">🃏</span><h3>Карточки</h3><p>Умное повторение</p>${due?`<span class="badge">${due} к повторению</span>`:''}</button>
     <button class="tile" onclick="vDialogs()"><span class="em">💬</span><h3>Диалоги</h3><p>Ситуации + понимание</p></button>
     <button class="tile" onclick="startPics()"><span class="em">🖼️</span><h3>Картинки</h3><p>Подпиши, что видишь</p></button>
-    <button class="tile" onclick="startQuiz()"><span class="em">🎯</span><h3>Квиз</h3><p>Выбери перевод</p></button>
-    <button class="tile" onclick="startWrite()"><span class="em">✍️</span><h3>Письмо</h3><p>Напиши по-испански</p></button>
-    <button class="tile" onclick="startSprint()"><span class="em">⚡</span><h3>Спринт</h3><p>60 секунд · рекорд: ${S.best}</p></button>
+    <button class="tile" onclick="vSOS()"><span class="em">🆘</span><h3>Фразы SOS</h3><p>Выручат прямо сегодня</p></button>
+    <button class="tile" onclick="startMatch()"><span class="em">🔗</span><h3>Парочки</h3><p>Соедини русский и испанский</p></button>
+    <button class="tile" onclick="vPractice()"><span class="em">🎮</span><h3>Все игры</h3><p>Мемори · анаграммы · спринт</p></button>
   </div>`;
   toTop();
 }
@@ -873,9 +1005,10 @@ function vCourse(){
     h+=`<div class="lvlbar"><div class="top"><h3>${chip(lvl)} ${esc(name)}</h3><span class="pc">${done}/${ls.length}</span></div>
     <div class="bar"><i style="width:${pc}%;background:${col}"></i></div></div>`;
     h+=ls.map(l=>{const d=S.lessonsDone.includes(l.id);
-      return `<button class="lrow ${d?'done':''}" onclick="vLesson(${l.id})">
-      <span class="lnum">${d?'✓':l.id}</span>
-      <span><h3>${esc(l.title)}</h3><p>${esc(l.desc)}</p></span><span class="chk">›</span></button>`}).join('');
+      const open=l.id===1||d||S.lessonsDone.includes(l.id-1);
+      return `<button class="lrow ${d?'done':''} ${open?'':'lock'}" onclick="${open?`vLesson(${l.id})`:`toast('🔒 Сначала пройди урок ${l.id-1}')`}">
+      <span class="lnum">${d?'✓':(open?l.id:'🔒')}</span>
+      <span><h3>${esc(l.title)}</h3><p>${esc(l.desc)}</p></span><span class="chk">${open?'›':''}</span></button>`}).join('');
   });
   app.innerHTML=h;toTop();
 }
@@ -931,23 +1064,29 @@ function renderM(){
   const sub=`<div class="sub">${M.i+1} из ${M.tasks.length}</div>`;
   if(task.t==='pic'){
     const opts=picOptions(task.w);M.cur={opts,ans:task.w.es};window._qes=task.w.es;
+    window._ci=opts.findIndex(o=>o.es===task.w.es);window._hintRu=task.w.ru;
     app.innerHTML=prog+`<div class="q"><div class="lbl">Подпиши картинку</div>
-    <div class="bigpic">${EM[task.w.es]}</div>${sub}</div>
+    <div class="bigpic">${EM[task.w.es]}</div>${sub}
+    <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button><button class="hintb" onclick="hintRu()">📖 перевод</button></div></div>
     <div class="opts">${opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o.es)}</button>`).join('')}</div>`;
   }else if(task.t==='gap'){
     const sent=task.g[0],ans=task.g[1],wrong=task.g[2];
     const opts=shuffle([ans].concat(wrong));M.cur={opts,ans};
+    window._ci=opts.indexOf(ans);window._hintRu=task.g[3]||'';
     app.innerHTML=prog+`<div class="q"><div class="lbl">Подставь слово в ситуацию</div>
     <div class="word gap">${esc(sent)}</div>${sub}
+    <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button><button class="hintb" onclick="hintRu()">📖 перевод фразы</button></div>
     <div class="ansline" id="mans"></div></div>
     <div class="opts">${opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o)}</button>`).join('')}</div>`;
   }else if(task.t==='tr'){
     const key=task.dir==='ru2es'?'es':'ru';
     M.cur={opts:task.opts,ans:task.w.es};window._qes=task.w.es;
+    window._ci=task.opts.findIndex(o=>o.es===task.w.es);window._hintRu=task.dir==='ru2es'?task.w.ru:'';
     let head=task.dir==='es2ru'
       ?`<div class="lbl">Что это значит?</div><div class="word">${esc(task.w.es)}</div><button class="spk sm" style="margin:8px auto 0" onclick="say(window._qes)">🔊</button>`
       :`<div class="lbl">Как по-испански?</div><div class="word">${esc(task.w.ru)}</div>`;
-    app.innerHTML=prog+`<div class="q">${head}${sub}</div>
+    app.innerHTML=prog+`<div class="q">${head}${sub}
+    <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button></div></div>
     <div class="opts">${task.opts.map((o,j)=>`<button class="opt" onclick="pickM(${j})">${esc(o[key])}</button>`).join('')}</div>`;
   }else{
     window._qes=task.w.es;
@@ -956,6 +1095,7 @@ function renderM(){
     <div class="sub">акценты можно не ставить</div></div>
     <input class="tin" id="min" autocomplete="off" autocapitalize="off" placeholder="Пиши здесь..."
      onkeydown="if(event.key==='Enter')checkMW()">
+    <div style="text-align:center;margin-top:10px"><button class="hintb" onclick="hintW()">💡 подсказать начало</button><button class="hintb" onclick="say(window._qes)">🔊 услышать</button></div>
     <div class="ansline" id="mans"></div>
     <button class="bigbtn blue" style="margin-top:16px" onclick="checkMW()">Проверить</button>`;
     const inp=document.getElementById('min');if(inp)inp.focus();
@@ -1028,6 +1168,7 @@ function renderQ(){
   if(Q.i>=Q.qs.length)return finQ();
   const q=Q.qs[Q.i];const pc=Math.round(Q.i/Q.qs.length*100);
   window._qes=q.w.es;
+  window._ci=q.opts.findIndex(o=>o.es===q.w.es);
   let head;
   if(q.dir==='listen')head=`<div class="lbl">Послушай и выбери перевод</div>
     <button class="spk" style="margin:14px auto 4px;width:56px;height:56px;font-size:1.4rem" onclick="say(window._qes)">🔊</button>
@@ -1038,7 +1179,8 @@ function renderQ(){
   const key=q.dir==='ru2es'?'es':'ru';
   app.innerHTML=`
   <div class="pbar"><i style="width:${pc}%"></i></div>
-  <div class="q">${head}<div class="sub">${Q.i+1} из ${Q.qs.length}</div></div>
+  <div class="q">${head}<div class="sub">${Q.i+1} из ${Q.qs.length}</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button></div></div>
   <div class="opts">${q.opts.map((o,j)=>`<button class="opt" onclick="pick(${j})">${esc(o[key])}</button>`).join('')}</div>`;
   toTop();
 }
@@ -1080,6 +1222,7 @@ function renderW(){
   <div class="sub">${W.i+1} из ${W.list.length} · акценты (á ñ) можно не ставить</div></div>
   <input class="tin" id="win" autocomplete="off" autocapitalize="off" placeholder="Пиши здесь..."
    onkeydown="if(event.key==='Enter')checkW()">
+  <div style="text-align:center;margin-top:10px"><button class="hintb" onclick="hintW()">💡 подсказать начало</button><button class="hintb" onclick="say(window._qes)">🔊 услышать</button></div>
   <div class="ansline" id="wans"></div>
   <button class="bigbtn blue" style="margin-top:16px" onclick="checkW()">Проверить</button>`;
   const i=document.getElementById('win');if(i)i.focus();toTop();
@@ -1175,9 +1318,10 @@ function vDialogs(){
   setNav('dialogs');
   app.innerHTML=`<div class="sech" style="margin-top:22px">Диалоги · пойми ситуацию</div>`+
   DIALOGS.map(d=>{const done=S.dialogsDone.includes(d.id);
-    return `<button class="lrow ${done?'done':''}" onclick="vDialog(${d.id})">
-    <span class="lnum">${done?'✓':d.emoji}</span>
-    <span><h3>${esc(d.title)} ${chip(d.lvl)}</h3><p>${esc(d.scene)}</p></span><span class="chk">›</span></button>`}).join('');
+    const open=unlockedLvl(d.lvl);const need=d.lvl==='A2'?8:20;
+    return `<button class="lrow ${done?'done':''} ${open?'':'lock'}" onclick="${open?`vDialog(${d.id})`:`toast('🔒 Откроется после ${need} уроков курса')`}">
+    <span class="lnum">${done?'✓':(open?d.emoji:'🔒')}</span>
+    <span><h3>${esc(d.title)} ${chip(d.lvl)}</h3><p>${esc(d.scene)}</p></span><span class="chk">${open?'›':''}</span></button>`}).join('');
   toTop();
 }
 let curD=null;
@@ -1219,11 +1363,12 @@ function renderDQ(){
     <p>${pass?'Диалог понят! Так и растёт понимание на слух.':'Послушай диалог ещё раз с переводом — и вернись к вопросам.'}</p>
     <button class="bigbtn blue" style="margin-top:20px" onclick="vDialog(${curD.id})">${pass?'К диалогу':'Слушать ещё раз'}</button>
     <button class="bigbtn mt0" onclick="vDialogs()">Все диалоги</button></div>`;return;}
-  const q=curD.qs[DQ.i];
+  const q=curD.qs[DQ.i];window._ci=q.a;
   app.innerHTML=`
   <div class="pbar"><i style="width:${Math.round(DQ.i/curD.qs.length*100)}%"></i></div>
   <div class="q"><div class="lbl">Вопрос ${DQ.i+1} из ${curD.qs.length}</div>
-  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div></div>
+  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button></div></div>
   <div class="opts">${q.o.map((o,j)=>`<button class="opt" onclick="pickDQ(${j})">${esc(o)}</button>`).join('')}</div>`;
   toTop();
 }
@@ -1247,6 +1392,13 @@ function vPractice(){
     <button class="tile" onclick="startWrite()"><span class="em">✍️</span><h3>Письмо</h3><p>Напиши сам</p></button>
     <button class="tile" onclick="startListen()"><span class="em">🎧</span><h3>Аудирование</h3><p>Пойми на слух</p></button>
     <button class="tile" onclick="startSprint()"><span class="em">⚡</span><h3>Спринт</h3><p>60 сек · рекорд ${S.best}</p></button>
+    <button class="tile" onclick="startMatch()"><span class="em">🔗</span><h3>Парочки</h3><p>Соедини русский и испанский</p></button>
+    <button class="tile" onclick="startMemory()"><span class="em">🧠</span><h3>Мемори</h3><p>Найди пары картинка–слово</p></button>
+    <button class="tile" onclick="startAna()"><span class="em">🧩</span><h3>Собери слово</h3><p>Из букв по картинке-подсказке</p></button>
+    <button class="tile" onclick="startTF()"><span class="em">⚖️</span><h3>Правда или ложь</h3><p>Верный ли перевод? Лови комбо</p></button>
+    <button class="tile" onclick="startPicRev()"><span class="em">👁️</span><h3>Слово → картинка</h3><p>Услышь и выбери картинку</p></button>
+    <button class="tile" onclick="startSB()"><span class="em">🧱</span><h3>Составь фразу</h3><p>Собери предложение из слов</p></button>
+    <button class="tile" onclick="startAhorcado()"><span class="em">🪢</span><h3>Виселица</h3><p>Угадай слово по буквам</p></button>
     <button class="tile" onclick="startNums()"><span class="em">🔢</span><h3>Числа</h3><p>Пойми число на слух</p></button>
     <button class="tile" onclick="vTexts()"><span class="em">📖</span><h3>Чтение</h3><p>Тексты по уровням</p></button>
   </div>
@@ -1266,6 +1418,8 @@ function vMore(){
   app.innerHTML=`<div class="sech" style="margin-top:22px">Инструменты</div>
   <div class="tiles">
     <button class="tile" onclick="vDict()"><span class="em">📚</span><h3>Словарь</h3><p>${ALL.length} слов с поиском и озвучкой</p></button>
+    <button class="tile" onclick="vABC()"><span class="em">🔤</span><h3>Алфавит и звуки</h3><p>С чего начать: как читать всё</p></button>
+    <button class="tile" onclick="vSOS()"><span class="em">🆘</span><h3>Разговорник SOS</h3><p>36 фраз-спасателей с озвучкой</p></button>
     <button class="tile" onclick="vGrammar()"><span class="em">🧩</span><h3>Грамматика</h3><p>Спряжения в 5 временах</p></button>
     <button class="tile" onclick="vTexts()"><span class="em">📖</span><h3>Чтение</h3><p>Тексты с озвучкой и вопросами</p></button>
     <button class="tile" onclick="vVideos()"><span class="em">📺</span><h3>Видео</h3><p>Погружение по уровням</p></button>
@@ -1281,13 +1435,15 @@ function vDict(){
   setNav('more');
   app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
   <input class="srch" id="dq" placeholder="Поиск: по-испански или по-русски..." oninput="filtD()">
+  <div class="tsel" style="margin-top:0"><button class="${DF===0?'on':''}" onclick="DF=0;vDict()">Все</button><button class="${DF===1?'on':''}" onclick="DF=1;vDict()">🖼️ С картинками</button><button class="${DF===2?'on':''}" onclick="DF=2;vDict()">📚 Изучаю</button></div>
   <div id="dlist"></div>`;
   filtD();toTop();
 }
 function filtD(){
   const el=document.getElementById('dq');
   const q=norm(el?el.value:'');
-  const list=ALL.filter(w=>!q||norm(w.es).includes(q)||norm(w.ru).includes(q)).slice(0,80);
+  const base=ALL.filter(w=>DF===0||(DF===1&&EM[w.es])||(DF===2&&S.srs[w.es]));
+  const list=base.filter(w=>!q||norm(w.es).includes(q)||norm(w.ru).includes(q)).slice(0,80);
   const box=document.getElementById('dlist');if(!box)return;
   box.innerHTML=
   `<div class="theory" style="margin-top:0">`+(list.length?list.map(w=>{const i=idx(w.es);
@@ -1347,7 +1503,7 @@ function vSettings(){
     <button onclick="try{S=Object.assign(S,JSON.parse(document.getElementById('bk').value));saveS();paintHead();alert('Импортировано!')}catch(e){alert('Неверный формат')}">Импорт</button></div></div>
   <div class="setrow"><label>Сброс</label>
     <button style="color:var(--terra);font-weight:700;font-size:.85rem" onclick="if(confirm('Точно стереть весь прогресс?')){try{localStorage.removeItem('vamos_v2');localStorage.removeItem('vamos_v1')}catch(e){};location.reload()}">Стереть весь прогресс</button></div>
-  <p style="text-align:center;color:var(--mut);font-size:.72rem;margin:6px 0 20px">¡Vamos! v4.0 · прогресс хранится в этом браузере</p>`;
+  <p style="text-align:center;color:var(--mut);font-size:.72rem;margin:6px 0 20px">¡Vamos! v7.0 · прогресс хранится в этом браузере</p>`;
   toTop();
 }
 
@@ -1428,9 +1584,10 @@ function vTexts(){
   app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
   <div class="sech">Чтение · тексты с озвучкой</div>`+
   TEXTS.map(t=>{const done=S.textsDone.includes(t.id);
-    return `<button class="lrow ${done?'done':''}" onclick="vText(${t.id})">
-    <span class="lnum">${done?'✓':t.emoji}</span>
-    <span><h3>${esc(t.title)} ${chip(t.lvl)}</h3><p>${esc(t.intro)}</p></span><span class="chk">›</span></button>`}).join('');
+    const open=unlockedLvl(t.lvl);const need=t.lvl==='A2'?8:20;
+    return `<button class="lrow ${done?'done':''} ${open?'':'lock'}" onclick="${open?`vText(${t.id})`:`toast('🔒 Откроется после ${need} уроков курса')`}">
+    <span class="lnum">${done?'✓':(open?t.emoji:'🔒')}</span>
+    <span><h3>${esc(t.title)} ${chip(t.lvl)}</h3><p>${esc(t.intro)}</p></span><span class="chk">${open?'›':''}</span></button>`}).join('');
   toTop();
 }
 function vText(id){
@@ -1465,11 +1622,12 @@ function renderTQ(){
     <p>${pass?'Текст понят! Чтение — самый быстрый путь к большому словарю.':'Перечитай текст с переводом и вернись к вопросам.'}</p>
     <button class="bigbtn blue" style="margin-top:20px" onclick="vText(${curT.id})">${pass?'К тексту':'Перечитать'}</button>
     <button class="bigbtn mt0" onclick="vTexts()">Все тексты</button></div>`;return;}
-  const q=curT.qs[TQ.i];
+  const q=curT.qs[TQ.i];window._ci=q.a;
   app.innerHTML=`
   <div class="pbar"><i style="width:${Math.round(TQ.i/curT.qs.length*100)}%"></i></div>
   <div class="q"><div class="lbl">Вопрос ${TQ.i+1} из ${curT.qs.length}</div>
-  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div></div>
+  <div class="word" style="font-size:1.05rem">${esc(q.q)}</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button></div></div>
   <div class="opts">${q.o.map((o,j)=>`<button class="opt" onclick="pickTQ(${j})">${esc(o)}</button>`).join('')}</div>`;
   toTop();
 }
@@ -1554,7 +1712,15 @@ function vAch(){
   ['🧠','Словарный запас','100 слов в карточках',learnedCount()>=100],
   ['🏛️','El maestro','300 слов в карточках',learnedCount()>=300],
   ['⚡','Спринтер','Рекорд спринта 15+',S.best>=15],
-  ['🇪🇸','Casi español','Рекорд спринта 25+',S.best>=25]];
+  ['🇪🇸','Casi español','Рекорд спринта 25+',S.best>=25],
+  ['🔗','Сваха','Сыграй партию в Парочки',(S.g_match||0)>=1],
+  ['🧠','Мемо-мастер','Пройди Мемори',(S.g_mem||0)>=1],
+  ['🧩','Анаграммщик','Собери слова из букв',(S.g_ana||0)>=1],
+  ['🎖','Nivel 5','Достигни пятого уровня',nivel()>=5],
+  ['⚖️','Детектор лжи','Сыграй в Правда или ложь',(S.g_tf||0)>=1],
+  ['🔤','Читаю по-испански','Изучи алфавит и звуки',S.abc===1],
+  ['🧱','Строитель фраз','Собери предложения из слов',(S.g_sb||0)>=1],
+  ['🪢','Спаситель','Выиграй в Виселицу',(S.g_ah||0)>=1]];
   const done=a.filter(x=>x[3]).length;
   app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
   <div class="sech">Достижения · ${done} из ${a.length}</div>
@@ -1563,6 +1729,385 @@ function vAch(){
     <h3>${x[1]}</h3><p>${x[2]}</p></div>`).join('')+`</div>`;
   toTop();
 }
+
+/* ============================================================
+   ТОСТЫ, ЗАМКИ, ПОДСКАЗКИ
+============================================================ */
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;
+  document.body.appendChild(e);setTimeout(()=>{try{e.remove()}catch(x){}},2600);}
+function unlockedLvl(lvl){return lvl==='A1'||(lvl==='A2'&&S.lessonsDone.length>=8)||(lvl==='B1'&&S.lessonsDone.length>=20)}
+let DF=0;
+function hint50(){const os=[...document.querySelectorAll('.opt')];let hid=0;
+  const max=Math.min(2,Math.max(0,os.filter(b=>b.style.visibility!=='hidden').length-2));
+  os.forEach((b,k)=>{if(hid<max&&k!==window._ci&&b.style.visibility!=='hidden'){b.style.visibility='hidden';hid++;}});}
+function hintRu(){if(window._hintRu)toast('📖 '+window._hintRu);}
+function hintW(){const w=window._qes||'';const half=w.slice(0,Math.ceil(w.length/2));
+  const a=document.getElementById('wans')||document.getElementById('mans');
+  if(a){a.textContent='💡 '+half+'···';a.className='ansline';}else toast('💡 '+half+'···');}
+
+/* ============================================================
+   ИГРА · ПАРОЧКИ (соедини RU ↔ ES)
+============================================================ */
+let MG=null;
+function startMatch(){MG={round:1,total:3};nextMatchRound();}
+function nextMatchRound(){
+  const ws=shuffle(pool()).slice(0,5);
+  MG.left=shuffle(ws);MG.right=shuffle(ws);MG.selL=-1;MG.selR=-1;MG.done={};MG.n=0;
+  renderMatch();}
+function renderMatch(){
+  setNav('practice');
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round((MG.round-1)/MG.total*100)}%"></i></div>
+  <div class="q" style="padding:14px"><div class="lbl">Парочки · раунд ${MG.round} из ${MG.total}</div>
+  <div class="sub" style="margin-top:5px">Нажми слово слева, потом его перевод справа</div></div>
+  <div class="mtch">
+    <div>${MG.left.map((w,i)=>`<button class="mopt ${MG.done[w.es]?'ok':''} ${MG.selL===i?'sel':''}" onclick="pickL(${i})">${esc(w.ru)}</button>`).join('')}</div>
+    <div>${MG.right.map((w,i)=>`<button class="mopt ${MG.done[w.es]?'ok':''} ${MG.selR===i?'sel':''}" onclick="pickR(${i})">${EM[w.es]?EM[w.es]+' ':''}${esc(w.es)}</button>`).join('')}</div>
+  </div>`;
+  toTop();
+}
+function pickL(i){if(!MG||MG.done[MG.left[i].es])return;MG.selL=i;tryMatch();}
+function pickR(i){if(!MG||MG.done[MG.right[i].es])return;MG.selR=i;tryMatch();}
+function tryMatch(){
+  renderMatch();
+  if(MG.selL<0||MG.selR<0)return;
+  const a=MG.left[MG.selL],b=MG.right[MG.selR];
+  if(a.es===b.es){
+    MG.done[a.es]=1;MG.n++;addXP(3);say(a.es);MG.selL=-1;MG.selR=-1;renderMatch();
+    if(MG.n===5){if(MG.round>=MG.total){setTimeout(finMatch,600);}else{MG.round++;setTimeout(nextMatchRound,600);}}
+  }else{
+    const l=MG.selL,r=MG.selR;MG.selL=-1;MG.selR=-1;
+    const cols=document.querySelectorAll('.mtch>div');
+    const lb=cols[0]&&cols[0].children[l],rb=cols[1]&&cols[1].children[r];
+    [lb,rb].forEach(x=>{if(x)x.classList.add('bad')});
+    setTimeout(renderMatch,450);
+  }}
+function finMatch(){S.g_match=(S.g_match||0)+1;addXP(10);saveS();
+  app.innerHTML=`<div class="fin">${confetti()}<div class="em">🔗</div><h2>¡Parejas perfectas!</h2>
+  <p>Три раунда пройдены. Связки «русский ↔ испанский» — лучший клей для памяти.</p>
+  <button class="bigbtn blue" style="margin-top:20px" onclick="startMatch()">Ещё раз</button>
+  <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;MG=null;}
+
+/* ============================================================
+   ИГРА · МЕМОРИ (картинка ↔ слово)
+============================================================ */
+let MEM=null;
+function startMemory(){
+  const learned=PICALL.filter(w=>S.srs[w.es]);
+  const ws=shuffle(learned.length>=6?learned:PICALL).slice(0,6);
+  let cards=[];ws.forEach(w=>{cards.push({k:w.es,face:EM[w.es]});cards.push({k:w.es,face:w.es});});
+  MEM={cards:shuffle(cards).map(c=>({k:c.k,face:c.face,open:false,done:false})),lock:false,moves:0,found:0,first:-1};
+  renderMem();}
+function renderMem(){
+  setNav('practice');
+  app.innerHTML=`
+  <div class="q" style="padding:12px"><div class="lbl">Мемори · найди пары «картинка — слово»</div>
+  <div class="sub" style="margin-top:5px">Ходы: ${MEM.moves} · Найдено: ${MEM.found} из 6</div></div>
+  <div class="memg">${MEM.cards.map((c,i)=>`<button class="mcard ${(c.open||c.done)?'up':''} ${c.done?'ok':''} ${(c.open||c.done)&&c.face===EM[c.k]?'em2':''}" onclick="flipMem(${i})">${(c.open||c.done)?esc(c.face):'❔'}</button>`).join('')}</div>`;
+  toTop();
+}
+function flipMem(i){
+  const c=MEM.cards[i];if(!MEM||MEM.lock||c.open||c.done)return;
+  c.open=true;
+  if(MEM.first<0){MEM.first=i;renderMem();return;}
+  MEM.moves++;const f=MEM.cards[MEM.first];MEM.first=-1;
+  if(f.k===c.k&&f!==c){f.done=c.done=true;MEM.found++;addXP(3);say(c.k);renderMem();
+    if(MEM.found===6)setTimeout(finMem,600);}
+  else{MEM.lock=true;renderMem();
+    setTimeout(()=>{f.open=false;c.open=false;MEM.lock=false;renderMem();},850);}
+}
+function finMem(){S.g_mem=(S.g_mem||0)+1;addXP(10);saveS();
+  app.innerHTML=`<div class="fin">${confetti()}<div class="em">🧠</div><h2>Найдено за ${MEM.moves} ходов</h2>
+  <p>${MEM.moves<=9?'Феноменальная память!':'Отлично! Чем меньше ходов, тем крепче слова в голове.'}</p>
+  <button class="bigbtn blue" style="margin-top:20px" onclick="startMemory()">Ещё раз</button>
+  <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;MEM=null;}
+
+/* ============================================================
+   ИГРА · СОБЕРИ СЛОВО (анаграммы с картинкой)
+============================================================ */
+let ANA=null;
+function anaPool(){
+  const src=shuffle(pool()).concat(shuffle(ALL));
+  const seen={},out=[];
+  for(const w of src){
+    const core=w.es.replace(/^(el|la|los|las|un|una)\s+/,'');
+    if(/^[a-záéíóúñü]{4,9}$/i.test(core)&&!seen[core]){seen[core]=1;out.push({core:core.toLowerCase(),ru:w.ru,es:w.es});}
+    if(out.length>=30)break;}
+  return shuffle(out).slice(0,8);}
+function startAna(){ANA={list:anaPool(),i:0,ok:0};nextAna();}
+function nextAna(){
+  setNav('practice');
+  if(ANA.i>=ANA.list.length){
+    S.g_ana=(S.g_ana||0)+1;addXP(10);saveS();
+    app.innerHTML=`<div class="fin">${confetti()}<div class="em">🧩</div><h2>${ANA.ok} из ${ANA.list.length}</h2>
+    <p>Собирая слово по буквам, ты запоминаешь его написание навсегда.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startAna()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;return;}
+  const t=ANA.list[ANA.i];
+  ANA.cur={word:t.core,letters:shuffle(t.core.split('')).map(ch=>({ch,used:false})),typed:[]};
+  renderAna();}
+function renderAna(){
+  const t=ANA.list[ANA.i],c=ANA.cur;
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(ANA.i/ANA.list.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Собери слово по-испански</div>
+  ${EM[t.es]?`<div class="bigpic" style="font-size:2.8rem;margin:8px 0 0">${EM[t.es]}</div>`:''}
+  <div class="word" style="font-size:1.02rem">${esc(t.ru)}</div>
+  <div class="sub">${ANA.i+1} из ${ANA.list.length}</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="anaHint()">💡 подсказать букву</button><button class="hintb" onclick="say(ANA.list[ANA.i].es)">🔊 услышать</button></div></div>
+  <div class="slots" id="slots">${c.word.split('').map((_,i)=>`<span class="slot">${c.typed[i]?esc(c.typed[i].ch):''}</span>`).join('')}</div>
+  <div class="lets">${c.letters.map((l,i)=>`<button class="lbtn" style="${l.used?'visibility:hidden':''}" onclick="tapLetter(${i})">${esc(l.ch)}</button>`).join('')}
+  <button class="lbtn" style="background:#FBE3DC" onclick="unLetter()">⌫</button></div>`;
+  toTop();
+}
+function tapLetter(i){
+  const c=ANA.cur;const l=c.letters[i];if(!c||l.used)return;
+  l.used=true;c.typed.push({ch:l.ch,li:i});
+  if(c.typed.length===c.word.length){
+    const guess=c.typed.map(x=>x.ch).join('');
+    renderAna();
+    const s=document.getElementById('slots');
+    if(norm(guess)===norm(c.word)){
+      ANA.ok++;addXP(6);say(ANA.list[ANA.i].es);
+      if(s)s.classList.add('okflash');
+      setTimeout(()=>{ANA.i++;nextAna()},900);
+    }else{
+      if(s)s.classList.add('badflash');
+      setTimeout(()=>{c.typed.forEach(x=>c.letters[x.li].used=false);c.typed=[];renderAna();},750);
+    }
+    return;}
+  renderAna();}
+function unLetter(){const c=ANA.cur;const x=c.typed.pop();if(x){c.letters[x.li].used=false;renderAna();}}
+function anaHint(){const c=ANA.cur;const pos=c.typed.length;if(!c||pos>=c.word.length)return;
+  const need=c.word[pos];const li=c.letters.findIndex(l=>!l.used&&l.ch===need);
+  if(li>=0)tapLetter(li);}
+
+/* ============================================================
+   АЛФАВИТ И ЗВУКИ · старт для полного нуля
+============================================================ */
+const ABC=[["A","а","agua"],["B","б (мягкая)","bueno"],["C","«с» перед e,i · иначе «к»","cinco · casa"],["CH","ч","chico"],["D","д","dos"],["E","э","España"],["F","ф","familia"],["G","г · перед e,i — «х»","gato · gente"],["H","НЕ читается!","hola"],["I","и","idioma"],["J","русская «х»","jamón"],["K","к (редкая)","kilo"],["L","л","luna"],["LL","й","llave"],["M","м","mar"],["N","н","noche"],["Ñ","нь","España"],["O","о","ojo"],["P","п","playa"],["QU","к","queso"],["R","р · rr — раскатистая","pero · perro"],["S","с","sol"],["T","т","tres"],["U","у","uno"],["V","как «б»","vino"],["W","в (редкая)","wifi"],["X","кс","taxi"],["Y","й / и","yo"],["Z","межзубный «с»","zapato"]];
+function vABC(){
+  setNav('more');
+  if(S.abc!==1){S.abc=1;saveS();}
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Алфавит и звуки · нажимай и слушай</div>
+  <div class="scene" style="margin-top:4px">🔤 Главный секрет испанского: читается почти всё как пишется. Выучи эти карточки — и сможешь прочитать вслух ЛЮБОЕ слово. Нажми на карточку — услышишь пример.</div>
+  <div class="tiles">${ABC.map((l,i)=>`<button class="tile" style="text-align:center;padding:12px 8px" onclick="say(ABC[${i}][2].split(' · ')[0]);say2=setTimeout(()=>{const p=ABC[${i}][2].split(' · ')[1];if(p)say(p)},1200)">
+    <span style="font-family:Unbounded;font-weight:900;font-size:1.5rem">${l[0]}</span>
+    <h3 style="font-size:.72rem;margin-top:5px;font-family:Onest">${esc(l[1])}</h3>
+    <p style="margin-top:3px">🔊 ${esc(l[2])}</p></button>`).join('')}</div>
+  <div class="theory" style="margin-top:16px"><h3>Ударение — одно правило</h3>
+  <p>Слово кончается на гласную, n или s — ударение на ПРЕДпоследний слог: pl<b>a</b>ya, h<b>o</b>la. Иначе — на последний: espa<b>ñol</b>. Исключения всегда помечены значком: caf<b>é</b>.</p></div>`;
+  toTop();
+}
+
+/* ============================================================
+   РАЗГОВОРНИК SOS · 36 фраз-спасателей
+============================================================ */
+const SOS=[
+["🆘 Экстренное",[["¡Ayuda!","Помогите!"],["Llame a la policía","Вызовите полицию"],["Necesito un médico","Мне нужен врач"],["No me encuentro bien","Мне плохо"],["He perdido mi móvil","Я потерял телефон"],["¿Dónde está el hospital?","Где больница?"]]],
+["🗣 Не понимаю",[["No hablo español","Я не говорю по-испански"],["¿Habla inglés?","Вы говорите по-английски?"],["No entiendo","Не понимаю"],["¿Puede repetir, por favor?","Повторите, пожалуйста"],["Más despacio, por favor","Помедленнее, пожалуйста"],["¿Puede escribirlo?","Можете это написать?"]]],
+["🍽 Кафе и бар",[["La carta, por favor","Меню, пожалуйста"],["Para mí, esto","Мне вот это"],["Sin cebolla, por favor","Без лука, пожалуйста"],["La cuenta, por favor","Счёт, пожалуйста"],["¿Dónde está el baño?","Где туалет?"],["Está muy rico","Очень вкусно"]]],
+["🛍 Магазин",[["¿Cuánto cuesta?","Сколько стоит?"],["¿Puedo pagar con tarjeta?","Можно оплатить картой?"],["¿Tiene esto en otra talla?","Есть в другом размере?"],["Solo estoy mirando","Я просто смотрю"],["Me lo llevo","Беру"],["¿Me hace un descuento?","Сделаете скидку?"]]],
+["🚕 Дорога",[["¿Cómo llego al centro?","Как добраться до центра?"],["Al aeropuerto, por favor","В аэропорт, пожалуйста"],["Pare aquí, por favor","Остановите здесь, пожалуйста"],["¿Está lejos?","Это далеко?"],["Estoy perdido","Я заблудился"],["¿Dónde está la parada?","Где остановка?"]]],
+["💬 Вежливость",[["Muchas gracias","Большое спасибо"],["Perdone","Извините (обращение)"],["¿Puede ayudarme?","Можете мне помочь?"],["Con permiso","Разрешите (пройти)"],["No pasa nada","Ничего страшного"],["¡Que tenga un buen día!","Хорошего дня!"]]]];
+function vSOS(){
+  setNav('more');
+  app.innerHTML=`<button class="back" onclick="vMore()">‹ Ещё</button>
+  <div class="sech">Разговорник SOS · нажми — услышишь</div>
+  <div class="scene" style="margin-top:4px">🆘 Эти 36 фраз спасут в любой ситуации с первого дня. Слушай и повторяй вслух — прямо с телефона в кармане.</div>`+
+  SOS.map((cat,c)=>`<div class="sech">${esc(cat[0])}</div><div class="theory" style="margin-top:0">
+    ${cat[1].map((p,r)=>`<div class="vrow"><button class="spk sm" onclick="say(SOS[${c}][1][${r}][0])">🔊</button>
+    <span class="es" style="font-size:.88rem">${esc(p[0])}</span><span class="ru">${esc(p[1])}</span></div>`).join('')}
+  </div>`).join('');
+  toTop();
+}
+
+/* ============================================================
+   ИГРА · ПРАВДА ИЛИ ЛОЖЬ (комбо)
+============================================================ */
+let TF=null;
+function startTF(){TF={i:0,ok:0,total:12,streak:0,best:0};nextTF();}
+function nextTF(){
+  setNav('practice');
+  if(TF.i>=TF.total){
+    S.g_tf=(S.g_tf||0)+1;addXP(10);saveS();
+    app.innerHTML=`<div class="fin">${TF.ok>=9?confetti():''}<div class="em">⚖️</div>
+    <h2>${TF.ok} из ${TF.total}</h2><p>Лучшее комбо: ${TF.best} подряд. Эта игра учит мгновенно чувствовать «своё» слово.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startTF()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;return;}
+  const p=pool();
+  const wd=p[Math.floor(Math.random()*p.length)];
+  const truth=Math.random()<0.5;
+  let ru=wd.ru;
+  if(!truth){const o=shuffle(p.filter(x=>x.es!==wd.es&&x.ru!==wd.ru))[0];if(o)ru=o.ru;}
+  TF.cur={w:wd,ru,truth:truth||ru===wd.ru};
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(TF.i/TF.total*100)}%"></i></div>
+  <div class="q"><div class="lbl">Правда или ложь? ${TF.streak>=2?'· 🔥 комбо ×'+TF.streak:''}</div>
+  <div class="word">${esc(wd.es)}</div>
+  <button class="spk sm" style="margin:6px auto 4px" onclick="say(TF.cur.w.es)">🔊</button>
+  <div class="sub" style="font-size:1rem;color:var(--ink);font-weight:600;margin-top:6px">= «${esc(ru)}» ?</div>
+  <div class="sub" style="margin-top:6px">${TF.i+1} из ${TF.total}</div></div>
+  <div class="opts" style="grid-template-columns:1fr 1fr">
+    <button class="opt" onclick="pickTF(1)">✅ Верно</button>
+    <button class="opt" onclick="pickTF(0)">❌ Неверно</button>
+  </div>`;
+  toTop();
+}
+function pickTF(ans){
+  const good=(ans===1)===TF.cur.truth;
+  const os=document.querySelectorAll('.opt');
+  os.forEach(b=>b.onclick=null);
+  const rightIdx=TF.cur.truth?0:1;
+  if(os[rightIdx])os[rightIdx].classList.add('ok');
+  if(!good&&os[ans===1?0:1])os[ans===1?0:1].classList.add('bad');
+  if(good){TF.ok++;TF.streak++;TF.best=Math.max(TF.best,TF.streak);addXP(3+(TF.streak>=3?2:0));}
+  else{TF.streak=0;toast('Правильно: '+TF.cur.w.es+' = '+TF.cur.w.ru);}
+  say(TF.cur.w.es);
+  setTimeout(()=>{TF.i++;nextTF()},good?800:1600);
+}
+
+/* ============================================================
+   ИГРА · СЛОВО → КАРТИНКА (обратный блиц)
+============================================================ */
+let PR=null;
+function startPicRev(){
+  const learned=PICALL.filter(w=>S.srs[w.es]);
+  PR={list:shuffle(learned.length>=8?learned:PICALL).slice(0,10),i:0,ok:0};
+  nextPR();}
+function nextPR(){
+  setNav('practice');
+  if(PR.i>=PR.list.length){
+    addXP(8);
+    app.innerHTML=`<div class="fin">${PR.ok>=8?confetti():''}<div class="em">👁️</div>
+    <h2>${PR.ok} из ${PR.list.length}</h2><p>Связь «звук → образ» — так язык учат дети. Самый прочный способ.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startPicRev()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;return;}
+  const wd=PR.list[PR.i];
+  const opts=picOptions(wd);
+  PR.cur={opts,ans:wd.es};window._qes=wd.es;window._ci=opts.findIndex(o=>o.es===wd.es);
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(PR.i/PR.list.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Какая это картинка?</div>
+  <div class="word">${esc(wd.es)}</div>
+  <button class="spk sm" style="margin:6px auto 0" onclick="say(window._qes)">🔊</button>
+  <div class="sub">${PR.i+1} из ${PR.list.length}</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="hint50()">💡 50/50</button><button class="hintb" onclick="toast('📖 '+PR.list[PR.i].ru)">📖 перевод</button></div></div>
+  <div class="opts" style="grid-template-columns:1fr 1fr">${opts.map((o,j)=>`<button class="opt" style="font-size:2.4rem;padding:18px" onclick="pickPR(${j})">${EM[o.es]}</button>`).join('')}</div>`;
+  say(wd.es);
+  toTop();
+}
+function pickPR(j){
+  const good=PR.cur.opts[j].es===PR.cur.ans;
+  document.querySelectorAll('.opt').forEach((b,k)=>{b.onclick=null;
+    if(PR.cur.opts[k]&&PR.cur.opts[k].es===PR.cur.ans)b.classList.add('ok');else if(k===j)b.classList.add('bad');});
+  if(good){PR.ok++;addXP(5);}else{srsGrade(PR.cur.ans,0);}
+  setTimeout(()=>{PR.i++;nextPR()},900);
+}
+
+/* ============================================================
+   ИГРА · СОСТАВЬ ФРАЗУ (из реплик диалогов)
+============================================================ */
+let SB=null;
+function sbPool(){
+  const out=[];
+  DIALOGS.forEach(d=>d.lines.forEach(l=>{
+    const wds=l[1].replace(/[¡!¿?.,]/g,'').trim().split(/\s+/);
+    if(wds.length>=3&&wds.length<=7)out.push({es:l[1],ru:l[2],wds});
+  }));
+  return shuffle(out).slice(0,6);}
+function startSB(){SB={list:sbPool(),i:0,ok:0};nextSB();}
+function nextSB(){
+  setNav('practice');
+  if(SB.i>=SB.list.length){
+    S.g_sb=(S.g_sb||0)+1;addXP(12);saveS();
+    app.innerHTML=`<div class="fin">${confetti()}<div class="em">🧱</div><h2>${SB.ok} из ${SB.list.length}</h2>
+    <p>Собирая фразы, ты учишься порядку слов — главному навыку живой речи.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startSB()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;return;}
+  const t=SB.list[SB.i];
+  SB.cur={t,tiles:shuffle(t.wds).map(w=>({w,used:false})),typed:[]};
+  renderSB();}
+function renderSB(){
+  const t=SB.cur.t,c=SB.cur;
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(SB.i/SB.list.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Собери фразу по-испански</div>
+  <div class="word" style="font-size:1rem">${esc(t.ru)}</div>
+  <div class="sub">${SB.i+1} из ${SB.list.length} · нажимай слова по порядку</div>
+  <div style="margin-top:8px"><button class="hintb" onclick="sbHint()">💡 следующее слово</button><button class="hintb" onclick="say(SB.cur.t.es)">🔊 услышать</button></div></div>
+  <div class="slots" id="slots" style="min-height:48px">${c.typed.map((x,i)=>`<button class="lbtn" style="width:auto;padding:0 12px;background:var(--card)" onclick="sbBack(${i})">${esc(x.w)}</button>`).join('')||'<span style="color:var(--mut);font-size:.8rem;align-self:center">— нажимай слова снизу —</span>'}</div>
+  <div class="lets">${c.tiles.map((l,i)=>`<button class="lbtn" style="width:auto;padding:0 12px;${l.used?'visibility:hidden':''}" onclick="sbTap(${i})">${esc(l.w)}</button>`).join('')}</div>`;
+  toTop();
+}
+function sbTap(i){
+  const c=SB.cur;const l=c.tiles[i];if(!c||l.used)return;
+  l.used=true;c.typed.push({w:l.w,ti:i});
+  if(c.typed.length===c.t.wds.length){
+    const ok=c.typed.every((x,k)=>norm(x.w)===norm(c.t.wds[k]));
+    renderSB();const s=document.getElementById('slots');
+    if(ok){SB.ok++;addXP(7);say(c.t.es);if(s)s.classList.add('okflash');
+      setTimeout(()=>{SB.i++;nextSB()},1100);}
+    else{if(s)s.classList.add('badflash');
+      setTimeout(()=>{c.typed.forEach(x=>c.tiles[x.ti].used=false);c.typed=[];renderSB();},800);}
+    return;}
+  renderSB();}
+function sbBack(i){const c=SB.cur;const x=c.typed.splice(i,1)[0];if(x){c.tiles[x.ti].used=false;renderSB();}}
+function sbHint(){const c=SB.cur;const pos=c.typed.length;if(!c||pos>=c.t.wds.length)return;
+  const need=norm(c.t.wds[pos]);const ti=c.tiles.findIndex(l=>!l.used&&norm(l.w)===need);
+  if(ti>=0)sbTap(ti);}
+
+/* ============================================================
+   ИГРА · ВИСЕЛИЦА (Ahorcado)
+============================================================ */
+let AH=null;
+const AHKEYS='abcdefghijklmnñopqrstuvwxyz'.split('');
+function startAhorcado(){AH={list:anaPool().slice(0,5),i:0,ok:0};nextAH();}
+function nextAH(){
+  setNav('practice');
+  if(AH.i>=AH.list.length){
+    S.g_ah=(S.g_ah||0)+1;addXP(10);saveS();
+    app.innerHTML=`<div class="fin">${AH.ok>=4?confetti():''}<div class="em">🪢</div><h2>Спасено: ${AH.ok} из ${AH.list.length}</h2>
+    <p>Виселица заставляет вспоминать написание слова целиком — мощная тренировка.</p>
+    <button class="bigbtn blue" style="margin-top:20px" onclick="startAhorcado()">Ещё раз</button>
+    <button class="bigbtn mt0" onclick="vPractice()">К практике</button></div>`;return;}
+  const t=AH.list[AH.i];
+  AH.cur={t,word:t.core,found:{},used:{},lives:6};
+  renderAH();}
+function renderAH(){
+  const c=AH.cur,t=c.t;
+  const disp=c.word.split('').map(ch=>c.found[norm(ch)]?ch:'·').join(' ');
+  const solved=c.word.split('').every(ch=>c.found[norm(ch)]);
+  app.innerHTML=`
+  <div class="pbar"><i style="width:${Math.round(AH.i/AH.list.length*100)}%"></i></div>
+  <div class="q"><div class="lbl">Виселица · спаси слово</div>
+  ${EM[t.es]?`<div class="bigpic" style="font-size:2.6rem;margin:8px 0 0">${EM[t.es]}</div>`:''}
+  <div class="sub" style="font-size:.95rem;color:var(--ink);font-weight:600">${esc(t.ru)}</div>
+  <div class="word" style="letter-spacing:.12em;font-size:1.4rem;margin-top:10px">${esc(disp)}</div>
+  <div class="sub" style="margin-top:8px;font-size:1rem">${'❤️'.repeat(c.lives)}${'🖤'.repeat(6-c.lives)}</div>
+  <div class="sub">${AH.i+1} из ${AH.list.length}</div></div>
+  <div class="lets">${AHKEYS.map(k=>`<button class="lbtn" style="width:32px;height:40px;font-size:.85rem;${c.used[k]?'visibility:hidden':''}" onclick="guessAH('${k}')">${k}</button>`).join('')}</div>`;
+  toTop();
+}
+function guessAH(k){
+  const c=AH.cur;if(!c||c.used[k]||c.lives<=0)return;
+  c.used[k]=1;
+  const hit=c.word.split('').some(ch=>norm(ch)===norm(k));
+  if(hit){c.found[norm(k)]=1;
+    const solved=c.word.split('').every(ch=>c.found[norm(ch)]);
+    renderAH();
+    if(solved){AH.ok++;addXP(6);say(c.t.es);
+      const s=document.querySelector('.q .word');if(s)s.style.color='var(--verde)';
+      setTimeout(()=>{AH.i++;nextAH()},1100);}
+  }else{
+    c.lives--;renderAH();
+    if(c.lives<=0){
+      const s=document.querySelector('.q .word');
+      if(s){s.textContent=c.word.split('').join(' ');s.style.color='var(--terra)';}
+      say(c.t.es);toast('Слово: '+c.t.es+' — '+c.t.ru);
+      setTimeout(()=>{AH.i++;nextAH()},1700);}
+  }}
 
 /* ============================================================
    НАВИГАЦИЯ + СТАРТ
